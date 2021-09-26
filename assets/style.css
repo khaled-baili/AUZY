@@ -1,0 +1,92 @@
+/* .row {
+    width: 60vw;
+    margin: 10vh auto;
+} */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin: 0 !important;
+    width: 100% !important;
+}
+
+.form-group {
+    margin-top: 2vh;
+    width: 100%;
+}
+
+.form-inscription {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.form-control {
+    width: 100%;
+}
+
+label select {
+    margin: 10px !important;
+}
+
+.input-sm {
+    margin: 10px !important;
+}
+
+.row {
+    width: 100% !important;
+    margin-bottom: 10px !important;
+    margin-top: 10px !important;
+}
+
+input[type=submit] {
+    border: none;
+    background-color: green;
+    color: white;
+    border-radius: 20px;
+    width: 30%;
+    height: 50%;
+}
+
+fieldset {
+    width: 50%;
+    border-radius: 10px;
+}
+
+.btn-submit {
+    margin-top: 4vh !important;
+    display: flex;
+    justify-content: center;
+}
+
+.dataTables_filter {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dataTables_length {
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 1vw;
+}
+
+.functional-btn {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 2vw;
+}
+
+.col-sm-6 {
+    padding: 0 !important;
+}
+
+.dataTables_wrapper {
+    width: 100% !important;
+}
+
+#question_table {
+    width: 100% !important;
+}
