@@ -11,6 +11,8 @@ if(isset($_POST["search"]["value"]))
  WHERE question LIKE "%'.$_POST["search"]["value"].'%" 
  OR _type LIKE "%'.$_POST["search"]["value"].'%" 
  OR _name like "%'.$_POST["search"]["value"].'%"
+ OR _name_domaine like "%'.$_POST["search"]["value"].'%"
+
  ';
 }
 
@@ -34,7 +36,7 @@ if($_POST["length"] != -1)
 
 $number_filter_row = mysqli_num_rows(mysqli_query($connect,$query));
 
-$result = mysqli_query($connect, $query);
+$result = mysqli_query($connect, $query . $query1);
 
 $data = array();
 
@@ -51,7 +53,7 @@ while ($row = mysqli_fetch_array($result)) {
     $sub_array[] = '<div class="update" data-id="'.$row["id"].'" data-column="type">' .$quest_type. '</div>';
     $sub_array[] = '<div class="update" data-id="'.$row["idcateg"].'" data-column="category">' .$row["_name"]. '</div>';
     $sub_array[] = '<div class="update" data-id="'.$row["_id_domain"].'" data-column="domaine">' .$row["_name_domaine"]. '</div>';
-    $sub_array[] = '<div><button type="button" name="delete" class="btn btn-danger btn-xs delete" id="'.$row["id"].'"><i class="fas fa-trash-alt"></i></button> <button type="button" name="edit" class="btn btn-success btn-xs edit" id="'.$row["id"].'"><i class="fas fa-pencil-alt"></i></button></div>';
+    $sub_array[] = '<div><button type="button" name="delete" class="btn btn-danger btn-xs delete" id="'.$row["id"].'"><i class="fas fa-trash-alt"></i></button><button type="button" name="update" id="'.$row["id"].'"class="btn btn-warning btn-xs update"><i class="fas fa-pencil-alt"></i></button>';
     $data[] = $sub_array;
     
  }

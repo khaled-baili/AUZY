@@ -9,7 +9,6 @@ if (isset($_POST["search"]["value"])) {
 
  ';
 }
-
 if (isset($_POST["order"])) {
     $query .= 'ORDER BY ' . $columns[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' 
  ';
@@ -34,7 +33,7 @@ while ($row = mysqli_fetch_array($result)) {
     $sub_array = array();
     $sub_array[] = '<div contenteditable class="update_categ" data-id="' . $row["idcateg"] . '" data-column="_name">' . $row["_name"] . '</div>';
     $sub_array[] = '<div class="update_categ" data-id="' . $row["idcateg"] . '" data-column="_name">' . $row["test_eval"] . '</div>';
-    $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete_categ" id="' . $row["idcateg"] . '"><i class="fas fa-trash-alt"></i>&nbsp Delete</button>';
+    $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete_categ" id="' . $row["idcateg"] . '"><i class="fas fa-trash-alt"></i></button><button type="button" name="update" id="'.$row["idcateg"].'" class="btn btn-warning btn-xs update"><i class="fas fa-pencil-alt"></i></button>';
     $data[] = $sub_array;
 }
 

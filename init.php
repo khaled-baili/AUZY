@@ -28,9 +28,9 @@ if (!class_exists('Init')) {
         }
 
 
-        function  generate_shortcode()
+        function  generate_shortcode($atts)
         {
-            Frontend::survey_shortcode();
+            Frontend::survey_shortcode($atts['test_id']);
         }
 
         function actions()

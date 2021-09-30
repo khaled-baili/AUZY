@@ -133,6 +133,38 @@ if (!class_exists('Frontend')) {
             </thead>
         </table>
     </div>';
+    echo '<div id="recordModal" class="modal fade">
+            <div class="modal-dialog">
+                <form method="post" id="recordForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                    <div class="modal-body">
+                        <div class="form-group"
+                        <label for="category_name" class="control-label">Category Name</label>
+                        <input type="text" class="form-control" id="category_name" name="category_name" placeholder="category_name" required>			
+                    </div>
+                    <div class="form-group">
+                        <label for="test_evaluation" class="control-label">Test Evaluation</label>							
+                        <select name="test_evaluation" id="test_evaluation" class="form-control">
+                            <option value="AQ">AQ</option>
+                            <option value="Mchat">Mchat</option>
+                        </select>						
+                    </div>	   	
+                        <div class="modal-footer">
+                            <input type="hidden" name="idcateg" id="idcateg" />
+                            <input type="hidden" name="action" id="action" value="" />
+                            <input type="submit" name="save" id="save" class="btn btn-info" value="Save" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>';
+        if(isset($_POST['save'])) {	
+            Core::update_survey_category($_POST['idcateg'],$_POST['category_name'],$_POST['test_evaluation']);
+        }
         }
 
 
@@ -143,28 +175,88 @@ if (!class_exists('Frontend')) {
         function show_all_questions()
         {
             echo '<div class="row table-title">
-        <div class="col-sm-6">
-            <h2>Questions</h2>
-        </div>
-        <div class="col-sm-6">
-            <div class="functional-btn">
-                <button type="button" name="add" id="add" class="btn btn-info">Add question</button>
+                <div class="col-sm-6">
+                    <h2>Questions</h2>
+                </div>
+                <div class="col-sm-6">
+                    <div class="functional-btn">
+                        <button type="button" data-toggle="modal" data-target="#recordModal" id="add_question" class="btn btn-info">Add question</button>
+                    </div>
+                </div>
+                </div>
+                <div class="row">
+                <table id="question_table" class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Type</th>
+                        <th>Category</th>
+                        <th>domain</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    </table>
+                    </div>';
+            echo '<div id="recordModal" class="modal fade">
+            <div class="modal-dialog">
+                <form method="post" id="recordForm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                        </div>
+                    <div class="modal-body">
+                        <div class="form-group"
+                        <label for="question" class="control-label">Question</label>
+                        <input type="text" class="form-control" id="question" name="question" placeholder="Question" required>			
+                    </div>
+                    <div class="form-group">
+                        <label for="type" class="control-label">type</label>							
+                        <select name="type" id="type" class="form-control">
+                            <option value="A">ASC</option>
+                            <option value="D">DESC</option>
+                        </select>						
+                    </div>	   	
+                    <div class="form-group">
+                        <label for="category" class="control-label">Category</label>							
+                        <select  class="form-control" id="category" name="category" placeholder="Category" required>';
+            $data = Core::fetch_survey_category();
+            foreach ($data as $row) {
+                echo '<option value="' . $row->idcateg . '">' . $row->_name . '</option>';
+            }
+            echo '</select>			
+                    </div>		
+                    <div class="form-group">
+                    <label for="domaine" class="control-label">Domaine</label>							
+                    <select class="form-control"  id="domaine" name="domaine" placeholder="domaine" required">';
+                    $record = Core::fetch_all_domain();
+                    foreach ($record as $row) {
+                        echo '<option value="' . $row->_id_domaine . '">' . $row->_name_domaine . '</option>';
+                    }
+
+                   echo '</select>								
+                </div>	 				
+                </div>
+                        <div class="modal-footer">
+                            <input type="hidden" name="id" id="id" />
+                            <input type="hidden" name="action" id="action" value="" />
+                            <input type="submit" name="save" id="save" class="btn btn-info" value="Save" />
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </form>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <table id="question_table" class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>Question</th>
-                    <th>Type</th>
-                    <th>Category</th>
-                    <th>domain</th>
-                    <th></th>
-                </tr>
-            </thead>
-        </table>
-    </div>';
+        </div>';
+
+        if(isset($_POST['save']) && $_POST['action']=='updateRecord') {	
+            echo $_POST['action'];
+            Core::update_test_question($_POST['id'],$_POST['question'],$_POST['domaine'],$_POST['type'],$_POST['category']);
+        }
+
+        if(isset($_POST['save']) && $_POST['action']=='addRecord') {	
+            echo $_POST['action'];
+            Core::insert_question($_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']);
+        }
+        
         }
 
 
@@ -172,7 +264,7 @@ if (!class_exists('Frontend')) {
 
 
 
-        function test_AQ_form()
+        function test_AQ_form($id_test)
         {
             echo '<div class="row">
             <form action="" method="post">
@@ -194,7 +286,7 @@ if (!class_exists('Frontend')) {
                     </fieldset>
 
                 </div>';
-            $output = '<table class="table table-bordered">
+            $output = '<table id="survey-table" class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>
@@ -206,9 +298,9 @@ if (!class_exists('Frontend')) {
                         </tr>
                     </thead>
                     <tbody>';
-            $test_evaluation = Core::fetch_survey_category_by_id(8);
+            $test_evaluation = Core::fetch_survey_category_by_id($id_test);
             $test_evaluation_type = $test_evaluation->test_eval;
-            $results = Core::fetch_test_questions(8);
+            $results = Core::fetch_test_questions($id_test);
             if ($test_evaluation_type == "AQ" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
@@ -349,13 +441,9 @@ if (!class_exists('Frontend')) {
         }
 
 
-        function survey_shortcode($atts)
+        function survey_shortcode($id_test)
         {
-            $this->test_AQ_form();
+            $this->test_AQ_form($id_test);
         }
     }
 }
-
-
-
-
