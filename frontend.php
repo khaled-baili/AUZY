@@ -253,14 +253,10 @@ if (!class_exists('Frontend')) {
         }
 
         if(isset($_POST['save']) && $_POST['action']=='addRecord') {	
-            echo $_POST['action'];
             Core::insert_question($_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']);
         }
         
         }
-
-
-
 
 
 
@@ -286,7 +282,7 @@ if (!class_exists('Frontend')) {
                     </fieldset>
 
                 </div>';
-            $output = '<table id="survey-table" class="table table-bordered">
+            $output = '<table id="survey_table" class="table table-bordered">
                     <thead>
                         <tr>
                             <th scope="col">#</th>

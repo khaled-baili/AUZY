@@ -39,8 +39,9 @@ jQuery(document).ready(function($) {
             "bDestroy": true,
             "order": [],
             "ajax": {
-                url: "/wp-content/plugins/auzy-tests/assets/php/fetch_question.php",
-                type: "POST"
+                url: "/wp-content/plugins/auzy-tests/assets/datatable/question_table.php",
+                type: "POST",
+                data: { action: "fetch_question" }
             }
         });
     }
@@ -84,10 +85,11 @@ jQuery(document).ready(function($) {
         var id = $(this).attr("id");
         if (confirm("Are you sure you want to remove this?")) {
             $.ajax({
-                url: "/wp-content/plugins/auzy-tests/assets/php/delete.php",
+                url: "/wp-content/plugins/auzy-tests/assets/datatable/question_table.php",
                 method: "POST",
                 data: {
-                    id: id
+                    id: id,
+                    action: "delete_question"
                 },
                 success: function(data) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
@@ -129,8 +131,9 @@ jQuery(document).ready(function($) {
             "bDestroy": true,
             "order": [],
             "ajax": {
-                url: "/wp-content/plugins/auzy-tests/assets/php/fetch_categ.php",
-                type: "POST"
+                url: "/wp-content/plugins/auzy-tests/assets/datatable/categories_table.php",
+                type: "POST",
+                data: { action: "fetch_categ" }
             }
         });
     }
@@ -225,10 +228,11 @@ jQuery(document).ready(function($) {
         var id = $(this).attr("id");
         if (confirm("Are you sure you want to remove this?")) {
             $.ajax({
-                url: "/wp-content/plugins/auzy-tests/assets/php/delete_categ.php",
+                url: "/wp-content/plugins/auzy-tests/assets/datatable/categories_table.php",
                 method: "POST",
                 data: {
-                    id: id
+                    id: id,
+                    action: "delete_categ"
                 },
                 success: function(data) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
@@ -307,10 +311,8 @@ jQuery(document).ready(function($) {
         update_data(id, column_name, value);
     });
 
-    $(document).ready(function() {
-        $('#survey-table').DataTable({
-            "pagingType": "full_numbers"
-        });
+    $('#survey_table').paging({
+        limit: 5,
     });
 
 });

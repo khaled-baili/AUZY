@@ -64,12 +64,12 @@ if (!class_exists('Init')) {
         {
             wp_enqueue_style('myPluginstyle', plugins_url('/assets/style.css', __FILE__));
             wp_enqueue_style('myPlugin_Bootstrap_Style', plugins_url('/assets/bootstrap/css/bootstrap.css', __FILE__));
-            wp_enqueue_style('datatable_Bootstrap_Style', 'https://cdn.datatables.net/v/bs4/dt-1.11.3/b-2.0.1/date-1.1.1/r-2.2.9/rr-1.2.8/sb-1.2.2/datatables.min.css');
+            wp_enqueue_style('datatable_Bootstrap_Style', plugins_url('/assets/datatable/datatable.min.css', __FILE__));
             wp_enqueue_style('myPlugin_fontAwesome_Style', plugins_url('/assets/fonts/fontawesome/css/all.css', __FILE__));
             wp_enqueue_script('myPlugin_Bootstrap_Script', plugins_url('/assets/bootstrap/js/bootstrap.min.js', __FILE__));
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-ui-tooltip');
-            wp_enqueue_script('datatable_js', 'https://cdn.datatables.net/v/bs4/dt-1.11.3/b-2.0.1/date-1.1.1/r-2.2.9/rr-1.2.8/sb-1.2.2/datatables.min.js');
+            wp_enqueue_script('datatable_js', plugins_url('/assets/datatable/datatable.min.js', __FILE__));
             wp_enqueue_script('myPlugin_Script', plugins_url('/assets/js/script.js', __FILE__));
         }
     }
