@@ -52,9 +52,9 @@ if (!class_exists('Init')) {
             add_submenu_page('tests-slug', 'Manage Category', 'Manage Category', 'manage_options', 'manage-category-slug', function () {
                 require_once 'templates/manage-categories.php';
             });
-            add_submenu_page('tests-slug', 'Question Form', 'Question Form', 'manage_options', 'question-form-slug', function () {
-                require_once 'templates/aq-form.php';
-            });
+            // add_submenu_page('tests-slug', 'Question Form', 'Question Form', 'manage_options', 'question-form-slug', function () {
+            //     require_once 'templates/aq-form.php';
+            // });
             add_submenu_page('tests-slug', 'Consult result', 'Consult result', 'manage_options', 'consult-result-slug', function () {
                 require_once 'templates/all-surveys.php';
             });
