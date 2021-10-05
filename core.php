@@ -136,6 +136,12 @@ if (!class_exists('Core')) {
             return (array) $questions;
         }
 
+        function fetch_question_by_id($id) {
+            global $wpdb;
+            $questions = $wpdb->get_row("SELECT * FROM wp_test_questions join wp_question_category  on wp_test_questions.id_question_categ = wp_question_category.idcateg join wp_question_domaine on wp_question_domaine._id_domaine = wp_test_questions._id_domain where id = ". $id);
+            return  $questions;
+        
+        }
 
         function fetch_all_domain()
         {

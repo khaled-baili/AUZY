@@ -59,6 +59,16 @@ if (!class_exists('Data_management')) {
             echo json_encode($output, JSON_UNESCAPED_UNICODE);
         }
 
+        function fetch_category_by_id() {
+            if (isset($_POST['idcateg'])) {
+                $data = Core::fetch_survey_category_by_id($_POST['idcateg']);
+                echo json_encode($data);
+            }else {
+                return false ;
+            }
+        }
+
+
         function insert_category_data()
         {
 
@@ -79,6 +89,8 @@ if (!class_exists('Data_management')) {
                 $wpdb->delete( $table, array( 'idcateg' => $_POST["id"] ) );
             }
         }
+
+
 
         function fetch_question_data()
         {
@@ -149,6 +161,15 @@ if (!class_exists('Data_management')) {
                 "data"    => $data
                );
                echo json_encode($output,JSON_UNESCAPED_UNICODE);
+        }
+
+        function fetch_quest_by_id() {
+            if (isset($_POST['id'])) {
+                $data = Core::fetch_question_by_id($_POST['id']);
+                echo json_encode($data);
+            }else {
+                return false;
+            }
         }
 
         function insert_question_data()

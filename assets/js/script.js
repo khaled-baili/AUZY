@@ -41,14 +41,13 @@ jQuery(document).ready(function($) {
             "ajax": {
                 url: "/wp-content/plugins/auzy-tests/assets/datatable/question_table.php",
                 type: "POST",
-                data: { action: "fetch_question" }
+                data: { function: "fetch_question" }
             }
         });
     }
 
     $('#add_question').on('click', function() {
         $('#action').val('addRecord');
-        console.log('ok');
     });
 
     $(document).on('click', '#insert', function() {
@@ -89,7 +88,7 @@ jQuery(document).ready(function($) {
                 method: "POST",
                 data: {
                     id: id,
-                    action: "delete_question"
+                    function: "delete_question"
                 },
                 success: function(data) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
@@ -133,18 +132,17 @@ jQuery(document).ready(function($) {
             "ajax": {
                 url: "/wp-content/plugins/auzy-tests/assets/datatable/categories_table.php",
                 type: "POST",
-                data: { action: "fetch_categ" }
+                data: { function: "fetch_categ" }
             }
         });
     }
 
     $("#category_table").on('click', '.update', function() {
         var idcateg = $(this).attr("id");
-        console.log('ok');
         $.ajax({
-            url: "/wp-content/plugins/auzy-tests/assets/php/fetch_category_by_id.php",
+            url: "/wp-content/plugins/auzy-tests/assets/datatable/categories_table.php",
             method: "POST",
-            data: { idcateg: idcateg },
+            data: { function: "fetch_categ_by_id", idcateg: idcateg },
             dataType: "json",
             success: function(data) {
                 $('#recordModal').modal('show');
@@ -232,7 +230,7 @@ jQuery(document).ready(function($) {
                 method: "POST",
                 data: {
                     id: id,
-                    action: "delete_categ"
+                    function: "delete_categ"
                 },
                 success: function(data) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
@@ -266,9 +264,9 @@ jQuery(document).ready(function($) {
         var id = $(this).attr("id");
         var action = 'getRecord';
         $.ajax({
-            url: "/wp-content/plugins/auzy-tests/assets/php/fetch_question_by_id.php",
+            url: "/wp-content/plugins/auzy-tests/assets/datatable/question_table.php",
             method: "POST",
-            data: { id: id, action: action },
+            data: { id: id, action: action, function: "fetch_question_by_id" },
             dataType: "json",
             success: function(data) {
                 $('#recordModal').modal('show');
@@ -277,7 +275,7 @@ jQuery(document).ready(function($) {
                 $('#type').val(data._type);
                 $('#category').val(data.idcateg);
                 $('#domaine').val(data._id_domaine);
-                $('.modal-title').html(" Edit Records");
+                $('.modal-title').html("Edit Records");
                 $('#action').val('updateRecord');
                 $('#save').val('Save');
             }
