@@ -25,6 +25,7 @@ if (!class_exists('Init')) {
         function __construct()
         {
             add_shortcode('survey', array($this, 'generate_shortcode'));
+            add_shortcode('question', function () { require_once 'templates/manage-test-questions.php';});
         }
 
 
@@ -36,6 +37,7 @@ if (!class_exists('Init')) {
         function actions()
         {
 
+            add_action('wp_enqueue_scripts', array($this, 'enqueue'));
             add_action('admin_enqueue_scripts', array($this, 'enqueue'));
             add_action('admin_menu', array($this, 'add_admin_pages'));
         }
@@ -58,17 +60,15 @@ if (!class_exists('Init')) {
             });
         }
 
-
-
         function enqueue()
         {
             wp_enqueue_style('myPluginstyle', plugins_url('/assets/style.css', __FILE__));
             wp_enqueue_style('myPlugin_Bootstrap_Style', plugins_url('/assets/bootstrap/css/bootstrap.css', __FILE__));
             wp_enqueue_style('datatable_Bootstrap_Style', plugins_url('/assets/datatable/datatable.min.css', __FILE__));
             wp_enqueue_style('myPlugin_fontAwesome_Style', plugins_url('/assets/fonts/fontawesome/css/all.css', __FILE__));
-            wp_enqueue_script('myPlugin_Bootstrap_Script', plugins_url('/assets/bootstrap/js/bootstrap.min.js', __FILE__));
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-ui-tooltip');
+            wp_enqueue_script('myPlugin_Bootstrap_Script', plugins_url('/assets/bootstrap/js/bootstrap.min.js', __FILE__));
             wp_enqueue_script('datatable_js', plugins_url('/assets/datatable/datatable.min.js', __FILE__));
             wp_enqueue_script('myPlugin_Script', plugins_url('/assets/js/script.js', __FILE__));
         }

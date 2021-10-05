@@ -65,6 +65,10 @@ if (!class_exists('Data_management')) {
         }
         function update_category_data()
         {
+            // if(isset($_POST["id"]))
+            // {
+            //     Core::update_survey_category($idcateg, $category_name, $test_evaluation);
+            // }
 
         }
         function delete_category()
@@ -149,7 +153,7 @@ if (!class_exists('Data_management')) {
 
         function insert_question_data()
         {
-            
+
 
         }
         function update_question_data()

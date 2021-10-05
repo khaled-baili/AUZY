@@ -311,8 +311,13 @@ jQuery(document).ready(function($) {
         update_data(id, column_name, value);
     });
 
-    $('#question_table').DataTable({
+
+    $('#survey_table').DataTable({
+        pageLength: 10,
+        searching: false,
         paging: true,
-    })
+        "lengthChange": false,
+        "ordering": false
+    });
 
 });
