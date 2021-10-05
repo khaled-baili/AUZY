@@ -311,8 +311,8 @@ jQuery(document).ready(function($) {
         update_data(id, column_name, value);
     });
 
-    $('#survey_table').paging({
-        limit: 5,
-    });
+    $('#question_table').DataTable({
+        paging: true,
+    })
 
 });

@@ -9,12 +9,13 @@ if (!class_exists('Frontend')) {
     {
         public function __construct()
         {
+
         }
 
         public function show_all_surveys()
         {
             echo '
-        <div class="row">
+            <div class="row">
             <table id="test-table" class="table table-striped table-bordered nowrap" style="width:100%">
                 <thead>
                     <tr>
@@ -43,9 +44,9 @@ if (!class_exists('Frontend')) {
             }
 
             echo '
-                </tbody>
+            </tbody>
             </table>
-        </div>';
+            </div>';
             foreach ($test_meta as $result) {
                 $data = Core::fetch_survey_result($result->id_test);
                 echo '
