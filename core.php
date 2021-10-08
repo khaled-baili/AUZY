@@ -213,7 +213,6 @@ if (!class_exists('Core')) {
             $catgories = $wpdb->get_results($query);
             return (array) $catgories;
         }
-
         function fetch_survey_category_by_id($id_categ) {
             global $wpdb;
             $table_category = $wpdb->prefix . 'question_category';
@@ -233,6 +232,22 @@ if (!class_exists('Core')) {
                     where id_test = " . $test_id . " ";
             $test_response = $wpdb->get_results($query);
             return (array) $test_response;
+        }
+        function fetch_survey_type($id_test) {
+            global $wpdb;
+            $query = "SELECT test_eval
+             FROM `wp_test_info` 
+             JOIN wp_test_response 
+             ON wp_test_info.id_test=wp_test_response.id 
+             JOIN wp_test_questions 
+             on wp_test_response.id = wp_test_questions.id  
+             join wp_question_category 
+             on wp_test_questions.id_question_categ=wp_question_category.idcateg 
+             where wp_test_info.id_test = 51 
+             LIMIT 1 ";
+            $type = $wpdb->get_row($query);
+            return $type;
+
         }
         function fetch_survey_meta() {
             global $wpdb;
@@ -310,7 +325,7 @@ if (!class_exists('Core')) {
                 echo "Message : " . $e->getMessage();
             }
         }
-        function calculate_survey_score($test_id) {
+        function calculate_AQ_survey_score($test_id) {
             global $wpdb;
             $query = "SELECT response,_type 
                     FROM wp_test_response 
@@ -349,6 +364,42 @@ if (!class_exists('Core')) {
                             $score = $score + 1;
                             break;
                         case "D":
+                            $score = $score + 0;
+                            break;
+                        default:
+                            $score = $score + 0;
+                    }
+                }
+            }
+            return $score;
+        }
+        function calculate_Mchat_survey_score($test_id) {
+            global $wpdb;
+            $query = "SELECT response,_type 
+                    FROM wp_test_response 
+                    JOIN wp_test_questions 
+                    ON wp_test_response.id_question=wp_test_questions.id 
+                    WHERE id_test =" . $test_id . " ";
+            $test_response = $wpdb->get_results($query);
+            $score = 0;
+            foreach ($test_response as $key) {
+                if ($key->_type == "A") {
+                    switch ($key->response) {
+                        case "A":
+                            $score = $score + 0;
+                            break;
+                        case "B":
+                            $score = $score + 1;
+                            break;
+                        default:
+                            $score = $score + 0;
+                    }
+                } else {
+                    switch ($key->response) {
+                        case "A":
+                            $score = $score + 1;
+                            break;
+                        case "B":
                             $score = $score + 0;
                             break;
                         default:

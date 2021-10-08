@@ -40,6 +40,7 @@ if (!class_exists('Data_management')) {
                 $sub_array[] = '<div class="update_categ" data-id="' . $row->idcateg . '" data-column="_name">' . $row->_name . '</div>';
                 $sub_array[] = '<div class="update_categ" data-id="' . $row->idcateg . '" data-column="_name">' . $row->test_eval . '</div>';
                 $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete_categ" id="' . $row->idcateg . '"><i class="fas fa-trash-alt"></i></button><button type="button" name="update" id="' . $row->idcateg . '" class="btn btn-warning btn-xs update"><i class="fas fa-pencil-alt"></i></button>';
+                $sub_array[] = '[survey test_id="'.$row->idcateg.'"]';
                 $data[] = $sub_array;
             }
 
@@ -81,7 +82,6 @@ if (!class_exists('Data_management')) {
             // {
             //     Core::update_survey_category($idcateg, $category_name, $test_evaluation);
             // }
-
         }
         function delete_category()
         {

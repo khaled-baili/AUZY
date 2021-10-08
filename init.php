@@ -28,7 +28,7 @@ if (!class_exists('Init')) {
             add_action('admin_enqueue_scripts', array($this, 'enqueue'));
             add_action('admin_menu', array($this, 'add_admin_pages'));
             register_activation_hook(__FILE__, array($this,'create_database'));
-            register_uninstall_hook(__FILE__, array($this,'delete_plugin'));
+            // register_uninstall_hook(__FILE__, array($this,'on_delete_plugin'));
 
         }
         public function add_admin_pages() {
@@ -59,7 +59,7 @@ if (!class_exists('Init')) {
             wp_enqueue_script('datatable_js', plugins_url('/asset/datatable/datatable.min.js', __FILE__));
             wp_enqueue_script('myPlugin_Script', plugins_url('/asset/js/script.js', __FILE__));
         }
-        function delete_plugin() {
+        function on_delete_plugin() {
             // if (! defined('WP_UNINSTALL_PLUGIN')) die;
             global $wpdb;
             $wpdb->query( "DROP TABLE 
@@ -70,8 +70,6 @@ if (!class_exists('Init')) {
             delete_option('table_test_info');
             delete_option('table_question');
             delete_option('table_response');
-
-
         
         }
         

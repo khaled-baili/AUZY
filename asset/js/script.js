@@ -102,18 +102,15 @@ jQuery(document).ready(function($) {
             paging: true,
             searching: true,
             stateSave: true,
-            "autoWidth": true,
+            "autoWidth": false,
             "columns": [
-                { "width": "70%" },
+                { "width": "50%" },
+                { "width": "20%" },
                 { "width": "10%" },
                 { "width": "20%" },
             ],
             "columnDefs": [{
-                    "targets": 2,
-                    "orderable": false
-                },
-                {
-                    "targets": 1,
+                    "targets": [1, 2, 3],
                     "orderable": false
                 }
 
