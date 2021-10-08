@@ -27,8 +27,8 @@ if (!class_exists('Init')) {
             add_action('wp_enqueue_scripts', array($this, 'enqueue'));
             add_action('admin_enqueue_scripts', array($this, 'enqueue'));
             add_action('admin_menu', array($this, 'add_admin_pages'));
-            register_activation_hook(__FILE__, 'create_database');
-            register_uninstall_hook(__FILE__, 'delete');
+            register_activation_hook(__FILE__, array($this,'create_database'));
+            register_uninstall_hook(__FILE__, array($this,'delete_plugin'));
 
         }
         public function add_admin_pages() {
@@ -60,12 +60,18 @@ if (!class_exists('Init')) {
             wp_enqueue_script('myPlugin_Script', plugins_url('/asset/js/script.js', __FILE__));
         }
         function delete_plugin() {
-            if (! defined('WP_UNINSTALL_PLUGIN')) die;
+            // if (! defined('WP_UNINSTALL_PLUGIN')) die;
             global $wpdb;
             $wpdb->query( "DROP TABLE 
             IF EXISTS 
             wp_test_response,wp_test_questions,wp_question_domaine,wp_question_category,wp_test_info;" );
-            delete_option("V1.0");
+            delete_option('table_category');
+            delete_option('table_domaine');
+            delete_option('table_test_info');
+            delete_option('table_question');
+            delete_option('table_response');
+
+
         
         }
         
