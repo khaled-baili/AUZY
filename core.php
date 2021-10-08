@@ -270,6 +270,18 @@ if (!class_exists('Core')) {
             $domain = $wpdb->get_results($query);
             return (array) $domain;
         }
+        function insert_domain($name_domain) {
+            try {
+                global $wpdb;
+                $table_domain = $wpdb->prefix . 'question_domaine';
+                $wpdb->insert($table_domain, array(
+                    '_name_domaine' => $name_domain
+                ));
+                return true;
+            } catch (Exception $e) {
+                echo "Message : " . $e->getMessage();
+            }
+        }
         function fetch_test_questions($test_id_categ) {
             global $wpdb;
             $query = "SELECT id,question,_type,test_eval 
@@ -346,5 +358,7 @@ if (!class_exists('Core')) {
             }
             return $score;
         }
+
     }
+    
 }
