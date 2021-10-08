@@ -71,7 +71,9 @@ if (!class_exists('Data_management')) {
 
         function insert_category_data()
         {
-
+            if (isset($_POST['categ_name'], $_POST['test_eval'])) 
+            Core::insert_survey_category($_POST['categ_name'],$_POST['test_eval']);
+            else return false;
         }
         function update_category_data()
         {

@@ -2,7 +2,6 @@ jQuery(document).ready(function($) {
     fetch_data();
     fetch_data_category();
 
-
     function fetch_data() {
         var dataTable = $('#question_table').DataTable({
             "processing": true,
@@ -20,26 +19,13 @@ jQuery(document).ready(function($) {
                 { "width": "12%" },
             ],
             "columnDefs": [{
-                    "targets": 1,
-                    "orderable": false
-                },
-                {
-                    "targets": 4,
-                    "orderable": false
-                },
-                {
-                    "targets": 2,
-                    "orderable": false
-                },
-                {
-                    "targets": 3,
-                    "orderable": false
-                }
-            ],
+                "targets": [1, 4, 2, 3],
+                "orderable": false
+            }],
             "bDestroy": true,
             "order": [],
             "ajax": {
-                url: "/wp-content/plugins/auzy-tests/assets/datatable/question_table.php",
+                url: "/wp-content/plugins/auzy-tests/asset/datatable/question_table.php",
                 type: "POST",
                 data: { function: "fetch_question" }
             }
@@ -48,7 +34,13 @@ jQuery(document).ready(function($) {
 
     $('#add_question').on('click', function() {
         $('#action').val('addRecord');
+        document.getElementById("id").value = '';
+        document.getElementById("question").value = '';
+        document.getElementById("type").value = '';
+        document.getElementById("category").value = '';
+        document.getElementById("domaine").value = '';
     });
+
 
     $(document).on('click', '#insert', function() {
         var question = document.getElementById('question').value;
@@ -59,14 +51,13 @@ jQuery(document).ready(function($) {
             alert("provide a question ");
         } else {
             $.ajax({
-                url: "/wp-content/plugins/auzy-tests/assets/php/insert.php",
+                url: "/wp-content/plugins/auzy-tests/asset/php/insert.php",
                 method: "POST",
                 data: {
                     question: question,
                     domaine_id: domaine_id,
                     type: type,
                     category_id: category_id,
-
                 },
                 success: function(data) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
@@ -84,7 +75,7 @@ jQuery(document).ready(function($) {
         var id = $(this).attr("id");
         if (confirm("Are you sure you want to remove this?")) {
             $.ajax({
-                url: "/wp-content/plugins/auzy-tests/assets/datatable/question_table.php",
+                url: "/wp-content/plugins/auzy-tests/asset/datatable/question_table.php",
                 method: "POST",
                 data: {
                     id: id,
@@ -130,7 +121,7 @@ jQuery(document).ready(function($) {
             "bDestroy": true,
             "order": [],
             "ajax": {
-                url: "/wp-content/plugins/auzy-tests/assets/datatable/categories_table.php",
+                url: "/wp-content/plugins/auzy-tests/asset/datatable/categories_table.php",
                 type: "POST",
                 data: { function: "fetch_categ" }
             }
@@ -140,7 +131,7 @@ jQuery(document).ready(function($) {
     $("#category_table").on('click', '.update', function() {
         var idcateg = $(this).attr("id");
         $.ajax({
-            url: "/wp-content/plugins/auzy-tests/assets/datatable/categories_table.php",
+            url: "/wp-content/plugins/auzy-tests/asset/datatable/categories_table.php",
             method: "POST",
             data: { function: "fetch_categ_by_id", idcateg: idcateg },
             dataType: "json",
@@ -159,7 +150,7 @@ jQuery(document).ready(function($) {
 
     // function update_data_category(id, column_name, value) {
     //     $.ajax({
-    //         url: "/wp-content/plugins/auzy-tests/assets/php/update_categ.php",
+    //         url: "/wp-content/plugins/auzy-tests/asset/php/update_categ.php",
     //         method: "POST",
     //         data: {
     //             id: id,
@@ -204,11 +195,12 @@ jQuery(document).ready(function($) {
             alert("provide a category name ");
         } else {
             $.ajax({
-                url: "/wp-content/plugins/auzy-tests/assets/php/insert_categ.php",
+                url: "/wp-content/plugins/auzy-tests/asset/datatable/categories_table.php",
                 method: "POST",
                 data: {
                     categ_name: categ_name,
-                    test_eval: test_eval
+                    test_eval: test_eval,
+                    function: 'insert_categ'
                 },
                 success: function(data) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
@@ -226,7 +218,7 @@ jQuery(document).ready(function($) {
         var id = $(this).attr("id");
         if (confirm("Are you sure you want to remove this?")) {
             $.ajax({
-                url: "/wp-content/plugins/auzy-tests/assets/datatable/categories_table.php",
+                url: "/wp-content/plugins/auzy-tests/asset/datatable/categories_table.php",
                 method: "POST",
                 data: {
                     id: id,
@@ -264,7 +256,7 @@ jQuery(document).ready(function($) {
         var id = $(this).attr("id");
         var action = 'getRecord';
         $.ajax({
-            url: "/wp-content/plugins/auzy-tests/assets/datatable/question_table.php",
+            url: "/wp-content/plugins/auzy-tests/asset/datatable/question_table.php",
             method: "POST",
             data: { id: id, action: action, function: "fetch_question_by_id" },
             dataType: "json",
@@ -284,7 +276,7 @@ jQuery(document).ready(function($) {
 
     function update_data(id, column_name, value) {
         $.ajax({
-            url: "/wp-content/plugins/auzy-tests/assets/php/update.php",
+            url: "/wp-content/plugins/auzy-tests/asset/php/update.php",
             method: "POST",
             data: {
                 id: id,
@@ -308,8 +300,6 @@ jQuery(document).ready(function($) {
         var value = $(this).text();
         update_data(id, column_name, value);
     });
-
-
     $('#survey_table').DataTable({
         pageLength: 10,
         searching: false,
