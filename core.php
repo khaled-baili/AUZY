@@ -42,6 +42,12 @@ if (!class_exists('Core')) {
                         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                     }
                     dbDelta($sql);
+                    $this->insert_domain("Compétences sociales");
+                    $this->insert_domain("Souci du détail");
+                    $this->insert_domain("Changement d attention");
+                    $this->insert_domain("Communication");
+                    $this->insert_domain("Imagination");
+                    $this->insert_domain("unsigned");
                     update_option('table_domaine', true);
                 }
             }
@@ -235,16 +241,16 @@ if (!class_exists('Core')) {
         }
         function fetch_survey_type($id_test) {
             global $wpdb;
-            $query = "SELECT test_eval
-             FROM `wp_test_info` 
-             JOIN wp_test_response 
-             ON wp_test_info.id_test=wp_test_response.id 
-             JOIN wp_test_questions 
-             on wp_test_response.id = wp_test_questions.id  
-             join wp_question_category 
-             on wp_test_questions.id_question_categ=wp_question_category.idcateg 
-             where wp_test_info.id_test = 51 
-             LIMIT 1 ";
+            $query = "SELECT test_eval AS test_eval
+            FROM wp_test_info
+            JOIN wp_test_response
+            ON wp_test_response.id_test=wp_test_info.id_test
+            JOIN wp_test_questions
+            ON wp_test_questions.id = wp_test_response.id_question
+            JOIN wp_question_category
+            ON wp_question_category.idcateg=wp_test_questions.id_question_categ
+            WHERE wp_test_info.id_test = $id_test
+            LIMIT 1";
             $type = $wpdb->get_row($query);
             return $type;
 

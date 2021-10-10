@@ -60,9 +60,11 @@ if (!class_exists('Frontend')) {
                             </thead>
                             <tbody>';
                 $test_type = Core::fetch_survey_type($result->id_test);
-                if ($test_type=='AQ')$score = Core::calculate_AQ_survey_score($result->id_test);
-                else $score = Core::calculate_AQ_survey_score($result->id_test);
-                if ($test_type == "AQ") {
+                $test_eval = $test_type->test_eval;
+                if ($test_eval=='AQ') $score = Core::calculate_AQ_survey_score($result->id_test);
+                else $score = Core::calculate_Mchat_survey_score($result->id_test);
+                $i = 1;
+                if ($test_eval == "AQ") {
                     foreach ($data as $key) {
                         $response = '';
                         switch ($key->response) {
@@ -82,7 +84,7 @@ if (!class_exists('Frontend')) {
                                 $response = '';
                         }
                         $output .= '<tr>
-                                        <th scope="row">1</th>
+                                        <th scope="row">'.$i++.'</th>
                                         <td>' . $key->question . '</td>
                                         <td>' . $response . '</td>
                                     </tr>';
@@ -101,14 +103,14 @@ if (!class_exists('Frontend')) {
                                 $response = '';
                         }
                         $output .= '<tr>
-                        <th scope="row">1</th>
+                        <th scope="row">'.$i++.'</th>
                         <td>' . $key->question . '</td>
                         <td>' . $response . '</td>
                     </tr>';
                     }
                 }
                 $output .= ' </tbody></table>
-                            <center><h1>Your test score is : ' . $score . '</h1></center>
+                            <center><h1>Your test score is : ' .$score.'</h1></center>
                             </div>
                             <div class="modal-footer">
                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -266,11 +268,13 @@ if (!class_exists('Frontend')) {
 
         function test_AQ_form($id_test)
         {
-            $test_evaluation = Core::fetch_survey_type($id_test);
-            $output = '<div class="row">
+            $test_evaluation = Core::fetch_survey_category_by_id($id_test);
+            $test_evaluation_type = $test_evaluation->test_eval;
+            $output = '<div class="container">
+            <div class="row">
             <form action="" method="post">
                 <div class="row form-inscription">
-                    <fieldset class="border p-3">
+                    <fieldset class="border p-2">
                         <legend class="w-auto">Personal information</legend>
                         <div class="form-group">
                             <label for="email">Email address</label>
@@ -292,27 +296,27 @@ if (!class_exists('Frontend')) {
                         <tr>
                             <th scope="col">#</th>
                             <th scope="col">Question</th>';
-                if ($test_evaluation=='AQ') {
+                if ($test_evaluation_type=='AQ') {
                     $output.='<th scope="col">Definitely Agree</th>
                               <th scope="col">Slightly Agree</th>
                               <th scope="col">Slightly Disagree</th>
                               <th scope="col">Definitely Disagree</th>';
                 }else {
-                    $output .='<th scope="col">Yes</th>
-                               <th scope="col">No</th> ';
+                    $output .='<th class="response" scope="col">Yes</th>
+                               <th class="response" scope="col">No</th> ';
                 }
               $output.='</tr>
                     </thead>
                     <tbody>';
-            $test_evaluation = Core::fetch_survey_type($id_test);
+            // $test_evaluation = Core::fetch_survey_type($id_test);
             // $test_evaluation_type = $test_evaluation->test_eval;
             $results = Core::fetch_test_questions($id_test);
-            if ($test_evaluation == "AQ" && !empty($results)) {
+            if ($test_evaluation_type == "AQ" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
                     $output .= '<tr>
                                 <td>' . $index++ . '</td>
-                                <td>' . $result->question . '</td>
+                                <td class="question">' . $result->question . '</td>
                                 <td>
                                 <div class="form-check form-check-inline">
                                 <input class="form-check-input" type="radio" name="quest_response_' . $result->id . '" value="A" ';
@@ -356,12 +360,13 @@ if (!class_exists('Frontend')) {
                     </table>';
                 $output .= '
                     <div class="row btn-submit">
-                        <input class="btn btn-primary" name="submit" type="submit" value="Submit">
+                        <input class="btn btn-primary" style="margin-right: 5px;" name="submit" type="submit" value="Submit">
+                        <input class="btn btn-secondary" name="reset" type="reset" value="Reset">
                     </div>
                 </form>
             </div>';
                 echo $output;
-            } else if ($test_evaluation == "Mchat" && !empty($results)) {
+            } else if ($test_evaluation_type == "Mchat" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
                     $output .= '<tr>
@@ -396,9 +401,11 @@ if (!class_exists('Frontend')) {
                 $output .= '</tbody>
                         </table>';
                 $output .= '<div class="row btn-submit">
-                        <input class="btn btn-primary" name="submit" type="submit" value="Submit">
+                        <input class="btn btn-primary" style="margin-riht: 5px;" name="submit" type="submit" value="Submit">
+                        <input class="btn btn-secondary" name="reset" type="reset" value="Reset">
                       </div>
                   </form>
+                </div>
                 </div>';
                 echo $output;
             } else echo '<script>confirm("Sorry your entered id test doesn t match with any test evaluation")</script>';
@@ -411,9 +418,12 @@ if (!class_exists('Frontend')) {
                     $first_name = $_POST['first_name'];
                     $last_name = $_POST['last_name'];
                     $email = $_POST['email'];
+                    echo '<script>$("#survey_table").DataTable({
+                        paging: false,
+                    })</script>';
                     $test_insertion_meta = Core::insert_survey_meta($id_test, $first_name, $last_name, $email);
                     if ($test_insertion_meta == false) {
-                        echo '<script>confirm("personnel data does not saved")</script>';
+                        echo '<script>confirm("personnel data does not saved contact support")</script>';
                     };
                     foreach ($results as $question) {
                         $object = new stdClass();
@@ -426,19 +436,17 @@ if (!class_exists('Frontend')) {
                     foreach ($quiz_data as $key) {
                         Core::insert_survey($key->id_question, $key->response, $id_test);
                     };
-                    if ($test_evaluation == "AQ") $score = Core::calculate_AQ_survey_score($id_test);
-                    else Core::calculate_AQ_survey_score($id_test);
+                    if ($test_evaluation_type == "AQ") $score = Core::calculate_AQ_survey_score($id_test);
+                    else $score=Core::calculate_Mchat_survey_score($id_test);
                     echo '<script>alert("test passed successfully")</script>';
                     echo '<center><h1>Your test score is : ' . $score . '</h1></center>';
                 }
+                
+
             } catch (Exception $e) {
                 $error = $e->getMessage();
                 echo $error;
             }
-        }
-        function survey_shortcode($id_test)
-        {
-            $this->test_AQ_form($id_test);
         }
     }
 }

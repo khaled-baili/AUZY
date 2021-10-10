@@ -71,6 +71,34 @@ jQuery(document).ready(function($) {
         }
     });
 
+    // function insert_data_question(question, domaine, type, cateory) {
+    //     $.ajax({
+    //         url: "/wp-content/plugins/auzy-tests/asset/datatable/question_table.php",
+    //         method: "POST",
+    //         data: {
+    //             function: "update_question",
+    //             question: question,
+    //             domaine: domaine,
+    //             type: type,
+    //             category: cateory
+    //         },
+    //         success: function(data) {
+    //             $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
+    //             $('#category_table').DataTable().destroy();
+    //             fetch_data_category();
+    //         }
+    //     });
+    //     setInterval(function() {
+    //         $('#alert_message').html('');
+    //     }, 5000);
+    // }
+    // $(document).on('blur', '.update_categ', function() {
+    //     var id = $(this).data("id");
+    //     var column_name = $(this).data("column");
+    //     var value = $(this).text();
+    //     update_data_category(id, column_name, value);
+    // });
+
     $(document).on('click', '.delete', function() {
         var id = $(this).attr("id");
         if (confirm("Are you sure you want to remove this?")) {
@@ -144,34 +172,6 @@ jQuery(document).ready(function($) {
         });
     });
 
-
-    // function update_data_category(id, column_name, value) {
-    //     $.ajax({
-    //         url: "/wp-content/plugins/auzy-tests/asset/php/update_categ.php",
-    //         method: "POST",
-    //         data: {
-    //             id: id,
-    //             column_name: column_name,
-    //             value: value
-    //         },
-    //         success: function(data) {
-    //             $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
-    //             $('#category_table').DataTable().destroy();
-    //             fetch_data_category();
-    //         }
-    //     });
-    //     setInterval(function() {
-    //         $('#alert_message').html('');
-    //     }, 5000);
-    // }
-    // $(document).on('blur', '.update_categ', function() {
-    //     var id = $(this).data("id");
-    //     var column_name = $(this).data("column");
-    //     var value = $(this).text();
-    //     update_data_category(id, column_name, value);
-    // });
-
-
     $('#add_categ').click(function() {
         var html = '<tr>';
         html += '<td contenteditable id="data1"><input type="text" name="categ_name" id="categ_name" class="form-control" placeholder="Please enter your category name"></td>';
@@ -183,6 +183,11 @@ jQuery(document).ready(function($) {
         html += '<td><button type="button" name="insert_categ" id="insert_categ" class="btn btn-success btn-xs"><i class="far fa-plus-square"></i> &nbsp Insert</button></td>';
         html += '</tr>';
         $('#category_table tbody').prepend(html);
+    });
+    x = 0;
+    $(document).on('blur', '#category_table tbody', function() {
+        x = x + 1;
+        if (x == 2) fetch_data_category();
     });
 
     $(document).on('click', '#insert_categ', function() {
@@ -297,12 +302,13 @@ jQuery(document).ready(function($) {
         var value = $(this).text();
         update_data(id, column_name, value);
     });
-    $('#survey_table').DataTable({
-        pageLength: 10,
-        searching: false,
-        paging: true,
-        "lengthChange": false,
-        "ordering": false
-    });
+    // $('#survey_table').DataTable({
+    //     pageLength: 10,
+    //     searching: false,
+    //     "serverSide": true,
+    //     paging: true,
+    //     "lengthChange": false,
+    //     "ordering": false
+    // });
 
 });

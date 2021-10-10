@@ -21,7 +21,7 @@ if (!class_exists('Init')) {
             add_shortcode('question', function () { require_once 'templates/manage-test-questions.php';});
         }
         function  generate_shortcode($atts) {
-            Frontend::survey_shortcode($atts['test_id']);
+            Frontend::test_AQ_form($atts['test_id']);
         }
         function actions() {
             add_action('wp_enqueue_scripts', array($this, 'enqueue'));
@@ -58,19 +58,6 @@ if (!class_exists('Init')) {
             wp_enqueue_script('myPlugin_Bootstrap_Script', plugins_url('/lib/bootstrap/js/bootstrap.min.js', __FILE__));
             wp_enqueue_script('datatable_js', plugins_url('/asset/datatable/datatable.min.js', __FILE__));
             wp_enqueue_script('myPlugin_Script', plugins_url('/asset/js/script.js', __FILE__));
-        }
-        function on_delete_plugin() {
-            // if (! defined('WP_UNINSTALL_PLUGIN')) die;
-            global $wpdb;
-            $wpdb->query( "DROP TABLE 
-            IF EXISTS 
-            wp_test_response,wp_test_questions,wp_question_domaine,wp_question_category,wp_test_info;" );
-            delete_option('table_category');
-            delete_option('table_domaine');
-            delete_option('table_test_info');
-            delete_option('table_question');
-            delete_option('table_response');
-        
         }
         
     }
