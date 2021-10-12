@@ -37,7 +37,7 @@ label select {
 }
 
 .row {
-    width: 100% !important;
+    /* width: 100% !important; */
     margin-bottom: 10px !important;
     margin-top: 10px !important;
 }
@@ -56,12 +56,6 @@ input[type=reset] {
     background-color: gray;
     width: 30%;
     height: 50%;
-}
-
-fieldset {
-    width: 50%;
-    border-radius: 10px;
-    margin-left: 15px !important;
 }
 
 .btn-submit {
@@ -99,9 +93,81 @@ fieldset {
     width: 100% !important;
 }
 
+@media (min-width:320px) {
+    #survey_table {
+        margin: 0 auto;
+        max-width: 300px;
+    }
+    fieldset {
+        width: 100%;
+        border-radius: 10px;
+        margin-left: 15px !important;
+    }
+}
+
+@media (min-width:480px) {
+    #survey_table {
+        margin: 0 auto;
+        width: 100%;
+    }
+    fieldset {
+        width: 100%;
+        border-radius: 10px;
+        margin-left: 15px !important;
+    }
+}
+
+@media (min-width:600px) {
+    #survey_table {
+        margin: 0 auto;
+        max-width: 580px;
+    }
+    fieldset {
+        width: 100%;
+        border-radius: 10px;
+        margin-left: 15px !important;
+    }
+}
+
+@media (min-width:801px) {
+    #survey_table {
+        margin: 0 auto;
+        max-width: 780px;
+    }
+    fieldset {
+        width: 50%;
+        border-radius: 10px;
+        margin-left: 15px !important;
+    }
+}
+
+@media (min-width:1025px) {
+    #survey_table {
+        margin: 0 auto;
+        max-width: 1000px;
+    }
+    fieldset {
+        width: 50%;
+        border-radius: 10px;
+        margin-left: 15px !important;
+    }
+}
+
+@media (min-width:1281px) {
+    #survey_table {
+        margin: 0 auto;
+        max-width: 1260px;
+    }
+    fieldset {
+        width: 50%;
+        border-radius: 10px;
+        margin-left: 15px !important;
+    }
+}
+
 #survey_table {
-    width: 85vw;
     margin: 0 auto;
+    max-width: 1150px;
 }
 
 .question {

@@ -360,8 +360,7 @@ if (!class_exists('Frontend')) {
                     </table>';
                 $output .= '
                     <div class="row btn-submit">
-                        <input class="btn btn-primary" style="margin-right: 5px;" name="submit" type="submit" value="Submit">
-                        <input class="btn btn-secondary" name="reset" type="reset" value="Reset">
+                        <input class="btn btn-primary" name="submit" type="submit" value="Submit">
                     </div>
                 </form>
             </div>';
@@ -401,8 +400,7 @@ if (!class_exists('Frontend')) {
                 $output .= '</tbody>
                         </table>';
                 $output .= '<div class="row btn-submit">
-                        <input class="btn btn-primary" style="margin-riht: 5px;" name="submit" type="submit" value="Submit">
-                        <input class="btn btn-secondary" name="reset" type="reset" value="Reset">
+                        <input class="btn btn-primary" name="submit" type="submit" value="Submit">
                       </div>
                   </form>
                 </div>
