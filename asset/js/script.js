@@ -302,13 +302,39 @@ jQuery(document).ready(function($) {
         var value = $(this).text();
         update_data(id, column_name, value);
     });
-    // $('#survey_table').DataTable({
-    //     pageLength: 10,
-    //     searching: false,
-    //     "serverSide": true,
-    //     paging: true,
-    //     "lengthChange": false,
-    //     "ordering": false
-    // });
+    $('#survey_table').DataTable({
+        pageLength: 10,
+        stateSave: true,
+        searching: false,
+        paging: true,
+        "autoWidth": false,
+        "lengthChange": false,
+        "ordering": false
+    });
+
+    var table = $('#survey_table').DataTable();
+    $('form').on('submit', function() {
+        var response = table.$('input').serializeArray();
+        var first_name = $('#first_name').val();
+        var last_name = $('#last_name').val();
+        var email = $('#email').val();
+        $.ajax({
+            type: "POST",
+            url: '/wp-content/plugins/auzy-tests/asset/action/survey_action.php',
+            data: {
+                response: response,
+                first_name: first_name,
+                last_name: last_name,
+                email: email,
+                function: "insert_survey_meta",
+            },
+            success: function(data) {
+                console.log('Server response', data);
+            }
+        });
+
+        // Prevent form submission
+        return false;
+    });
 
 });

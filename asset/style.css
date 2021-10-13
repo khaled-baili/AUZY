@@ -10,7 +10,7 @@
 }
 
 .container {
-    margin: 0 !important;
+    margin: 0 auto !important;
     width: 100% !important;
 }
 
@@ -21,7 +21,7 @@
 
 .form-inscription {
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
 }
 
 .form-control {
@@ -42,18 +42,18 @@ label select {
     margin-top: 10px !important;
 }
 
+#survey_table {
+    border: none !important;
+}
+
+thead {
+    display: none;
+}
+
 input[type=submit] {
     border: none;
     border-radius: 20px;
     background-color: green;
-    width: 30%;
-    height: 50%;
-}
-
-input[type=reset] {
-    border: none;
-    border-radius: 20px;
-    background-color: gray;
     width: 30%;
     height: 50%;
 }
@@ -93,81 +93,59 @@ input[type=reset] {
     width: 100% !important;
 }
 
+.form-check-inline {
+    margin-left: 30px;
+}
+
+h5 {
+    margin-bottom: 0 !important;
+}
+
 @media (min-width:320px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 300px;
-    }
-    fieldset {
-        width: 100%;
-        border-radius: 10px;
-        margin-left: 15px !important;
+        max-width: 310px;
     }
 }
 
 @media (min-width:480px) {
     #survey_table {
         margin: 0 auto;
-        width: 100%;
-    }
-    fieldset {
-        width: 100%;
-        border-radius: 10px;
-        margin-left: 15px !important;
+        max-width: 470px;
     }
 }
 
 @media (min-width:600px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 580px;
-    }
-    fieldset {
-        width: 100%;
-        border-radius: 10px;
-        margin-left: 15px !important;
+        max-width: 590px;
     }
 }
 
 @media (min-width:801px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 780px;
-    }
-    fieldset {
-        width: 50%;
-        border-radius: 10px;
-        margin-left: 15px !important;
+        max-width: 790px;
     }
 }
 
 @media (min-width:1025px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 1000px;
-    }
-    fieldset {
-        width: 50%;
-        border-radius: 10px;
-        margin-left: 15px !important;
+        max-width: 1010px;
     }
 }
 
 @media (min-width:1281px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 1260px;
-    }
-    fieldset {
-        width: 50%;
-        border-radius: 10px;
-        margin-left: 15px !important;
+        max-width: 1270px;
     }
 }
 
 #survey_table {
     margin: 0 auto;
-    max-width: 1150px;
+    max-width: 1250px;
 }
 
 .question {

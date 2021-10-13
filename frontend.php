@@ -272,41 +272,33 @@ if (!class_exists('Frontend')) {
             $test_evaluation_type = $test_evaluation->test_eval;
             $output = '<div class="container">
             <div class="row">
-            <form action="" method="post">
+            <form action="" method="post" id="form">
+                <legend  class="w-auto">Personnal information</legend>
                 <div class="row form-inscription">
-                    <fieldset class="border p-2">
-                        <legend class="w-auto">Personal information</legend>
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" class="form-control" name="email" required>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                            </div>
+                             <div class="form-group">
+                                <label for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="first_name">First Name</label>
-                            <input type="text" class="form-control" name="first_name" required>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label for="child_age">Child Age</label>
+                                <input type="number" class="form-control" id="child_age" name="child_age" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="last_name">Last Name</label>
-                            <input type="text" class="form-control" name="last_name" required>
-                        </div>
-                    </fieldset>
-
-                </div>';
-            $output .= '<table id="survey_table" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">Question</th>';
-                if ($test_evaluation_type=='AQ') {
-                    $output.='<th scope="col">Definitely Agree</th>
-                              <th scope="col">Slightly Agree</th>
-                              <th scope="col">Slightly Disagree</th>
-                              <th scope="col">Definitely Disagree</th>';
-                }else {
-                    $output .='<th class="response" scope="col">Yes</th>
-                               <th class="response" scope="col">No</th> ';
-                }
-              $output.='</tr>
-                    </thead>
+                </div>
+                <hr>';
+            $output .= '<table id="survey_table" class="table">
+                    <thead ><th></th></thead>
                     <tbody>';
             // $test_evaluation = Core::fetch_survey_type($id_test);
             // $test_evaluation_type = $test_evaluation->test_eval;
@@ -314,45 +306,41 @@ if (!class_exists('Frontend')) {
             if ($test_evaluation_type == "AQ" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
-                    $output .= '<tr>
-                                <td>' . $index++ . '</td>
-                                <td class="question">' . $result->question . '</td>
-                                <td>
+                    $output .= '<tr style="border: none">
+                                <td class="question" style="border: none"><h5>' . $index++ . ". " . $result->question .'</h5><br>
                                 <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="quest_response_' . $result->id . '" value="A" ';
-                    if (isset($_POST['quest_response_' . $result->id . '']) && $_POST['quest_response_' . $result->id . ''] == 'A') {
-                        $output .= 'checked';
-                    }
-                    $output .= ' required> 
+                                <input class="form-check-input" type="radio" id="data-1'.$result->id.'" name="' . $result->id . '" value="A" ';
+                    $output .= ' required>  
+                            <label class="form-check-label" for="data-1'.$result->id.'">
+                                Definitely Agree
+                            </label>
                             </div>
-                            </td>
-                            <td>
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="quest_response_' . $result->id . '" value="B"';
-                    if (isset($_POST['quest_response_' . $result->id . '']) && $_POST['quest_response_' . $result->id . ''] == 'B') {
-                        $output .= 'checked';
-                    }
+                            <br>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" id="data-2'.$result->id.'" name="' . $result->id . '" value="B"';
                     $output .= ' >
+                            <label class="form-check-label" for="data-2'.$result->id.'">
+                                Slightly Agree
+                            </label>
                            </div>
-                           </td>
-                           <td>
+                           <br>
                            <div class="form-check form-check-inline">
-                             <input class="form-check-input" type="radio" name="quest_response_' . $result->id . '" value="C"';
-                    if (isset($_POST['quest_response_' . $result->id . '']) && $_POST['quest_response_' . $result->id . ''] == 'C') {
-                        $output .= 'checked';
-                    }
-                    $output .= ' >
+                             <input class="form-check-input" type="radio" id="data-3'.$result->id.'" name="' . $result->id . '" value="C"';
+                    $output .= ' ><br>
+                            <label class="form-check-label" for="data-3'.$result->id.'">
+                                 Slightly Disagree
+                            </label>
                            </div>
-                           </td>
-                           <td>
+                           <br>
                            <div class="form-check form-check-inline">
-                           <input class="form-check-input" type="radio" name="quest_response_' . $result->id . '" value="D"';
-                    if (isset($_POST['quest_response_' . $result->id . '']) && $_POST['quest_response_' . $result->id . ''] == 'D') {
-                        $output .= 'checked';
-                    }
-                    $output .= '>
+                           <input class="form-check-input" type="radio" id="data-4'.$result->id.'" name="' . $result->id . '" value="D"';
+                    $output .= '> <br>
+                        <label class="form-check-label" for="data-4'.$result->id.'">
+                            Definitely Disagree
+                        </label>
                          </div>
-                           </td>
+                         <br>
+                         </td>
                          </tr>';
                 }
                 $output .= '
@@ -370,28 +358,17 @@ if (!class_exists('Frontend')) {
                 foreach ($results as $result) {
                     $output .= '<tr>
                                     <td>' . $index++ . '</td>
-                                    <td>' . $result->question . '</td>
-                                    <td>
+                                    <td>' . $result->question . '
                                     <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="quest_response_' . $result->id . '" value="A"';
-                    if (isset($_POST['quest_response_' . $result->id . '']) && $_POST['quest_response_' . $result->id . ''] == 'A') {
-                        $output .= 'checked';
-                    }
+                                    <input class="form-check-input" type="radio" name="' . $result->id . '" value="A"';
                     $output .= 'required> 
                            </div>
-                           </td>
-                           <td>
                            <div class="form-check form-check-inline">
-                             <input class="form-check-input" type="radio" name="quest_response_' . $result->id . '" value="B"';
-                    if (isset($_POST['quest_response_' . $result->id . '']) && $_POST['quest_response_' . $result->id . ''] == 'B') {
-                        $output .= 'checked';
-                    }
+                             <input class="form-check-input" type="radio" name="' . $result->id . '" value="B"';
                     $output .= '>
-                           </div>
-                           </td>';
+                           </div>';
                     $output .= '
-                           </div>
-                           </td>';
+                           </div>';
                     $output .= '
                          </div>
                            </td>
@@ -408,43 +385,42 @@ if (!class_exists('Frontend')) {
                 echo $output;
             } else echo '<script>confirm("Sorry your entered id test doesn t match with any test evaluation")</script>';
 
-            try {
-                if (isset($_POST['submit'], $_POST['first_name'], $_POST['last_name'], $_POST['email'])) {
-                    $quiz_data = array();
-                    $test_id =  Core::get_suervey_max_id();
-                    $id_test = $test_id->test_id + 1;
-                    $first_name = $_POST['first_name'];
-                    $last_name = $_POST['last_name'];
-                    $email = $_POST['email'];
-                    echo '<script>$("#survey_table").DataTable({
-                        paging: false,
-                    })</script>';
-                    $test_insertion_meta = Core::insert_survey_meta($id_test, $first_name, $last_name, $email);
-                    if ($test_insertion_meta == false) {
-                        echo '<script>confirm("personnel data does not saved contact support")</script>';
-                    };
-                    foreach ($results as $question) {
-                        $object = new stdClass();
-                        if (isset($_POST['quest_response_' . $question->id . ''])) {
-                            $object->id_question = $question->id;
-                            $object->response = $_POST['quest_response_' . $question->id . ''];
-                            $quiz_data[] = $object;
-                        }
-                    };
-                    foreach ($quiz_data as $key) {
-                        Core::insert_survey($key->id_question, $key->response, $id_test);
-                    };
-                    if ($test_evaluation_type == "AQ") $score = Core::calculate_AQ_survey_score($id_test);
-                    else $score=Core::calculate_Mchat_survey_score($id_test);
-                    echo '<script>alert("test passed successfully")</script>';
-                    echo '<center><h1>Your test score is : ' . $score . '</h1></center>';
-                }
+            // try {
+            //     if (isset($_POST['submit'], $_POST['first_name'], $_POST['last_name'], $_POST['email'])) {
+            //         $quiz_data = array();
+            //         $test_id =  Core::get_suervey_max_id();
+            //         $id_test = $test_id->test_id + 1;
+            //         $first_name = $_POST['first_name'];
+            //         $last_name = $_POST['last_name'];
+            //         $email = $_POST['email'];
+            //         print_r($_POST);
+            //         die;
+            //         $test_insertion_meta = Core::insert_survey_meta($id_test, $first_name, $last_name, $email);
+            //         if ($test_insertion_meta == false) {
+            //             echo '<script>confirm("personnel data does not saved contact support")</script>';
+            //         };
+            //         foreach ($results as $question) {
+            //             $object = new stdClass();
+            //             if (isset($_POST['quest_response_' . $question->id . ''])) {
+            //                 $object->id_question = $question->id;
+            //                 $object->response = $_POST['quest_response_' . $question->id . ''];
+            //                 $quiz_data[] = $object;
+            //             }
+            //         };
+            //         foreach ($quiz_data as $key) {
+            //             Core::insert_survey($key->id_question, $key->response, $id_test);
+            //         };
+            //         if ($test_evaluation_type == "AQ") $score = Core::calculate_AQ_survey_score($id_test);
+            //         else $score=Core::calculate_Mchat_survey_score($id_test);
+            //         echo '<script>alert("test passed successfully")</script>';
+            //         echo '<center><h1>Your test score is : ' . $score . '</h1></center>';
+            //     }
                 
 
-            } catch (Exception $e) {
-                $error = $e->getMessage();
-                echo $error;
-            }
+            // } catch (Exception $e) {
+            //     $error = $e->getMessage();
+            //     echo $error;
+            // }
         }
     }
 }
