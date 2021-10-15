@@ -22,7 +22,6 @@ if (!class_exists('Data_management')) {
             } else {
                 $query .= 'ORDER BY idcateg DESC ';
             }
-
             $query1 = '';
 
             if ($_POST["length"] != -1) {
@@ -30,27 +29,21 @@ if (!class_exists('Data_management')) {
             }
             $results = $wpdb->get_results($query);
             $number_filter_row = $wpdb->num_rows;
-
             $categories = $wpdb->get_results($query . $query1);;
-
             $data = array();
-
             foreach ($categories as $row) {
                 $sub_array = array();
-                $sub_array[] = '<div class="update_categ" data-id="' . $row->idcateg . '" data-column="_name">' . $row->_name . '</div>';
-                $sub_array[] = '<div class="update_categ" data-id="' . $row->idcateg . '" data-column="_name">' . $row->test_eval . '</div>';
-                $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete_categ" id="' . $row->idcateg . '"><i class="fas fa-trash-alt"></i></button><button type="button" name="update" id="' . $row->idcateg . '" class="btn btn-warning btn-xs update"><i class="fas fa-pencil-alt"></i></button>';
+                $sub_array[] = '<div class="update_categ" data-id="'.$row->idcateg.'" data-column="_name">'.$row->_name.'</div>';
+                $sub_array[] = '<div class="update_categ" data-id="'.$row->idcateg .'" data-column="_name">'.$row->test_eval . '</div>';
+                $sub_array[] = '<button type="button" name="delete" class="btn btn-danger btn-xs delete_categ" id="'.$row->idcateg.'"><i class="fas fa-trash-alt"></i></button><button type="button" name="update" id="' . $row->idcateg . '" class="btn btn-warning btn-xs update"><i class="fas fa-pencil-alt"></i></button>';
                 $sub_array[] = '[survey test_id="'.$row->idcateg.'"]';
                 $data[] = $sub_array;
             }
-
-
             function get_all_data()
             {
                 $result = Core::fetch_survey_category();
                 return count((array)$result);
             }
-
             $output = array(
                 "draw"    => intval($_POST["draw"]),
                 "recordsTotal"  =>  get_all_data(),
@@ -59,7 +52,6 @@ if (!class_exists('Data_management')) {
             );
             echo json_encode($output, JSON_UNESCAPED_UNICODE);
         }
-
         function fetch_category_by_id() {
             if (isset($_POST['idcateg'])) {
                 $data = Core::fetch_survey_category_by_id($_POST['idcateg']);
@@ -68,8 +60,6 @@ if (!class_exists('Data_management')) {
                 return false ;
             }
         }
-
-
         function insert_category_data()
         {
             if (isset($_POST['categ_name'], $_POST['test_eval'])) 
@@ -98,8 +88,12 @@ if (!class_exists('Data_management')) {
         {
             global $wpdb;
             $columns = array('question', 'type','category');
-            $query = "SELECT * FROM wp_test_questions join wp_question_category  on wp_test_questions.id_question_categ = wp_question_category.idcateg join wp_question_domaine on wp_question_domaine._id_domaine = wp_test_questions._id_domain ";
-            
+            $query = "SELECT * 
+                    FROM wp_test_questions 
+                    JOIN wp_question_category  
+                    ON wp_test_questions.id_question_categ = wp_question_category.idcateg 
+                    JOIN wp_question_domaine 
+                    ON wp_question_domaine._id_domaine = wp_test_questions._id_domain ";
             if(isset($_POST["search"]["value"]))
             {
              $query .= ' 
@@ -164,7 +158,6 @@ if (!class_exists('Data_management')) {
                );
                echo json_encode($output,JSON_UNESCAPED_UNICODE);
         }
-
         function fetch_quest_by_id() {
             if (isset($_POST['id'])) {
                 $data = Core::fetch_question_by_id($_POST['id']);
@@ -173,16 +166,11 @@ if (!class_exists('Data_management')) {
                 return false;
             }
         }
-
         function insert_question_data()
         {
-
-
         }
         function update_question_data()
         {
-            
-
         }
         function delete_question()
         {

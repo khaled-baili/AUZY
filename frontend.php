@@ -15,6 +15,7 @@ if (!class_exists('Frontend')) {
                         <th>E-mail</th>
                         <th>First name</th>
                         <th>Last name</th>
+                        <th>Child Age</th>
                         <th>Test date</th>
                         <th></th>
                     </tr>
@@ -27,6 +28,7 @@ if (!class_exists('Frontend')) {
                             <td>' . $result->email . '</td>
                             <td>' . $result->first_name . '</td>
                             <td>' . $result->last_name . '</td>
+                            <td>' . $result->child_age . '</td>
                             <td>' . $result->test_date . '</td>
                             <td><button type="button" class="btn btn-primary" data-toggle="modal"
                              data-target="#testDetails_' . $result->id_test . '">
@@ -288,7 +290,7 @@ if (!class_exists('Frontend')) {
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="child_age">Child Age</label>
-                                <input type="number" class="form-control" id="child_age" name="child_age" required>
+                                <input type="number" class="form-control"  min="0" max="100" id="child_age" name="child_age" required>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email address</label>
@@ -347,6 +349,7 @@ if (!class_exists('Frontend')) {
                         </tbody>
                     </table>';
                 $output .= '
+                    <input type="hidden" name="test_evaluation" id="test_evaluation" value="'.$test_evaluation_type.'" />
                     <div class="row btn-submit">
                         <input class="btn btn-primary" name="submit" type="submit" value="Submit">
                     </div>
@@ -377,6 +380,10 @@ if (!class_exists('Frontend')) {
                 $output .= '</tbody>
                         </table>';
                 $output .= '<div class="row btn-submit">
+                            <input type="hidden" name="test_evaluation" id="test_evaluation" value="'.$test_evaluation_type.'" />
+                            <div class="row btn-submit">
+                                <input class="btn btn-primary" name="submit" type="submit" value="Submit">
+                            </div>
                         <input class="btn btn-primary" name="submit" type="submit" value="Submit">
                       </div>
                   </form>
@@ -384,43 +391,7 @@ if (!class_exists('Frontend')) {
                 </div>';
                 echo $output;
             } else echo '<script>confirm("Sorry your entered id test doesn t match with any test evaluation")</script>';
-
-            // try {
-            //     if (isset($_POST['submit'], $_POST['first_name'], $_POST['last_name'], $_POST['email'])) {
-            //         $quiz_data = array();
-            //         $test_id =  Core::get_suervey_max_id();
-            //         $id_test = $test_id->test_id + 1;
-            //         $first_name = $_POST['first_name'];
-            //         $last_name = $_POST['last_name'];
-            //         $email = $_POST['email'];
-            //         print_r($_POST);
-            //         die;
-            //         $test_insertion_meta = Core::insert_survey_meta($id_test, $first_name, $last_name, $email);
-            //         if ($test_insertion_meta == false) {
-            //             echo '<script>confirm("personnel data does not saved contact support")</script>';
-            //         };
-            //         foreach ($results as $question) {
-            //             $object = new stdClass();
-            //             if (isset($_POST['quest_response_' . $question->id . ''])) {
-            //                 $object->id_question = $question->id;
-            //                 $object->response = $_POST['quest_response_' . $question->id . ''];
-            //                 $quiz_data[] = $object;
-            //             }
-            //         };
-            //         foreach ($quiz_data as $key) {
-            //             Core::insert_survey($key->id_question, $key->response, $id_test);
-            //         };
-            //         if ($test_evaluation_type == "AQ") $score = Core::calculate_AQ_survey_score($id_test);
-            //         else $score=Core::calculate_Mchat_survey_score($id_test);
-            //         echo '<script>alert("test passed successfully")</script>';
-            //         echo '<center><h1>Your test score is : ' . $score . '</h1></center>';
-            //     }
-                
-
-            // } catch (Exception $e) {
-            //     $error = $e->getMessage();
-            //     echo $error;
-            // }
+            echo '<center><div id="test_result"><h1>Your test score is : <div id="test_score"></div></h1></div></center>';
         }
     }
 }

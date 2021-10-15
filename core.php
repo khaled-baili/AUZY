@@ -186,7 +186,7 @@ if (!class_exists('Core')) {
                 echo "Message : " . $e->getMessage();
             }
         }
-        function insert_survey_meta($id_test, $first_name, $last_name, $email) {
+        function insert_survey_meta($id_test, $first_name, $last_name,$child_age ,$email) {
             try {
                 global $wpdb;
                 $table_test_info = $wpdb->prefix . 'test_info';
@@ -194,6 +194,7 @@ if (!class_exists('Core')) {
                     'id_test' => $id_test,
                     'first_name' => $first_name,
                     'last_name' => $last_name,
+                    'child_age' => $child_age,
                     'test_date' => date("Y/m/d"),
                     'email' => $email
                 ));

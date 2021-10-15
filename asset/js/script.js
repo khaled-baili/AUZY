@@ -311,13 +311,17 @@ jQuery(document).ready(function($) {
         "lengthChange": false,
         "ordering": false
     });
-
+    var test_result = document.getElementById("test_result");
+    var test_score = document.getElementById("test_score");
+    test_result.style.display === "none";
     var table = $('#survey_table').DataTable();
     $('form').on('submit', function() {
         var response = table.$('input').serializeArray();
         var first_name = $('#first_name').val();
         var last_name = $('#last_name').val();
         var email = $('#email').val();
+        var child_age = $('#child_age').val();
+        var test_evaluation = $('#test_evaluation').val();
         $.ajax({
             type: "POST",
             url: '/wp-content/plugins/auzy-tests/asset/action/survey_action.php',
@@ -326,10 +330,13 @@ jQuery(document).ready(function($) {
                 first_name: first_name,
                 last_name: last_name,
                 email: email,
-                function: "insert_survey_meta",
+                child_age: child_age,
+                test_evaluation: test_evaluation
             },
             success: function(data) {
-                console.log('Server response', data);
+                test_result.style.display === "block";
+                test_score.append(data);
+
             }
         });
 

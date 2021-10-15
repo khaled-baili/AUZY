@@ -16,7 +16,9 @@ if (!class_exists('Survey')) {
             $first_name = $_POST['first_name'];
             $last_name = $_POST['last_name'];
             $email = $_POST['email'];
-            $test_insertion_meta = Core::insert_survey_meta($id_test, $first_name, $last_name, $email);
+            $child_age = $_POST['child_age'];
+            $test_evaluation_type = $_POST['test_evaluation'];
+            $test_insertion_meta = Core::insert_survey_meta($id_test, $first_name, $last_name, $email,$child_age);
             if ($test_insertion_meta == false) {
                 echo '<script>confirm("personnel data does not saved contact support")</script>';
             };
@@ -29,15 +31,12 @@ if (!class_exists('Survey')) {
             foreach ($quiz_data as $key) {
                 Core::insert_survey($key->id_question, $key->response, $id_test);
             };
-
-            // if ($test_evaluation_type == "AQ") $score = Core::calculate_AQ_survey_score($id_test);
-            // else $score=Core::calculate_Mchat_survey_score($id_test);
-            // echo '<script>alert("test passed successfully")</script>';
-            // echo '<center><h1>Your test score is : ' . $score . '</h1></center>';
+            if ($test_evaluation_type == "AQ") $score = Core::calculate_AQ_survey_score($id_test);
+            else $score=Core::calculate_Mchat_survey_score($id_test);
+            echo $score;
         }
     }
 }
-
 
 $survey = new Survey();
 try {
