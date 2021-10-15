@@ -384,7 +384,7 @@ if (!class_exists('Frontend')) {
                             <div class="row btn-submit">
                                 <input class="btn btn-primary" name="submit" type="submit" value="Submit">
                             </div>
-                        <input class="btn btn-primary" name="submit" type="submit" value="Submit">
+                        <input class="btn btn-primary submit-btn" name="submit" type="submit" value="Submit">
                       </div>
                   </form>
                 </div>

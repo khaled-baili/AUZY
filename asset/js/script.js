@@ -307,13 +307,13 @@ jQuery(document).ready(function($) {
         stateSave: true,
         searching: false,
         paging: true,
-        "autoWidth": false,
+        "bAutoWidth": false,
         "lengthChange": false,
-        "ordering": false
+        "ordering": false,
     });
     var test_result = document.getElementById("test_result");
     var test_score = document.getElementById("test_score");
-    test_result.style.display === "none";
+    test_result.style.display = "none";
     var table = $('#survey_table').DataTable();
     $('form').on('submit', function() {
         var response = table.$('input').serializeArray();
@@ -334,13 +334,12 @@ jQuery(document).ready(function($) {
                 test_evaluation: test_evaluation
             },
             success: function(data) {
-                test_result.style.display === "block";
+                alert("You passed the test successfully");
+                test_result.style.display = "block";
                 test_score.append(data);
 
             }
         });
-
-        // Prevent form submission
         return false;
     });
 
