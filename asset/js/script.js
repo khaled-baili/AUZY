@@ -1,6 +1,9 @@
 jQuery(document).ready(function($) {
     fetch_data();
     fetch_data_category();
+    $("#test-form").submit(function(e) {
+        e.preventDefault();
+    });
 
     function fetch_data() {
         var dataTable = $('#question_table').DataTable({
@@ -244,7 +247,7 @@ jQuery(document).ready(function($) {
                 display: $.fn.dataTable.Responsive.display.modal({
                     header: function(row) {
                         var data = row.data();
-                        return 'Details for ' + data[0] + ' ' + data[1];
+                        return 'Details for ' + data[1] + ' ' + data[1];
                     }
                 }),
                 renderer: $.fn.dataTable.Responsive.renderer.tableAll({
@@ -304,18 +307,20 @@ jQuery(document).ready(function($) {
     });
     $('#survey_table').DataTable({
         pageLength: 10,
-        stateSave: true,
         searching: false,
         paging: true,
         "bAutoWidth": false,
         "lengthChange": false,
         "ordering": false,
+        "bInfo": false
     });
+
+
     var test_result = document.getElementById("test_result");
     var test_score = document.getElementById("test_score");
     test_result.style.display = "none";
     var table = $('#survey_table').DataTable();
-    $('form').on('submit', function() {
+    $('#test-form').on('submit', function() {
         var response = table.$('input').serializeArray();
         var first_name = $('#first_name').val();
         var last_name = $('#last_name').val();
@@ -337,10 +342,28 @@ jQuery(document).ready(function($) {
                 alert("You passed the test successfully");
                 test_result.style.display = "block";
                 test_score.append(data);
-
             }
         });
-        return false;
     });
+    $('#proceed-btn').attr('disabled', 'disabled');
+    var btn_proceed = document.getElementById("proceed-btn");
+    $(document).ready(function() {
+        $('#agreement').val(this.checked);
+        $('#agreement').change(function() {
+            if (this.checked) btn_proceed.disabled = false;
+            else btn_proceed.disabled = true;
+        });
+    });
+    btn_proceed.addEventListener("click", function() {
+        document.getElementById("proceed-form").style.display = "none";
+        document.getElementById("test-form").style.display = "block";
+
+    });
+    var form = document.getElementById('test-form');
+    var submit_btn = document.getElementById('submit-btn')
+    form.addEventListener('submit', function() {
+        submit_btn.disabled = true;
+        submit_btn.value = 'Please Reload the page Please';
+    }, false);
 
 });

@@ -274,15 +274,46 @@ if (!class_exists('Frontend')) {
             $test_evaluation_type = $test_evaluation->test_eval;
             $output = '<div class="container">
             <div class="row">
-            <form action="" method="post" id="form">
-                <legend  class="w-auto">Personnal information</legend>
+                <div id="proceed-form" class="proceed-form">
+                    <center>
+                        <div class="proceed-form-titile">
+                            Basic Information
+                        </div>
+                    </center>
+                    <div>
+                        <div class="proceed-form-element">
+                            Statements: <strong>50</strong>
+                        </div>
+                        <div class="proceed-form-element">
+                            Type: <strong>Screening tool</strong>
+                        </div>  
+                        <div class="proceed-form-element">
+                            Description: <strong>The Autism-Spectrum Quotient Test is a diagnostic questionnaire 
+                            designed to measure the expression of Autism-Spectrum traits 
+                            in an individual, by his or her own subjective self-assessment.</strong>
+                        </div>                  
+                    </div>
+                    <div class="form-check" id="agreement-section">
+                        <br>
+                        <input class="form-check-input" type="checkbox" value="agreement" id="agreement">
+                        <label class="form-check-label" for="agreement">
+                            I agree that my submitted data is being collected and stored
+                        </label>
+                    </div>
+                    <center>
+                        <button type="button" id="proceed-btn" 
+                        class="proceed-btn"><span>Proceed</span></button>
+                    </center>
+                </div>
+                <form action="" method="post" id="test-form">
+                <h2>Personnal Information</h2>
                 <div class="row form-inscription">
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="first_name">First Name</label>
                                 <input type="text" class="form-control" id="first_name" name="first_name" required>
                             </div>
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="last_name">Last Name</label>
                                 <input type="text" class="form-control" id="last_name" name="last_name" required>
                             </div>
@@ -298,9 +329,11 @@ if (!class_exists('Frontend')) {
                             </div>
                         </div>
                 </div>
-                <hr>';
-            $output .= '<table id="survey_table" class="table">
-                    <thead ><th></th></thead>
+                <hr>
+                <br>';
+            $output .= '
+                    <table id="survey_table" class="table">
+                    <thead class="datatable-header""><th></th></thead>
                     <tbody>';
             // $test_evaluation = Core::fetch_survey_type($id_test);
             // $test_evaluation_type = $test_evaluation->test_eval;
@@ -308,21 +341,21 @@ if (!class_exists('Frontend')) {
             if ($test_evaluation_type == "AQ" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
-                    $output .= '<tr style="border: none">
-                                <td class="question" style="border: none"><h5>' . $index++ . ". " . $result->question .'</h5><br>
+                    $output .= '<tr class="tab-line">
+                                <td class="question"><h5 class="question-style">' . $index++ . ". ".$result->question.'</h5><br>
                                 <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="data-1'.$result->id.'" name="' . $result->id . '" value="A" ';
+                                <input class="form-check-input" type="radio" id="data-1'.$result->id.'" name="'.$result->id.'" value="A" ';
                     $output .= ' required>  
                             <label class="form-check-label" for="data-1'.$result->id.'">
-                                Definitely Agree
+                            <div class="answer-style">Definitely Agree</div>
                             </label>
                             </div>
                             <br>
                             <div class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" id="data-2'.$result->id.'" name="' . $result->id . '" value="B"';
+                                <input class="form-check-input" type="radio" id="data-2'.$result->id.'" name="'.$result->id.'" value="B"';
                     $output .= ' >
                             <label class="form-check-label" for="data-2'.$result->id.'">
-                                Slightly Agree
+                            <div class="answer-style">Slightly Agree</div>
                             </label>
                            </div>
                            <br>
@@ -330,7 +363,7 @@ if (!class_exists('Frontend')) {
                              <input class="form-check-input" type="radio" id="data-3'.$result->id.'" name="' . $result->id . '" value="C"';
                     $output .= ' ><br>
                             <label class="form-check-label" for="data-3'.$result->id.'">
-                                 Slightly Disagree
+                            <div class="answer-style">Slightly Disagree</div>
                             </label>
                            </div>
                            <br>
@@ -338,7 +371,7 @@ if (!class_exists('Frontend')) {
                            <input class="form-check-input" type="radio" id="data-4'.$result->id.'" name="' . $result->id . '" value="D"';
                     $output .= '> <br>
                         <label class="form-check-label" for="data-4'.$result->id.'">
-                            Definitely Disagree
+                            <div class="answer-style">Definitely Disagree</div>
                         </label>
                          </div>
                          <br>
@@ -351,7 +384,7 @@ if (!class_exists('Frontend')) {
                 $output .= '
                     <input type="hidden" name="test_evaluation" id="test_evaluation" value="'.$test_evaluation_type.'" />
                     <div class="row btn-submit">
-                        <input class="btn btn-primary" name="submit" type="submit" value="Submit">
+                        <input class="btn btn-primary" id="submit-btn" name="submit" type="submit" value="Submit">
                     </div>
                 </form>
             </div>';
@@ -381,10 +414,9 @@ if (!class_exists('Frontend')) {
                         </table>';
                 $output .= '<div class="row btn-submit">
                             <input type="hidden" name="test_evaluation" id="test_evaluation" value="'.$test_evaluation_type.'" />
-                            <div class="row btn-submit">
-                                <input class="btn btn-primary" name="submit" type="submit" value="Submit">
+                            <div>
+                                <input class="btn btn-primary" id="submit-form" name="submit" type="submit" value="Submit">
                             </div>
-                        <input class="btn btn-primary submit-btn" name="submit" type="submit" value="Submit">
                       </div>
                   </form>
                 </div>

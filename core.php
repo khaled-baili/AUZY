@@ -195,8 +195,9 @@ if (!class_exists('Core')) {
                     'first_name' => $first_name,
                     'last_name' => $last_name,
                     'child_age' => $child_age,
-                    'test_date' => date("Y/m/d"),
-                    'email' => $email
+                    'email' => $email,
+                    'test_date' => date("Y/m/d")
+                    
                 ));
                 return true;
             } catch (Exception $e) {
