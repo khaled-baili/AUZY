@@ -11,6 +11,7 @@ jQuery(document).ready(function($) {
             "serverSide": true,
             "dataSrc": "",
             paging: true,
+            responsive: true,
             searching: true,
             stateSave: true,
             "autoWidth": false,
@@ -132,6 +133,7 @@ jQuery(document).ready(function($) {
             "dataSrc": "",
             paging: true,
             searching: true,
+            responsive: true,
             stateSave: true,
             "autoWidth": false,
             "columns": [
@@ -242,19 +244,7 @@ jQuery(document).ready(function($) {
     });
 
     $('#test-table').DataTable({
-        responsive: {
-            details: {
-                display: $.fn.dataTable.Responsive.display.modal({
-                    header: function(row) {
-                        var data = row.data();
-                        return 'Details for ' + data[1] + ' ' + data[1];
-                    }
-                }),
-                renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                    tableClass: 'table'
-                })
-            }
-        }
+        responsive: true
     });
 
     $("#question_table").on('click', '.update', function() {
@@ -363,7 +353,7 @@ jQuery(document).ready(function($) {
     var submit_btn = document.getElementById('submit-btn')
     form.addEventListener('submit', function() {
         submit_btn.disabled = true;
-        submit_btn.value = 'Please Reload the page Please';
+        submit_btn.value = 'Test Passed';
     }, false);
 
 });

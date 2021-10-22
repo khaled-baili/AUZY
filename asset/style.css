@@ -44,6 +44,7 @@ label select {
 
 #survey_table {
     border: none !important;
+    border-spacing: 0 25px !important;
 }
 
 .submit-btn {
@@ -107,8 +108,13 @@ h5 {
     border: none !important;
 }
 
-.question-style {
+
+/* .question-style {
     color: #AC72EE !important;
+} */
+
+#submit-btn {
+    width: auto;
 }
 
 .answer-style {
@@ -130,6 +136,7 @@ h5 {
 
 .tab-line {
     border: none;
+    padding-bottom: 500px;
 }
 
 .tab-line:hover {
@@ -165,9 +172,9 @@ h5 {
     border: none;
     color: #FFFFFF;
     text-align: center;
-    font-size: 28px;
-    padding: 20px;
-    width: 200px;
+    font-size: 20px;
+    padding: 10px;
+    width: 135px;
     transition: all 0.5s;
     cursor: pointer;
     margin: 5px;
@@ -191,7 +198,7 @@ h5 {
 }
 
 .proceed-btn:hover span {
-    padding-right: 25px;
+    padding-right: 15px;
 }
 
 .proceed-btn:hover span:after {
@@ -199,42 +206,60 @@ h5 {
     right: 0;
 }
 
-@media (min-width:320px) {
+@media (max-width:320px) {
     #survey_table {
         margin: 0 auto;
         max-width: 310px;
     }
+    .question {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100% !important;
+    }
+    .question-style {
+        margin-bottom: 25px !important;
+    }
 }
 
-@media (min-width:480px) {
+@media (max-width:480px) {
     #survey_table {
         margin: 0 auto;
         max-width: 470px;
     }
+    .question {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        width: 100% !important;
+    }
+    .question-style {
+        margin-bottom: 25px !important;
+    }
 }
 
-@media (min-width:600px) {
+@media (max-width:600px) {
     #survey_table {
         margin: 0 auto;
         max-width: 590px;
     }
 }
 
-@media (min-width:801px) {
+@media (max-width:801px) {
     #survey_table {
         margin: 0 auto;
         max-width: 790px;
     }
 }
 
-@media (min-width:1025px) {
+@media (max-width:1025px) {
     #survey_table {
         margin: 0 auto;
         max-width: 1010px;
     }
 }
 
-@media (min-width:1281px) {
+@media (max-width:1281px) {
     #survey_table {
         margin: 0 auto;
         max-width: 1270px;
@@ -243,4 +268,8 @@ h5 {
 
 .noborder {
     border: none;
+}
+
+.question-box {
+    margin: 0 0 10px 0 !important;
 }
