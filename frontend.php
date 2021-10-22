@@ -194,7 +194,7 @@ if (!class_exists('Frontend')) {
                     </div>
                     <div class="col-sm-6">
                         <div class="functional-btn">
-                            <button type="button" data-toggle="modal" data-target="#recordModal" 
+                            <button type="button" data-bs-toggle="modal" data-bs-target="#recordModal" 
                             id="add_question" class="btn btn-info">Add question</button>
                         </div>
                     </div>
