@@ -185,14 +185,13 @@ jQuery(document).ready(function($) {
             '<option value = "AQ" >AQ</option>' +
             '<option value = "Mchat" >Mchat </option>' +
             '</select></td>';
-        html += '<td><button type="button" name="insert_categ" id="insert_categ" class="btn btn-success btn-xs"><i class="far fa-plus-square"></i> &nbsp Insert</button></td>';
+        html += '<td><button type="button" name="insert_categ" id="insert_categ" class="btn btn-success btn-xs"><i class="far fa-plus-square"></i></button>&nbsp<button type="button" name="close-insert" id="close-insert" class="btn btn-danger btn-xs"><i class="far fa-window-close"></i></button></td>';
         html += '</tr>';
         $('#category_table tbody').prepend(html);
     });
     x = 0;
-    $(document).on('blur', '#category_table tbody', function() {
-        x = x + 1;
-        if (x == 2) fetch_data_category();
+    $(document).on('click', '#close-insert', function() {
+        fetch_data_category();
     });
 
     $(document).on('click', '#insert_categ', function() {
@@ -304,7 +303,6 @@ jQuery(document).ready(function($) {
         "ordering": false,
         "bInfo": false
     });
-
 
     var test_result = document.getElementById("test_result");
     var test_score = document.getElementById("test_score");
