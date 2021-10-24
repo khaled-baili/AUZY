@@ -4,12 +4,10 @@
  * @package AuzyTestPlugin
  */
 if (!class_exists('Frontend')) {
-    class Frontend extends Core
-    {
-        public function show_all_surveys()
-        {
+    class Frontend extends Core {
+        public function show_all_surveys() {
             $output = '<div class="row">
-                  <table id="test-table" class="table table-striped table-bordered nowrap" style="width:100%">
+                  <table id="test-table" class="table table-striped table-bordered nowrap">
                     <thead>
                     <tr>
                         <th>E-mail</th>
@@ -43,23 +41,27 @@ if (!class_exists('Frontend')) {
             </div>';
             foreach ($test_meta as $result) {
                 $data = Core::fetch_survey_result($result->id_test);
-                $output .= '<div class="modal fade" id="testDetails_'.$result->id_test .'" data-bs-backdrop="static" 
-                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                $output .='<div class="modal fade" id="testDetails_'.$result->id_test
+                            .'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
+                            aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
                             <div class="modal-header">
-                                 <h5 class="modal-title" id="staticBackdropLabel">Test Details</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                                 <h5 class="modal-title" id="staticBackdropLabel">
+                                 Test Details
+                                 </h5>
+                                 <button type="button" class="btn-close" data-bs-dismiss="modal" 
+                                    aria-label="Close">
                                  </div>
                         <div class="modal-body">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Question</th>
-                                    <th scope="col">Response</th>
-                                </tr>
-                            </thead>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Question</th>
+                                        <th scope="col">Response</th>
+                                    </tr>
+                                </thead>
                             <tbody>';
                 $test_type = Core::fetch_survey_type($result->id_test);
                 $test_eval = $test_type->test_eval;
@@ -112,10 +114,12 @@ if (!class_exists('Frontend')) {
                     }
                 }
                 $output .= ' </tbody></table>
-                            <center><h1>Your test score is : ' .$score.'</h1></center>
+                            <center><h1>Your test score is : '.$score.'</h1></center>
                             </div>
                             <div class="modal-footer">
-                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                 Close
+                                 </button>
                                 </div>
                             </div>
                         </div>
@@ -155,17 +159,20 @@ if (!class_exists('Frontend')) {
                         <form method="post" id="recordForm">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" 
+                                aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group"
                                         <label for="category_name" class="control-label">Category Name</label>
-                                        <input type="text" class="form-control" id="category_name" name="category_name" 
-                                        placeholder="category_name" required>			
+                                        <input type="text" class="form-control" id="category_name" 
+                                        name="category_name" placeholder="category_name" required>			
                                     </div>
                                     <div class="form-group">
-                                        <label for="test_evaluation" class="control-label">Test Evaluation</label>							
-                                        <select name="test_evaluation" id="test_evaluation" class="form-control">
+                                        <label for="test_evaluation" class="control-label">
+                                        Test Evaluation</label>							
+                                        <select name="test_evaluation" id="test_evaluation" 
+                                        class="form-control">
                                             <option value="AQ">AQ</option>
                                             <option value="Mchat">Mchat</option>
                                         </select>						
@@ -173,8 +180,9 @@ if (!class_exists('Frontend')) {
                                     <div class="modal-footer">
                                         <input type="hidden" name="idcateg" id="idcateg" />
                                         <input type="hidden" name="action" id="action" value="" />
-                                        <input type="submit" name="save" id="save" class="btn btn-info" value="Save" />
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <input type="submit" name="save" id="save" class="btn btn-info" 
+                                        value="Save" /><button type="button" class="btn btn-secondary" 
+                                        data-bs-dismiss="modal">Close</button>
                                     </div>
                                 </div>
                          </form>
@@ -182,7 +190,9 @@ if (!class_exists('Frontend')) {
                         </div>';
             echo $output;
             if (isset($_POST['save'])) {
-                Core::update_survey_category($_POST['idcateg'], $_POST['category_name'], $_POST['test_evaluation']);
+                Core::update_survey_category(
+                    $_POST['idcateg'],$_POST['category_name'],$_POST['test_evaluation']
+                );
             }
         }
 
@@ -217,12 +227,14 @@ if (!class_exists('Frontend')) {
                         <form method="post" id="recordForm">
                             <div class="modal-content">
                             <div class="modal-header">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" 
+                            aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="form-group"
                             <label for="question" class="control-label">Question</label>
-                            <input type="text" class="form-control" id="question" name="question" placeholder="Question" required>			
+                            <input type="text" class="form-control" id="question" name="question" 
+                            placeholder="Question" required>			
                         </div>
                     <div class="form-group">
                         <label for="type" class="control-label">type</label>							
@@ -233,7 +245,8 @@ if (!class_exists('Frontend')) {
                     </div>	   	
                     <div class="form-group">
                         <label for="category" class="control-label">Category</label>							
-                        <select  class="form-control" id="category" name="category" placeholder="Category" required>';
+                        <select  class="form-control" id="category" name="category" 
+                        placeholder="Category" required>';
             $data = Core::fetch_survey_category();
             foreach ($data as $row) {
                 echo '<option value="' . $row->idcateg . '">' . $row->_name . '</option>';
@@ -255,17 +268,22 @@ if (!class_exists('Frontend')) {
                             <input type="hidden" name="id" id="id" />
                             <input type="hidden" name="action" id="action" value="" />
                             <input type="submit" name="save" id="save" class="btn btn-info" value="Save" />
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                            Close</button>
                             </div>
                             </div>
                         </form>
                         </div>
                     </div>';
             if (isset($_POST['save']) && $_POST['action'] == 'updateRecord') {
-                Core::update_test_question($_POST['id'], $_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']);
+                Core::update_test_question(
+                    $_POST['id'], $_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']
+                );
             }
             if (isset($_POST['save']) && $_POST['action'] == 'addRecord') {
-                Core::insert_question($_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']);
+                Core::insert_question(
+                    $_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']
+                );
             }
         }
 
@@ -289,8 +307,8 @@ if (!class_exists('Frontend')) {
                             Type: <strong>Screening tool</strong>
                         </div>  
                         <div class="proceed-form-element">
-                            Description: <strong>The Autism-Spectrum Quotient Test is a diagnostic questionnaire 
-                            designed to measure the expression of Autism-Spectrum traits 
+                            Description: <strong>The Autism-Spectrum Quotient Test is a diagnostic 
+                            questionnaire designed to measure the expression of Autism-Spectrum traits 
                             in an individual, by his or her own subjective self-assessment.</strong>
                         </div>                  
                     </div>
@@ -311,21 +329,24 @@ if (!class_exists('Frontend')) {
                 <div class="row form-inscription">
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="first_name">First Name</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name" required>
+                                <label class="form-labels" for="first_name">First Name</label>
+                                <input type="text" class="form-control" id="first_name" 
+                                name="first_name" required>
                             </div>
                             <div class="form-group">
-                                <label for="last_name">Last Name</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name" required>
+                                <label class="form-labels" for="last_name">Last Name</label>
+                                <input type="text" class="form-control" id="last_name" 
+                                name="last_name" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label for="child_age">Child Age</label>
-                                <input type="number" class="form-control"  min="0" max="100" id="child_age" name="child_age" required>
+                                <label class="form-labels" for="child_age">Child Age</label>
+                                <input type="number" class="form-control"  min="0" max="100" 
+                                id="child_age" name="child_age" required>
                             </div>
                             <div class="form-group">
-                                <label for="email">Email address</label>
+                                <label class="form-labels" rep-label for="email">Email address</label>
                                 <input type="email" class="form-control" id="email" name="email" required>
                             </div>
                         </div>
@@ -335,39 +356,42 @@ if (!class_exists('Frontend')) {
                     <table id="survey_table" class="survey_table">
                     <thead class="datatable-header""><th></th></thead>
                     <tbody>';
-            // $test_evaluation = Core::fetch_survey_type($id_test);
-            // $test_evaluation_type = $test_evaluation->test_eval;
             $results = Core::fetch_test_questions($id_test);
             if ($test_evaluation_type == "AQ" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
                     $output .= '<tr class="tab-line">
-                                <td class="question"><h5 class="question-style">'.$index++.". ".$result->question.'</h5><br>
+                                <td class="question"><h5 class="question-style">'
+                                .$index++.". ".$result->question.'</h5> <br>
                                 <div class="form-check form-check-inline question-box">
-                                <input class="btn-check" type="radio" id="data-1'.$result->id.'" name="'.$result->id.'" value="A"  autocomplete="off" ';
+                                <input class="btn-check" type="radio" id="data-1'.$result->id.'" 
+                                name="'.$result->id.'" value="A"  autocomplete="off" ';
                     $output .= ' required>  
-                            <label class="btn btn-outline-primary" for="data-1'.$result->id.'">
+                            <label class="btn btn-outline-primary rep-label" for="data-1'.$result->id.'">
                                 Definitely Agree
                             </label>
                             </div>
                             <div class="form-check form-check-inline question-box">
-                                <input class="btn-check" type="radio" id="data-2'.$result->id.'" name="'.$result->id.'" value="B"  autocomplete="off" ';
+                                <input class="btn-check" type="radio" id="data-2'.$result->id.'" 
+                                name="'.$result->id.'" value="B"  autocomplete="off" ';
                     $output .= ' >
-                            <label class="btn btn-outline-primary" for="data-2'.$result->id.'">
+                            <label class="btn btn-outline-primary rep-label" for="data-2'.$result->id.'">
                                 Slightly Agree
                             </label>
                            </div>
                            <div class="form-check form-check-inline question-box">
-                             <input class="btn-check" type="radio" id="data-3'.$result->id.'" name="' . $result->id . '" value="C"  autocomplete="off" ';
+                             <input class="btn-check" type="radio" id="data-3'
+                             .$result->id.'" name="' . $result->id . '" value="C"  autocomplete="off" ';
                     $output .= ' >
-                            <label class="btn btn-outline-primary" for="data-3'.$result->id.'">
+                            <label class="btn btn-outline-primary rep-label" for="data-3'.$result->id.'">
                                 Slightly Disagree
                             </label>
                            </div>
                            <div class="form-check form-check-inline question-box">
-                           <input class="btn-check" type="radio" id="data-4'.$result->id.'" name="' . $result->id . '" value="D"  autocomplete="off" ';
+                           <input class="btn-check" type="radio" id="data-4'.$result->id.'" 
+                           name="' . $result->id . '" value="D"  autocomplete="off" ';
                     $output .= '>
-                        <label class="btn btn-outline-primary" for="data-4'.$result->id.'">
+                        <label class="btn btn-outline-primary rep-label" for="data-4'.$result->id.'">
                             Definitely Disagree
                         </label>
                          </div>
@@ -378,7 +402,8 @@ if (!class_exists('Frontend')) {
                         </tbody>
                     </table>';
                 $output .= '
-                    <input type="hidden" name="test_evaluation" id="test_evaluation" value="'.$test_evaluation_type.'" />
+                    <input type="hidden" name="test_evaluation" id="test_evaluation" 
+                    value="'.$test_evaluation_type.'" />
                     <div class="row btn-submit">
                         <input class="btn-primary" id="submit-btn" name="submit" type="submit" value="Submit">
                     </div>
@@ -392,11 +417,12 @@ if (!class_exists('Frontend')) {
                                     <td>' . $index++ . '</td>
                                     <td>' . $result->question . '
                                     <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="' . $result->id . '" value="A"';
+                                    <input class="form-check-input" type="radio" 
+                                    name="'.$result->id.'" value="A"';
                     $output .= 'required> 
                            </div>
                            <div class="form-check form-check-inline">
-                             <input class="form-check-input" type="radio" name="' . $result->id . '" value="B"';
+                             <input class="form-check-input" type="radio" name="'.$result->id.'" value="B"';
                     $output .= '>
                            </div>';
                     $output .= '
@@ -409,17 +435,23 @@ if (!class_exists('Frontend')) {
                 $output .= '</tbody>
                         </table>';
                 $output .= '<div class="row">
-                            <input type="hidden" name="test_evaluation" id="test_evaluation" value="'.$test_evaluation_type.'" />
-                            <div>
-                                <input class="btn-primary" id="submit-form" name="submit" type="submit" value="Submit">
+                            <input type="hidden" name="test_evaluation" id="test_evaluation" 
+                            value="'.$test_evaluation_type.'" />
+                            <div row btn-submit>
+                                <input class="btn-primary" id="submit-form" name="submit" 
+                                type="submit" value="Submit">
                             </div>
                       </div>
                   </form>
                 </div>
                 </div>';
                 echo $output;
-            } else echo '<script>confirm("Sorry your entered id test doesn t match with any test evaluation")</script>';
-            echo '<center><div id="test_result"><h1>Your test score is : <div id="test_score"></div></h1></div></center>';
+            } else echo '<script>
+                        confirm("Sorry your entered id test doesn t match with any test evaluation")
+                        </script>';
+            echo '<center>
+            <div id="test_result"><h1>Your test score is : <div id="test_score"></div></h1></div>
+            </center>';
         }
     }
 }

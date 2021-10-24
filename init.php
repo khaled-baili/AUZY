@@ -33,13 +33,16 @@ if (!class_exists('Init')) {
         }
         public function add_admin_pages() {
             add_menu_page('Auzy Tests','Auzy Tests','manage_tests','tests-slug', 
-            array($this, ''),'dashicons-menu',110);
-            add_submenu_page('tests-slug','Manage Question','Manage Question','manage_options','manage-question-slug',
-             function () { require_once 'templates/manage-test-questions.php';});
-            add_submenu_page('tests-slug', 'Manage Category', 'Manage Category', 'manage_options', 'manage-category-slug', 
+                array($this, ''),'dashicons-menu',110);
+            add_submenu_page(
+                'tests-slug','Manage Question','Manage Question','manage_options','manage-question-slug',
+                function () { require_once 'templates/manage-test-questions.php';});
+            add_submenu_page(
+                'tests-slug', 'Manage Category', 'Manage Category', 'manage_options', 'manage-category-slug', 
             function () { require_once 'templates/manage-categories.php'; });
-            add_submenu_page('tests-slug', 'Consult result', 'Consult result', 'manage_options', 'consult-result-slug', 
-            function () { require_once 'templates/all-surveys.php';});
+            add_submenu_page(
+                'tests-slug', 'Consult result', 'Consult result', 'manage_options', 'consult-result-slug', 
+                function () { require_once 'templates/all-surveys.php';});
         }
         public function create_database() {
             Core::create_table_question_category();
@@ -49,15 +52,22 @@ if (!class_exists('Init')) {
             Core::create_table_test_response();
         }
         function enqueue() {
-            wp_enqueue_style('myPluginstyle', plugins_url('/asset/style.css', __FILE__));
-            wp_enqueue_style('myPlugin_Bootstrap_Style', plugins_url('/lib/bootstrap/css/bootstrap.css', __FILE__));
-            wp_enqueue_style('datatable_Bootstrap_Style', plugins_url('/asset/datatable/datatable.min.css', __FILE__));
-            wp_enqueue_style('myPlugin_fontAwesome_Style', plugins_url('/lib/fonts/fontawesome/css/all.css', __FILE__));
+            wp_enqueue_style('myPluginstyle', 
+                plugins_url('/asset/style.css', __FILE__));
+            wp_enqueue_style('myPlugin_Bootstrap_Style', 
+                plugins_url('/lib/bootstrap/css/bootstrap.css', __FILE__));
+            wp_enqueue_style('datatable_Bootstrap_Style', 
+                plugins_url('/asset/datatable/datatable.min.css', __FILE__));
+            wp_enqueue_style('myPlugin_fontAwesome_Style', 
+                plugins_url('/lib/fonts/fontawesome/css/all.css', __FILE__));
             wp_enqueue_script('jquery');
             wp_enqueue_script('jquery-ui-tooltip');
-            wp_enqueue_script('myPlugin_Bootstrap_Script', plugins_url('/lib/bootstrap/js/bootstrap.min.js', __FILE__));
-            wp_enqueue_script('datatable_js', plugins_url('/asset/datatable/datatable.min.js', __FILE__));
-            wp_enqueue_script('myPlugin_Script', plugins_url('/asset/js/script.js', __FILE__));
+            wp_enqueue_script('myPlugin_Bootstrap_Script', 
+                plugins_url('/lib/bootstrap/js/bootstrap.min.js', __FILE__));
+            wp_enqueue_script('datatable_js', 
+                plugins_url('/asset/datatable/datatable.min.js', __FILE__));
+            wp_enqueue_script('myPlugin_Script', 
+                plugins_url('/asset/js/script.js', __FILE__));
         }
         
     }

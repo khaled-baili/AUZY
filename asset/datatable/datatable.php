@@ -6,10 +6,8 @@
 require_once '../../core.php';
 require_once('../../../../../wp-config.php');
 if (!class_exists('Data_management')) {
-    class Data_management extends Core
-    {
-        function fetch_category_data()
-        {
+    class Data_management extends Core {
+        function fetch_category_data() {
             global $wpdb;
             $columns = array('idcateg', 'name', 'test_eval');
             $query = "SELECT * FROM wp_question_category ";
@@ -18,7 +16,8 @@ if (!class_exists('Data_management')) {
                 $query .= 'WHERE _name LIKE "%' . $_POST["search"]["value"] . '%" ';
             }
             if (isset($_POST["order"])) {
-                $query .= 'ORDER BY ' . $columns[$_POST['order']['0']['column']] . ' ' . $_POST['order']['0']['dir'] . ' ';
+                $query .='ORDER BY '.$columns[$_POST['order']['0']['column']].' '
+                .$_POST['order']['0']['dir'].' ';
             } else {
                 $query .= 'ORDER BY idcateg DESC ';
             }
@@ -33,12 +32,16 @@ if (!class_exists('Data_management')) {
             $data = array();
             foreach ($categories as $row) {
                 $sub_array = array();
-                $sub_array[] = '<div class="update_categ" data-id="'.$row->idcateg.'" data-column="_name">'.$row->_name.'</div>';
-                $sub_array[] = '<div class="update_categ" data-id="'.$row->idcateg .'" data-column="_name">'.$row->test_eval . '</div>';
-                $sub_array[] = '<button type="button" name="update" id="'.$row->idcateg.'" class="btn btn-warning btn-xs update">
-                <i class="fas fa-pencil-alt"></i></button>
-                <button type="button" name="delete" class="btn btn-danger btn-xs delete_categ" id="'.$row->idcateg.'">
-                <i class="fas fa-trash-alt"></i></button>';
+                $sub_array[]='<div class="update_categ" data-id="'.$row->idcateg.'
+                            " data-column="_name">'.$row->_name.'</div>';
+                $sub_array[]='<div class="update_categ" data-id="'.$row->idcateg .'
+                            " data-column="_name">'.$row->test_eval . '</div>';
+                $sub_array[]='<button type="button" name="update" id="'.$row->idcateg.'
+                            " class="btn btn-warning btn-xs update">
+                            <i class="fas fa-pencil-alt"></i></button>
+                            <button type="button" name="delete" class="btn btn-danger btn-xs delete_categ" 
+                            id="'.$row->idcateg.'">
+                            <i class="fas fa-trash-alt"></i></button>';
                 $sub_array[] = '[survey test_id="'.$row->idcateg.'"]';
                 $data[] = $sub_array;
             }
@@ -140,11 +143,19 @@ if (!class_exists('Data_management')) {
                 } else {
                     $quest_type="DESC" ;
                 }
-                $sub_array[] = '<div contenteditable class="update" data-id="'.$row->id.'" data-column="question">' .$row->question . '</div>';
-                $sub_array[] = '<div class="update" data-id="'.$row->id.'" data-column="type">' .$quest_type. '</div>';
-                $sub_array[] = '<div class="update" data-id="'.$row->idcateg.'" data-column="category">' .$row->_name. '</div>';
-                $sub_array[] = '<div class="update" data-id="'.$row->_id_domain.'" data-column="domaine">' .$row->_name_domaine. '</div>';
-                $sub_array[] = '<div><button type="button" name="update" id="'.$row->id.'"class="btn btn-warning btn-xs update"><i class="fas fa-pencil-alt"></i></button><button type="button" name="delete" class="btn btn-danger btn-xs delete" id="'.$row->id.'"><i class="fas fa-trash-alt"></i></button>';
+                $sub_array[]='<div contenteditable class="update" data-id="'.$row->id.'" 
+                             data-column="question">' .$row->question . '</div>';
+                $sub_array[]='<div class="update" data-id="'.$row->id.
+                               '" data-column="type">' .$quest_type. '</div>';
+                $sub_array[]='<div class="update" data-id="'.$row->idcateg.
+                             '" data-column="category">' .$row->_name. '</div>';
+                $sub_array[]='<div class="update" data-id="'.$row->_id_domain.
+                             '" data-column="domaine">' .$row->_name_domaine. '</div>';
+                $sub_array[]='<div><button type="button" name="update" id="'.$row->id.
+                             '"class="btn btn-warning btn-xs update"><i class="fas fa-pencil-alt"></i>
+                             </button>
+                             <button type="button" name="delete" class="btn btn-danger btn-xs delete" 
+                             id="'.$row->id.'"><i class="fas fa-trash-alt"></i></button>';
                 $data[] = $sub_array;
                 
              }

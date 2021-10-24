@@ -14,23 +14,18 @@
     width: 100% !important;
 }
 
-.form-group {
-    margin-top: 2vh;
-    width: 100%;
-}
-
 .form-inscription {
     display: flex;
     justify-content: center;
-    width: 82vw;
-}
-
-.form-control {
-    width: 100%;
+    width: auto;
 }
 
 label select {
     margin: 10px !important;
+}
+
+.form-labels {
+    margin-bottom: 10px !important;
 }
 
 .input-sm {
@@ -45,20 +40,18 @@ label select {
 #survey_table {
     border: none !important;
     border-spacing: 0 25px !important;
-}
-
-.submit-btn {
-    border: none;
-    border-radius: 20px;
-    background-color: green;
-    width: 30%;
-    height: 50%;
+    margin: 0 auto;
+    width: 82vw;
 }
 
 .btn-submit {
     margin-top: 4vh !important;
-    display: flex;
-    justify-content: center;
+    display: flex !important;
+    justify-content: center !important;
+}
+
+#submit-btn {
+    border: #009FFF solid !important;
 }
 
 .dataTables_filter {
@@ -98,13 +91,9 @@ h5 {
     margin-bottom: 0 !important;
 }
 
-#survey_table {
-    margin: 0 auto;
-    max-width: 1250px;
-}
-
 .question {
-    width: 70%;
+    background-color: transparent !important;
+    width: auto;
     border: none !important;
 }
 
@@ -130,17 +119,15 @@ h5 {
     display: none;
 }
 
-#survey_table {
-    width: 82vw;
-}
-
 .tab-line {
     border: none;
     padding-bottom: 500px;
+    background-color: transparent !important;
 }
 
-.tab-line:hover {
-    background-color: none !important;
+.tab-line,
+.question:hover {
+    background-color: transparent !important;
 }
 
 #test-form {
@@ -167,18 +154,18 @@ h5 {
 }
 
 .proceed-btn {
-    border-radius: 8px;
+    border-radius: 8px !important;
     background-color: #AC72EE !important;
-    border: none;
-    color: #FFFFFF;
-    text-align: center;
-    font-size: 20px;
-    padding: 10px;
-    width: 135px;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin: 5px;
-    margin-top: 30px;
+    border: none!important;
+    color: #FFFFFF !important;
+    text-align: center !important;
+    font-size: 20px !important;
+    padding: 10px !important;
+    width: 135px !important;
+    transition: all 0.5s !important;
+    cursor: pointer !important;
+    margin: 5px !important;
+    margin-top: 30px !important;
 }
 
 .proceed-btn span {
@@ -206,7 +193,20 @@ h5 {
     right: 0;
 }
 
-@media (max-width:320px) {
+.question-style {
+    width: 100% !important;
+    margin-bottom: 25px !important;
+}
+
+.question {
+    width: auto !important;
+}
+
+.rep-label {
+    width: 150px !important;
+}
+
+@media (min-width:320px) {
     #survey_table {
         margin: 0 auto;
         max-width: 310px;
@@ -215,14 +215,10 @@ h5 {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        width: 100% !important;
-    }
-    .question-style {
-        margin-bottom: 25px !important;
     }
 }
 
-@media (max-width:480px) {
+@media (min-width:480px) {
     #survey_table {
         margin: 0 auto;
         max-width: 470px;
@@ -231,38 +227,60 @@ h5 {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
-        width: 100% !important;
     }
     .question-style {
         margin-bottom: 25px !important;
     }
 }
 
-@media (max-width:600px) {
+@media (min-width:600px) {
     #survey_table {
         margin: 0 auto;
         max-width: 590px;
     }
+    .question {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
-@media (max-width:801px) {
+@media (min-width:801px) {
     #survey_table {
         margin: 0 auto;
         max-width: 790px;
     }
+    .question {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
 }
 
-@media (max-width:1025px) {
+@media (min-width:1025px) {
     #survey_table {
         margin: 0 auto;
         max-width: 1010px;
     }
+    .question {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .question-style {
+        margin-bottom: 25px !important;
+    }
 }
 
-@media (max-width:1281px) {
+@media (min-width:1281px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 1270px;
+        max-width: 1270px !important;
+    }
+    .question {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
     }
 }
 
