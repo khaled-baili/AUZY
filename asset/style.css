@@ -25,7 +25,7 @@ label select {
 }
 
 .form-labels {
-    margin-bottom: 10px !important;
+    margin: 10px 0 !important;
 }
 
 .input-sm {
@@ -216,6 +216,9 @@ h5 {
         flex-wrap: wrap;
         justify-content: center;
     }
+    #survey_table_paginate>.pagination {
+        justify-content: center !important;
+    }
 }
 
 @media (min-width:480px) {
@@ -269,6 +272,9 @@ h5 {
     }
     .question-style {
         margin-bottom: 25px !important;
+    }
+    #survey_table_paginate>.pagination {
+        justify-content: flex-start !important;
     }
 }
 

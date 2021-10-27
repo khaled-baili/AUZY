@@ -301,7 +301,9 @@ jQuery(document).ready(function($) {
         "bAutoWidth": false,
         "lengthChange": false,
         "ordering": false,
-        "bInfo": false
+        "bInfo": true,
+        dom: "<'row'<'col-sm-12'tr>>" +
+            "<'row'<'col-lg-12'p>>"
     });
 
     var test_result = document.getElementById("test_result");
