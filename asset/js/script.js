@@ -212,7 +212,7 @@ jQuery(document).ready(function($) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
                     $('#category_table').DataTable().destroy();
                     fetch_data_category();
-                }
+                },
             });
             setInterval(function() {
                 $('#alert_message').html('');

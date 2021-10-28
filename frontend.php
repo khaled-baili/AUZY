@@ -249,7 +249,7 @@ if (!class_exists('Frontend')) {
                         placeholder="Category" required>';
             $data = Core::fetch_survey_category();
             foreach ($data as $row) {
-                echo '<option value="' . $row->idcateg . '">' . $row->_name . '</option>';
+                echo '<option value="'.$row->idcateg.'">'.$row->_name.'</option>';
             }
             echo '</select>			
               </div>		
@@ -258,9 +258,8 @@ if (!class_exists('Frontend')) {
                 <select class="form-control"  id="domaine" name="domaine" placeholder="domaine" required">';
             $record = Core::fetch_all_domain();
             foreach ($record as $row) {
-                echo '<option value="' . $row->_id_domaine . '">' . $row->_name_domaine . '</option>';
+                echo '<option value="'.$row->_id_domaine.'">'.$row->_name_domaine.'</option>';
             }
-
             echo '</select>								
                         </div>	 				
                         </div>
@@ -275,12 +274,12 @@ if (!class_exists('Frontend')) {
                         </form>
                         </div>
                     </div>';
-            if (isset($_POST['save']) && $_POST['action'] == 'updateRecord') {
+            if (isset($_POST['save']) && $_POST['action']=='updateRecord') {
                 Core::update_test_question(
                     $_POST['id'], $_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']
                 );
             }
-            if (isset($_POST['save']) && $_POST['action'] == 'addRecord') {
+            if (isset($_POST['save']) && $_POST['action']=='addRecord') {
                 Core::insert_question(
                     $_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']
                 );

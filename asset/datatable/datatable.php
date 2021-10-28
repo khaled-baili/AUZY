@@ -182,9 +182,7 @@ if (!class_exists('Data_management')) {
         }
         function insert_question_data()
         {
-        }
-        function update_question_data()
-        {
+            
         }
         function delete_question()
         {
