@@ -308,7 +308,6 @@ jQuery(document).ready(function($) {
 
     var test_result = document.getElementById("test_result");
     var test_score = document.getElementById("test_score");
-    test_result.style.display = "none";
     var table = $('#survey_table').DataTable();
     $('#test-form').on('submit', function() {
         var response = table.$('input').serializeArray();
@@ -329,8 +328,9 @@ jQuery(document).ready(function($) {
                 test_evaluation: test_evaluation
             },
             success: function(data) {
-                alert("You passed the test successfully");
+                document.getElementById('test-form').style.display = "none";
                 test_result.style.display = "block";
+                document.getElementById('test-score').append(data);
                 test_score.append(data);
             }
         });

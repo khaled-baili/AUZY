@@ -57,12 +57,13 @@ if (!class_exists('Core')) {
                 global $wpdb;
                 $test_info = $wpdb->prefix . 'test_info';
         
-                if ($wpdb->get_var("SHOW TABLES LIKE '". $test_info ."'"  ) != $test_info ) {
+                if ($wpdb->get_var("SHOW TABLES LIKE '". $test_info ."'" ) != $test_info ) {
         
                     $sql  = 'CREATE TABLE `wp_test_info` (
                         `id_test` int(11) NOT NULL,
                         `first_name` varchar(50) NOT NULL,
                         `last_name` varchar(50) NOT NULL,
+                        `child_age` int(11) NOT NULL,
                         `test_date` date NOT NULL,
                         `email` varchar(100) NOT NULL,
                         PRIMARY KEY (`id_test`)
@@ -335,13 +336,13 @@ if (!class_exists('Core')) {
         }
         function calculate_AQ_survey_score($test_id) {
             global $wpdb;
-            $query = "SELECT response,_type 
+            $score = 0;
+            $query =" SELECT response,_type 
                     FROM wp_test_response 
                     JOIN wp_test_questions 
                     ON wp_test_response.id_question=wp_test_questions.id 
                     WHERE id_test =" . $test_id . " ";
             $test_response = $wpdb->get_results($query);
-            $score = 0;
             foreach ($test_response as $key) {
                 if ($key->_type == "A") {
                     switch ($key->response) {
@@ -383,6 +384,7 @@ if (!class_exists('Core')) {
         }
         function calculate_Mchat_survey_score($test_id) {
             global $wpdb;
+            $score = 0;
             $query = "SELECT response,_type 
                     FROM wp_test_response 
                     JOIN wp_test_questions 

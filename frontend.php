@@ -6,7 +6,7 @@
 if (!class_exists('Frontend')) {
     class Frontend extends Core {
         public function show_all_surveys() {
-            $output = '<div class="row">
+            $output='<div class="row">
                   <table id="test-table" class="table table-striped table-bordered nowrap">
                     <thead>
                     <tr>
@@ -330,24 +330,25 @@ if (!class_exists('Frontend')) {
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-labels" for="first_name">First Name</label>
-                                <input type="text" class="form-control" id="first_name" 
+                                <input type="text" class="form-control test-form-control" id="first_name" 
                                 name="first_name" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-labels" for="last_name">Last Name</label>
-                                <input type="text" class="form-control" id="last_name" 
+                                <input type="text" class="form-control test-form-control" id="last_name" 
                                 name="last_name" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-labels" for="child_age">Child Age</label>
-                                <input type="number" class="form-control"  min="0" max="100" 
+                                <input type="number" class="form-control test-form-control"  min="0" max="100" 
                                 id="child_age" name="child_age" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-labels" rep-label for="email">Email address</label>
-                                <input type="email" class="form-control" id="email" name="email" required>
+                                <input type="email" class="form-control test-form-control" id="email" 
+                                name="email" required>
                             </div>
                         </div>
                 </div>
@@ -449,9 +450,22 @@ if (!class_exists('Frontend')) {
             } else echo '<script>
                         confirm("Sorry your entered id test doesn t match with any test evaluation")
                         </script>';
-            echo '<center>
-            <div id="test_result"><h1>Your test score is : <div id="test_score"></div></h1></div>
-            </center>';
+            echo '<div id="test_result" class="proceed-form">
+                    <center>
+                        <div class="proceed-form-titile">
+                            Test Passed <br>
+                            <img src="'.plugin_dir_url( __FILE__ ).'lib/img/check-logo.png" 
+                            class="logo-img" alt="No image">
+                        </div>
+                    </center>
+                    <div>
+                        <center>
+                            <div class="proceed-form-titile">
+                                Result: <strong><span id="test-score"></span>/150</strong>
+                            </div>
+                        </center>                 
+                    </div>
+                </div>';
         }
     }
 }

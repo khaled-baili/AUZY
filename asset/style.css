@@ -97,6 +97,10 @@ h5 {
     border: none !important;
 }
 
+.test-form-control {
+    border: 1px solid #ccc !important;
+}
+
 
 /* .question-style {
     color: #AC72EE !important;
@@ -135,7 +139,7 @@ h5 {
 }
 
 .proceed-form {
-    width: 78%;
+    width: auto;
     margin: 0 auto;
     border: solid #AC72EE;
     border-radius: 10px;
@@ -154,14 +158,15 @@ h5 {
 }
 
 .proceed-btn {
-    border-radius: 8px !important;
+    border-radius: 6px !important;
     background-color: #AC72EE !important;
     border: none!important;
     color: #FFFFFF !important;
     text-align: center !important;
-    font-size: 20px !important;
-    padding: 10px !important;
-    width: 135px !important;
+    /* font-size: 20px !important; */
+    font-weight: 400 !important;
+    padding: 11px 15px !important;
+    width: auto !important;
     transition: all 0.5s !important;
     cursor: pointer !important;
     margin: 5px !important;
@@ -203,7 +208,17 @@ h5 {
 }
 
 .rep-label {
-    width: 150px !important;
+    width: 170px !important;
+}
+
+#test_result {
+    display: none;
+}
+
+.logo-img {
+    height: 200px;
+    width: 100px;
+    padding-bottom: 15px;
 }
 
 @media (min-width:320px) {
@@ -281,12 +296,17 @@ h5 {
 @media (min-width:1281px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 1270px !important;
+        max-width: 790px !important;
     }
     .question {
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
+    }
+    #survey_table_paginate>.pagination {
+        max-width: 790px !important;
+        margin: 0 auto !important;
+        justify-content: flex-start !important;
     }
 }
 
