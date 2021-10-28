@@ -207,10 +207,6 @@ h5 {
     width: auto !important;
 }
 
-.rep-label {
-    width: 170px !important;
-}
-
 #test_result {
     display: none;
 }
@@ -233,6 +229,9 @@ h5 {
     }
     #survey_table_paginate>.pagination {
         justify-content: center !important;
+    }
+    .rep-label {
+        width: 170px !important;
     }
 }
 
@@ -261,6 +260,9 @@ h5 {
         flex-wrap: wrap;
         justify-content: center;
     }
+    .rep-label {
+        width: 200px !important;
+    }
 }
 
 @media (min-width:801px) {
@@ -272,6 +274,9 @@ h5 {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
+    }
+    .rep-label {
+        width: 260px !important;
     }
 }
 
@@ -291,12 +296,19 @@ h5 {
     #survey_table_paginate>.pagination {
         justify-content: flex-start !important;
     }
+    .form-inscription {
+        width: 80%;
+        margin: 0 auto !important;
+    }
+    .rep-label {
+        width: 170px !important;
+    }
 }
 
 @media (min-width:1281px) {
     #survey_table {
         margin: 0 auto;
-        max-width: 790px !important;
+        max-width: 800px !important;
     }
     .question {
         display: flex;

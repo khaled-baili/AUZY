@@ -325,8 +325,8 @@ if (!class_exists('Frontend')) {
                     </center>
                 </div>
                 <form action="" method="post" id="test-form">
-                <h2>Personnal Information</h2>
                 <div class="row form-inscription">
+                        <h3>Personnal Information</h3>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-labels" for="first_name">First Name</label>
