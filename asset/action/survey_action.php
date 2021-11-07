@@ -9,7 +9,6 @@ if (!class_exists('Survey')) {
     class Survey extends Core
     {
         function insert_survey_resp() {
-            global $wpdb;
             $quiz_data = array();
             $test_id =  Core::get_suervey_max_id();
             $id_test = $test_id->test_id + 1;
@@ -41,7 +40,11 @@ if (!class_exists('Survey')) {
 
 $survey = new Survey();
 try {
-    $survey->insert_survey_resp();
+    if ($_POST["action"]=="export_data") {
+        $survey->export_data();
+    } else {
+        $survey->insert_survey_resp();
+    }
 } catch (Exception $e) {
     echo $e->getMessage();
 }

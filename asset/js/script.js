@@ -335,6 +335,28 @@ jQuery(document).ready(function($) {
             }
         });
     });
+    $(document).on('click', '#export_data', function() {
+        $.ajax({
+            type: "POST",
+            url: '/wp-content/plugins/auzy-tests/asset/action/survey_action.php',
+            data: {
+                action: "export_data"
+            },
+            success: function(data) {
+                var downloadLink = document.createElement("a");
+                var fileData = ['\ufeff' + data];
+                var blobObject = new Blob(fileData, {
+                    type: "text/csv;charset=utf-8;"
+                });
+                var url = URL.createObjectURL(blobObject);
+                downloadLink.href = url;
+                downloadLink.download = "data_test.csv";
+                document.body.appendChild(downloadLink);
+                downloadLink.click();
+                document.body.removeChild(downloadLink);
+            }
+        });
+    })
     $('#proceed-btn').attr('disabled', 'disabled');
     var btn_proceed = document.getElementById("proceed-btn");
     $(document).ready(function() {

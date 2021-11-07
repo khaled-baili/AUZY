@@ -7,6 +7,9 @@ if (!class_exists('Frontend')) {
     class Frontend extends Core {
         public function show_all_surveys() {
             $output='<div class="row">
+                  <div class="row">
+
+                  </div>
                   <table id="test-table" class="table table-striped table-bordered nowrap">
                     <thead>
                     <tr>
@@ -38,6 +41,9 @@ if (!class_exists('Frontend')) {
             }
             $output .= '</tbody>
                 </table>
+                <div class="d-grid gap-2 col-6 mx-auto">
+                    <button class="btn btn-primary" id="export_data" type="button">Extract data</button>
+                </div>
             </div>';
             foreach ($test_meta as $result) {
                 $data = Core::fetch_survey_result($result->id_test);
