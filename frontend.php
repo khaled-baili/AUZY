@@ -3,12 +3,22 @@
 /**
  * @package AuzyTestPlugin
  */
-if (!class_exists('Frontend')) {
-    class Frontend extends Core {
-        public function show_all_surveys() {
-            $output='<div class="row">
-                  <div class="row">
-
+if (!class_exists('Frontend')) {   
+    class Frontend extends Core
+    {
+        public function show_all_surveys()
+        {
+            $output = '<div class="row">
+                  <div class="d-flex justify-content-between">
+                        <form action="" name="frmCSVImport" id="frmCSVImport" method="POST" enctype="multipart/form-data">
+                        <input type="file" name="import_file" >
+                            <button type="submit" class="btn btn-secondary btn-sm" name="import_data">
+                                Import data
+                            </button>
+                        </form>
+                        <button type="button" class="btn btn-primary btn-sm" id="export_data">
+                            Export data
+                        </button>
                   </div>
                   <table id="test-table" class="table table-striped table-bordered nowrap">
                     <thead>
@@ -41,14 +51,11 @@ if (!class_exists('Frontend')) {
             }
             $output .= '</tbody>
                 </table>
-                <div class="d-grid gap-2 col-6 mx-auto">
-                    <button class="btn btn-primary" id="export_data" type="button">Extract data</button>
-                </div>
             </div>';
             foreach ($test_meta as $result) {
                 $data = Core::fetch_survey_result($result->id_test);
-                $output .='<div class="modal fade" id="testDetails_'.$result->id_test
-                            .'" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
+                $output .= '<div class="modal fade" id="testDetails_' . $result->id_test
+                    . '" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" 
                             aria-labelledby="staticBackdropLabel" aria-hidden="true">
                     <div class="modal-dialog modal-lg">
                         <div class="modal-content">
@@ -71,7 +78,7 @@ if (!class_exists('Frontend')) {
                             <tbody>';
                 $test_type = Core::fetch_survey_type($result->id_test);
                 $test_eval = $test_type->test_eval;
-                if ($test_eval=='AQ') $score = Core::calculate_AQ_survey_score($result->id_test);
+                if ($test_eval == 'AQ') $score = Core::calculate_AQ_survey_score($result->id_test);
                 else $score = Core::calculate_Mchat_survey_score($result->id_test);
                 $i = 1;
                 if ($test_eval == "AQ") {
@@ -94,7 +101,7 @@ if (!class_exists('Frontend')) {
                                 $response = '';
                         }
                         $output .= '<tr>
-                                        <th scope="row">'.$i++.'</th>
+                                        <th scope="row">' . $i++ . '</th>
                                         <td>' . $key->question . '</td>
                                         <td>' . $response . '</td>
                                     </tr>';
@@ -113,14 +120,14 @@ if (!class_exists('Frontend')) {
                                 $response = '';
                         }
                         $output .= '<tr>
-                        <th scope="row">'.$i++.'</th>
+                        <th scope="row">' . $i++ . '</th>
                         <td>' . $key->question . '</td>
                         <td>' . $response . '</td>
                     </tr>';
                     }
                 }
                 $output .= ' </tbody></table>
-                            <center><h1>Your test score is : '.$score.'</h1></center>
+                            <center><h1>Your test score is : ' . $score . '</h1></center>
                             </div>
                             <div class="modal-footer">
                                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
@@ -133,6 +140,47 @@ if (!class_exists('Frontend')) {
                     ';
             }
             echo $output;
+            if (isset($_POST['import_data'])) {
+                $extension = pathinfo($_FILES['import_file']['name'], PATHINFO_EXTENSION);
+                if(!empty($_FILES['import_file']['name']) && $extension == 'csv'){
+                    $totalInserted = 0;
+                    $csvFile = fopen($_FILES['import_file']['tmp_name'], 'r');
+                    fgetcsv($csvFile);
+                    while(($csvData = fgetcsv($csvFile)) !== FALSE){
+                        $csvData = array_map("utf8_encode", $csvData);
+                        $dataLen = count($csvData);
+                        if( $dataLen != 10) continue;
+                        $id_test = trim($csvData[0]);
+                        $email = trim($csvData[1]);
+                        $first_name = trim($csvData[2]);
+                        $last_name = trim($csvData[3]);
+                        $child_age = trim($csvData[4]);
+                        $test_date = trim($csvData[5]);
+                        $id_question = trim($csvData[6]);
+                        $question = trim($csvData[7]);
+                        $_type = trim($csvData[8]);
+                        $resp = trim($csvData[9]);
+                        if(!empty($id_test) && !empty($email) && !empty($first_name) && !empty($last_name) &&  
+                            !empty($child_age) && !empty($test_date) && !empty($id_question) 
+                            && !empty($_type) && !empty($resp) 
+                        ) {
+                            if(Core::verif_suervey_id($id_test)==0) {
+                                Core::insert_survey_meta(
+                                    $id_test, $first_name, $last_name, $child_age, $test_date,$email
+                                );
+                            }
+                            echo Core::verif_rows_survey_completed($id_test);
+                            if(Core::verif_rows_survey_completed($id_test)<=20) {
+                                Core::insert_survey($id_question, $resp, $id_test);
+                                $totalInserted++ ;
+                            }
+                        }
+                    }
+                    if ($totalInserted != 0) {
+                        echo "<h3 style='color: green;'>Total record Inserted : ".$totalInserted."</h3>";
+                    } else echo "<h3 style='color: orange;'>Data already inserted</h3>";
+                } else echo "<h3 style='color: red;'>Invalid Extension</h3>";
+            }
         }
 
         function show_all_categories()
@@ -197,7 +245,9 @@ if (!class_exists('Frontend')) {
             echo $output;
             if (isset($_POST['save'])) {
                 Core::update_survey_category(
-                    $_POST['idcateg'],$_POST['category_name'],$_POST['test_evaluation']
+                    $_POST['idcateg'],
+                    $_POST['category_name'],
+                    $_POST['test_evaluation']
                 );
             }
         }
@@ -255,7 +305,7 @@ if (!class_exists('Frontend')) {
                         placeholder="Category" required>';
             $data = Core::fetch_survey_category();
             foreach ($data as $row) {
-                echo '<option value="'.$row->idcateg.'">'.$row->_name.'</option>';
+                echo '<option value="' . $row->idcateg . '">' . $row->_name . '</option>';
             }
             echo '</select>			
               </div>		
@@ -264,7 +314,7 @@ if (!class_exists('Frontend')) {
                 <select class="form-control"  id="domaine" name="domaine" placeholder="domaine" required">';
             $record = Core::fetch_all_domain();
             foreach ($record as $row) {
-                echo '<option value="'.$row->_id_domaine.'">'.$row->_name_domaine.'</option>';
+                echo '<option value="' . $row->_id_domaine . '">' . $row->_name_domaine . '</option>';
             }
             echo '</select>								
                         </div>	 				
@@ -280,14 +330,21 @@ if (!class_exists('Frontend')) {
                         </form>
                         </div>
                     </div>';
-            if (isset($_POST['save']) && $_POST['action']=='updateRecord') {
+            if (isset($_POST['save']) && $_POST['action'] == 'updateRecord') {
                 Core::update_test_question(
-                    $_POST['id'], $_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']
+                    $_POST['id'],
+                    $_POST['question'],
+                    $_POST['domaine'],
+                    $_POST['type'],
+                    $_POST['category']
                 );
             }
-            if (isset($_POST['save']) && $_POST['action']=='addRecord') {
+            if (isset($_POST['save']) && $_POST['action'] == 'addRecord') {
                 Core::insert_question(
-                    $_POST['question'], $_POST['domaine'], $_POST['type'], $_POST['category']
+                    $_POST['question'],
+                    $_POST['domaine'],
+                    $_POST['type'],
+                    $_POST['category']
                 );
             }
         }
@@ -296,6 +353,10 @@ if (!class_exists('Frontend')) {
         {
             $test_evaluation = Core::fetch_survey_category_by_id($id_test);
             $test_evaluation_type = $test_evaluation->test_eval;
+            $global_score_test = "";
+            if ($test_evaluation_type=="AQ") {
+                $global_score_test = '150';
+            } else $global_score_test = '20';
             $output = '<div class="container">
             <div class="row">
                 <div id="proceed-form" class="proceed-form">
@@ -363,41 +424,42 @@ if (!class_exists('Frontend')) {
                     <thead class="datatable-header""><th></th></thead>
                     <tbody>';
             $results = Core::fetch_test_questions($id_test);
+            echo $test_evaluation_type;
             if ($test_evaluation_type == "AQ" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
                     $output .= '<tr class="tab-line">
                                 <td class="question"><h5 class="question-style">'
-                                .$index++.". ".$result->question.'</h5> <br>
+                        . $index++ . ". " . $result->question . '</h5> <br>
                                 <div class="form-check form-check-inline question-box">
-                                <input class="btn-check" type="radio" id="data-1'.$result->id.'" 
-                                name="'.$result->id.'" value="A"  autocomplete="off" ';
+                                <input class="btn-check" type="radio" id="data-1' . $result->id . '" 
+                                name="' . $result->id . '" value="A"  autocomplete="off" ';
                     $output .= ' required>  
-                            <label class="btn btn-outline-primary rep-label" for="data-1'.$result->id.'">
+                            <label class="btn btn-outline-primary rep-label" for="data-1' . $result->id . '">
                                 Definitely Agree
                             </label>
                             </div>
                             <div class="form-check form-check-inline question-box">
-                                <input class="btn-check" type="radio" id="data-2'.$result->id.'" 
-                                name="'.$result->id.'" value="B"  autocomplete="off" ';
+                                <input class="btn-check" type="radio" id="data-2' . $result->id . '" 
+                                name="' . $result->id . '" value="B"  autocomplete="off" ';
                     $output .= ' >
-                            <label class="btn btn-outline-primary rep-label" for="data-2'.$result->id.'">
+                            <label class="btn btn-outline-primary rep-label" for="data-2' . $result->id . '">
                                 Slightly Agree
                             </label>
                            </div>
                            <div class="form-check form-check-inline question-box">
                              <input class="btn-check" type="radio" id="data-3'
-                             .$result->id.'" name="' . $result->id . '" value="C"  autocomplete="off" ';
+                        . $result->id . '" name="' . $result->id . '" value="C"  autocomplete="off" ';
                     $output .= ' >
-                            <label class="btn btn-outline-primary rep-label" for="data-3'.$result->id.'">
+                            <label class="btn btn-outline-primary rep-label" for="data-3' . $result->id . '">
                                 Slightly Disagree
                             </label>
                            </div>
                            <div class="form-check form-check-inline question-box">
-                           <input class="btn-check" type="radio" id="data-4'.$result->id.'" 
+                           <input class="btn-check" type="radio" id="data-4' . $result->id . '" 
                            name="' . $result->id . '" value="D"  autocomplete="off" ';
                     $output .= '>
-                        <label class="btn btn-outline-primary rep-label" for="data-4'.$result->id.'">
+                        <label class="btn btn-outline-primary rep-label" for="data-4' . $result->id . '">
                             Definitely Disagree
                         </label>
                          </div>
@@ -409,7 +471,7 @@ if (!class_exists('Frontend')) {
                     </table>';
                 $output .= '
                     <input type="hidden" name="test_evaluation" id="test_evaluation" 
-                    value="'.$test_evaluation_type.'" />
+                    value="' . $test_evaluation_type . '" />
                     <div class="row btn-submit">
                         <input class="btn-primary" id="submit-btn" name="submit" type="submit" value="Submit">
                     </div>
@@ -419,38 +481,38 @@ if (!class_exists('Frontend')) {
             } else if ($test_evaluation_type == "Mchat" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
-                    $output .= '<tr>
-                                    <td>' . $index++ . '</td>
-                                    <td>' . $result->question . '
-                                    <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" 
-                                    name="'.$result->id.'" value="A"';
-                    $output .= 'required> 
-                           </div>
-                           <div class="form-check form-check-inline">
-                             <input class="form-check-input" type="radio" name="'.$result->id.'" value="B"';
-                    $output .= '>
-                           </div>';
-                    $output .= '
-                           </div>';
-                    $output .= '
-                         </div>
-                           </td>
-                         </tr>';
-                }
-                $output .= '</tbody>
-                        </table>';
-                $output .= '<div class="row">
-                            <input type="hidden" name="test_evaluation" id="test_evaluation" 
-                            value="'.$test_evaluation_type.'" />
-                            <div row btn-submit>
-                                <input class="btn-primary" id="submit-form" name="submit" 
-                                type="submit" value="Submit">
+                    $output .= '<tr class="tab-line">
+                                <td class="question"><h5 class="question-style">'
+                        . $index++ . ". " . $result->question . '</h5> <br>
+                                <div class="form-check form-check-inline question-box">
+                                <input class="btn-check" type="radio" id="data-1' . $result->id . '" 
+                                name="' . $result->id . '" value="A"  autocomplete="off" ';
+                    $output .= ' required>  
+                            <label class="btn btn-outline-primary rep-label" for="data-1' . $result->id . '">
+                                Oui
+                            </label>
                             </div>
-                      </div>
-                  </form>
-                </div>
-                </div>';
+                            <div class="form-check form-check-inline question-box">
+                                <input class="btn-check" type="radio" id="data-2' . $result->id . '" 
+                                name="' . $result->id . '" value="B"  autocomplete="off" ';
+                    $output .= ' >
+                            <label class="btn btn-outline-primary rep-label" for="data-2' . $result->id . '">
+                                Non
+                            </label>
+                           </div>';
+                    $output .= '</tr>';
+                }
+                $output .= '
+                        </tbody>
+                    </table>';
+                $output .= '
+                    <input type="hidden" name="test_evaluation" id="test_evaluation" 
+                    value="' . $test_evaluation_type . '" />
+                    <div class="row btn-submit">
+                        <input class="btn-primary" id="submit-btn" name="submit" type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>';
                 echo $output;
             } else echo '<script>
                         confirm("Sorry your entered id test doesn t match with any test evaluation")
@@ -459,14 +521,14 @@ if (!class_exists('Frontend')) {
                     <center>
                         <div class="proceed-form-titile">
                             Test Passed <br>
-                            <img src="'.plugin_dir_url( __FILE__ ).'lib/img/check-logo.png" 
+                            <img src="' . plugin_dir_url(__FILE__) . 'lib/img/check-logo.png" 
                             class="logo-img" alt="No image">
                         </div>
                     </center>
                     <div>
                         <center>
                             <div class="proceed-form-titile">
-                                Result: <strong><span id="test-score"></span>/150</strong>
+                                Result: <strong><span id="test-score"></span>/'.$global_score_test.'</strong>
                             </div>
                         </center>                 
                     </div>

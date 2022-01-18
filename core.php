@@ -198,7 +198,7 @@ if (!class_exists('Core')) {
                 echo "Message : " . $e->getMessage();
             }
         }
-        function insert_survey_meta($id_test, $first_name, $last_name, $child_age, $email)
+        function insert_survey_meta($id_test, $first_name, $last_name, $child_age, $test_date, $email)
         {
             try {
                 global $wpdb;
@@ -208,8 +208,8 @@ if (!class_exists('Core')) {
                     'first_name' => $first_name,
                     'last_name' => $last_name,
                     'child_age' => $child_age,
+                    'test_date' => $test_date,
                     'email' => $email,
-                    'test_date' => date("Y/m/d")
 
                 ));
                 return true;
@@ -226,6 +226,16 @@ if (!class_exists('Core')) {
                     FROM " .  $table_test_info . " ";
             $test_id = $wpdb->get_row($query);
             return $test_id;
+        }
+        function verif_suervey_id($id)
+        {
+            global $wpdb;
+            $table_test_info = $wpdb->prefix . 'test_info';
+            $query = "SELECT id_test 
+                    FROM " . $table_test_info . " where id=" . $id;
+            $wpdb->get_results($query);
+            $rowcount = $wpdb->num_rows;
+            return $rowcount;
         }
         function fetch_survey_category()
         {
@@ -443,13 +453,32 @@ if (!class_exists('Core')) {
             }
             return $score;
         }
+        function verif_rows_survey_completed($id)
+        {
+            try {
+                global $wpdb;
+                $query = "SELECT 
+                COUNT(*) AS rowCount
+                FROM wp_test_info 
+                JOIN wp_test_response 
+                ON wp_test_info.id_test = wp_test_response.id_test 
+                JOIN wp_test_questions 
+                ON wp_test_questions.id = wp_test_response.id_question 
+                WHERE wp_test_info.id_test = ".$id;
+                $data = $wpdb->get_row($query);
+                $rowcount = $data->rowCount;
+                return $rowcount;
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
         function export_data()
         {
             try {
                 global $wpdb;
                 $query = "SELECT 
                 wp_test_info.id_test AS id_test,email,first_name,
-                last_name,child_age,test_date,question,_type,response
+                last_name,child_age,test_date,id_question,question,_type,response
                 FROM wp_test_info 
                 JOIN wp_test_response 
                 ON wp_test_info.id_test = wp_test_response.id_test 
@@ -457,37 +486,36 @@ if (!class_exists('Core')) {
                 ON wp_test_questions.id = wp_test_response.id_question ";
                 $data = $wpdb->get_results($query);
                 if (count($data) > 0) {
-                    $delimiter = ",";
                     $fields = array(
-                        'ID TEST', 'E-MAIL', 'FIRST NAME', 'LAST NAME', 'CHILD AGE',
-                        'TEST DATE', 'QUESTION', 'TYPE', 'RESPONSE'
+                        'ID TEST', 'E-MAIL', 'FIRST_NAME', 'LAST_NAME', 'CHILD_AGE',
+                        'TEST_DATE', 'ID_QUESTION', 'QUESTION', 'TYPE', 'RESPONSE'
                     );
                     $filename = "test_data_" . date('Y-m-d') . ".csv";
-                    $f=fopen( 'php://output', 'w' );
-                    fprintf( $f, chr(0xEF) . chr(0xBB) . chr(0xBF) );
-                    header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
-                    header( 'Content-Description: File Transfer' );
-                    header( 'Content-Type: text/csv; charset=UTF-8;' );
-                    header( "Content-Disposition: attachment; filename={$filename}" );
-                    header( 'Expires: 0' );
-                    header( 'Pragma: public' );
-                    // header("Location: $filename");
+                    $f = fopen('php://output', 'w');
+                    fprintf($f, chr(0xEF) . chr(0xBB) . chr(0xBF));
+                    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+                    header('Content-Description: File Transfer');
+                    header('Content-Type: text/csv; charset=UTF-8;');
+                    header("Content-Disposition: attachment; filename={$filename}");
+                    header('Expires: 0');
+                    header('Pragma: public');
                     fputcsv($f, $fields);
                     foreach ($data as $row) {
                         $lineData = array(
                             $row->id_test, $row->email, $row->first_name,
-                            $row->last_name, $row->child_age, $row->test_date, $row->question,
-                            $row->_type, $row->response
+                            $row->last_name, $row->child_age, $row->test_date, $row->id_question, $row->question, $row->_type, $row->response
                         );
                         fputcsv($f, $lineData);
                     }
-                    fclose( $f );
-                    echo $f;
+                    fclose($f);
                     die();
                 }
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
+        }
+        function import_data()
+        {
         }
     }
 }

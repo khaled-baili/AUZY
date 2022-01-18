@@ -14,6 +14,10 @@
     width: 100% !important;
 }
 
+.col-export-data {
+    justify-content: end !important;
+}
+
 .form-inscription {
     display: flex;
     justify-content: center;
@@ -313,7 +317,7 @@ h5 {
     .question {
         display: flex;
         flex-wrap: wrap;
-        justify-content: flex-start;
+        justify-content: center;
     }
     #survey_table_paginate>.pagination {
         max-width: 790px !important;

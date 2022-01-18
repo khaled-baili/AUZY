@@ -14,6 +14,7 @@ jQuery(document).ready(function($) {
             responsive: true,
             searching: true,
             stateSave: true,
+            "ordering": false,
             "autoWidth": false,
             "columns": [
                 { "width": "60%" },
@@ -22,10 +23,6 @@ jQuery(document).ready(function($) {
                 { "width": "5%" },
                 { "width": "12%" },
             ],
-            "columnDefs": [{
-                "targets": [1, 4, 2, 3],
-                "orderable": false
-            }],
             "bDestroy": true,
             "order": [],
             "ajax": {
@@ -74,34 +71,6 @@ jQuery(document).ready(function($) {
             }, 5000);
         }
     });
-
-    // function insert_data_question(question, domaine, type, cateory) {
-    //     $.ajax({
-    //         url: "/wp-content/plugins/auzy-tests/asset/datatable/question_table.php",
-    //         method: "POST",
-    //         data: {
-    //             function: "update_question",
-    //             question: question,
-    //             domaine: domaine,
-    //             type: type,
-    //             category: cateory
-    //         },
-    //         success: function(data) {
-    //             $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
-    //             $('#category_table').DataTable().destroy();
-    //             fetch_data_category();
-    //         }
-    //     });
-    //     setInterval(function() {
-    //         $('#alert_message').html('');
-    //     }, 5000);
-    // }
-    // $(document).on('blur', '.update_categ', function() {
-    //     var id = $(this).data("id");
-    //     var column_name = $(this).data("column");
-    //     var value = $(this).text();
-    //     update_data_category(id, column_name, value);
-    // });
 
     $(document).on('click', '.delete', function() {
         var id = $(this).attr("id");
@@ -179,13 +148,19 @@ jQuery(document).ready(function($) {
 
     $('#add_categ').click(function() {
         var html = '<tr>';
-        html += '<td contenteditable id="data1"><input type="text" name="categ_name" id="categ_name" class="form-control" placeholder="Please enter your category name"></td>';
-        html += '<td contenteditable id="data2"><select name="test_eval" id="test_eval" class="form-control" required> ' +
+        html += '<td contenteditable id="data1"><input type="text" ' +
+            'name="categ_name" id="categ_name" class="form-control" ' +
+            'placeholder="Please enter your category name"></td>';
+        html += '<td contenteditable id="data2"><select name="test_eval" id="test_eval"' +
+            ' class="form-control" required> ' +
             '<option selected> Choose your test evaluation </option>' +
             '<option value = "AQ" >AQ</option>' +
             '<option value = "Mchat" >Mchat </option>' +
             '</select></td>';
-        html += '<td><button type="button" name="insert_categ" id="insert_categ" class="btn btn-success btn-xs"><i class="far fa-plus-square"></i></button>&nbsp<button type="button" name="close-insert" id="close-insert" class="btn btn-danger btn-xs"><i class="far fa-window-close"></i></button></td>';
+        html += '<td><button type="button" name="insert_categ" id="insert_categ"' +
+            ' class="btn btn-success btn-xs"><i class="far fa-plus-square"></i></button>' +
+            '&nbsp<button type="button" name="close-insert" id="close-insert"' +
+            ' class="btn btn-danger btn-xs"><i class="far fa-window-close"></i></button></td>';
         html += '</tr>';
         $('#category_table tbody').prepend(html);
     });
@@ -357,6 +332,8 @@ jQuery(document).ready(function($) {
             }
         });
     })
+
+
     $('#proceed-btn').attr('disabled', 'disabled');
     var btn_proceed = document.getElementById("proceed-btn");
     $(document).ready(function() {
@@ -369,7 +346,6 @@ jQuery(document).ready(function($) {
     btn_proceed.addEventListener("click", function() {
         document.getElementById("proceed-form").style.display = "none";
         document.getElementById("test-form").style.display = "block";
-
     });
     var form = document.getElementById('test-form');
     var submit_btn = document.getElementById('submit-btn')

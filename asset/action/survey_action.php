@@ -18,7 +18,7 @@ if (!class_exists('Survey')) {
             $child_age = $_POST['child_age'];
             $test_evaluation_type = $_POST['test_evaluation'];
             $test_insertion_meta = Core::insert_survey_meta(
-                $id_test, $first_name, $last_name,$child_age,$email);
+                $id_test, $first_name, $last_name,$child_age,date("Y/m/d"),$email);
             if ($test_insertion_meta == false) {
                 echo '<script>confirm("personnel data does not saved contact support")</script>';
             };

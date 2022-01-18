@@ -11,7 +11,6 @@ if (!class_exists('Data_management')) {
             global $wpdb;
             $columns = array('idcateg', 'name', 'test_eval');
             $query = "SELECT * FROM wp_question_category ";
-
             if (isset($_POST["search"]["value"])) {
                 $query .= 'WHERE _name LIKE "%' . $_POST["search"]["value"] . '%" ';
             }
