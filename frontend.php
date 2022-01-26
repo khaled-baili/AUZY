@@ -3,14 +3,15 @@
 /**
  * @package AuzyTestPlugin
  */
-if (!class_exists('Frontend')) {   
+if (!class_exists('Frontend')) {
     class Frontend extends Core
     {
         public function show_all_surveys()
         {
             $output = '<div class="row">
                   <div class="d-flex justify-content-between">
-                        <form action="" name="frmCSVImport" id="frmCSVImport" method="POST" enctype="multipart/form-data">
+                        <form
+                        action="" name="frmCSVImport" id="frmCSVImport" method="POST" enctype="multipart/form-data">
                         <input type="file" name="import_file" >
                             <button type="submit" class="btn btn-secondary btn-sm" name="import_data">
                                 Import data
@@ -142,14 +143,14 @@ if (!class_exists('Frontend')) {
             echo $output;
             if (isset($_POST['import_data'])) {
                 $extension = pathinfo($_FILES['import_file']['name'], PATHINFO_EXTENSION);
-                if(!empty($_FILES['import_file']['name']) && $extension == 'csv'){
+                if (!empty($_FILES['import_file']['name']) && $extension == 'csv') {
                     $totalInserted = 0;
                     $csvFile = fopen($_FILES['import_file']['tmp_name'], 'r');
                     fgetcsv($csvFile);
-                    while(($csvData = fgetcsv($csvFile)) !== FALSE){
+                    while (($csvData = fgetcsv($csvFile)) !== FALSE) {
                         $csvData = array_map("utf8_encode", $csvData);
                         $dataLen = count($csvData);
-                        if( $dataLen != 10) continue;
+                        if ($dataLen != 10) continue;
                         $id_test = trim($csvData[0]);
                         $email = trim($csvData[1]);
                         $first_name = trim($csvData[2]);
@@ -160,24 +161,24 @@ if (!class_exists('Frontend')) {
                         $question = trim($csvData[7]);
                         $_type = trim($csvData[8]);
                         $resp = trim($csvData[9]);
-                        if(!empty($id_test) && !empty($email) && !empty($first_name) && !empty($last_name) &&  
-                            !empty($child_age) && !empty($test_date) && !empty($id_question) 
-                            && !empty($_type) && !empty($resp) 
+                        if (!empty($id_test) && !empty($email) && !empty($first_name) && !empty($last_name) &&
+                            !empty($child_age) && !empty($test_date) && !empty($id_question)
+                            && !empty($_type) && !empty($resp)
                         ) {
-                            if(Core::verif_suervey_id($id_test)==0) {
+                            if (Core::verif_suervey_id($id_test) == 0) {
                                 Core::insert_survey_meta(
-                                    $id_test, $first_name, $last_name, $child_age, $test_date,$email
+                                    $id_test, $first_name, $last_name, $child_age, $test_date, $email
                                 );
                             }
                             echo Core::verif_rows_survey_completed($id_test);
-                            if(Core::verif_rows_survey_completed($id_test)<=20) {
+                            if (Core::verif_rows_survey_completed($id_test) <= 20) {
                                 Core::insert_survey($id_question, $resp, $id_test);
-                                $totalInserted++ ;
+                                $totalInserted++;
                             }
                         }
                     }
                     if ($totalInserted != 0) {
-                        echo "<h3 style='color: green;'>Total record Inserted : ".$totalInserted."</h3>";
+                        echo "<h3 style='color: green;'>Total record Inserted : " . $totalInserted . "</h3>";
                     } else echo "<h3 style='color: orange;'>Data already inserted</h3>";
                 } else echo "<h3 style='color: red;'>Invalid Extension</h3>";
             }
@@ -340,12 +341,15 @@ if (!class_exists('Frontend')) {
                 );
             }
             if (isset($_POST['save']) && $_POST['action'] == 'addRecord') {
-                Core::insert_question(
+                if (Core::verify_question_exist($_POST['question'],$_POST['category'])) {
+                    echo '<script>alert("this question exist")</script>';
+                } else Core::insert_question(
                     $_POST['question'],
                     $_POST['domaine'],
                     $_POST['type'],
                     $_POST['category']
                 );
+
             }
         }
 
@@ -353,11 +357,80 @@ if (!class_exists('Frontend')) {
         {
             $test_evaluation = Core::fetch_survey_category_by_id($id_test);
             $test_evaluation_type = $test_evaluation->test_eval;
+            $test_evaluation_language = substr($test_evaluation->_name, 0, 3);
             $global_score_test = "";
-            if ($test_evaluation_type=="AQ") {
+            if ($test_evaluation_type == "AQ") {
                 $global_score_test = '150';
             } else $global_score_test = '20';
-            $output = '<div class="container">
+            if ($test_evaluation_language == "ar_") {
+
+                $output = '<div class="container">
+            <div class="row">
+                <div id="proceed-form" class="proceed-form">
+                    <center>
+                        <div class="proceed-form-titile">
+                            المعلومات الأساسية
+                        </div>
+                    </center>
+                    <div style="display: flex; justify-content: flex-end; flex-wrap: wrap">
+                        <div class="proceed-form-element-arabic">
+                            <strong>50</strong> :الأسئلة  
+                        </div>
+                        <div class="proceed-form-element-arabic">
+                           النوع: <strong> أداة فحص</strong>
+                        </div> 
+                        <div class="proceed-form-element-arabic">
+                            الوصف: 
+                            <strong> اختبار حاصل طيف التوحد هو استبيان تشخيصي مصمم لقياس
+                             التعبير عن سمات طيف التوحد في الفرد
+                             ، من خلال التقييم الذاتي الشخصي.</strong>
+                        </div>
+                        <div class="form-check" id="agreement-section">
+                            <br>
+                            <label class="form-check-label float-end" for="agreement">
+                                أوافق على أن بياناتي المقدمة يتم جمعها وتخزينها
+                            </label>
+                            <input class="form-check-input" type="checkbox" value="agreement" id="agreement">
+                        </div>                  
+                    </div>
+                    <center>
+                        <button type="button" id="proceed-btn" 
+                        class="proceed-btn"><span>إجتياز الإختبار</span></button>
+                    </center>
+                </div>
+                <form action="" method="post" id="test-form">
+                <div class="row form-inscription-arabic">
+                        <h3 style="text-align: end">المعلومات الشخصية</h3>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-labels label-arabic" for="first_name">
+                                الإسم
+                                </label>
+                                <input type="text" class="form-control test-form-control" id="first_name" 
+                                name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-labels label-arabic" for="last_name">اللقب</label>
+                                <input type="text" class="form-control test-form-control" id="last_name" 
+                                name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-labels label-arabic" for="child_age">عمر الطفل</label>
+                                <input type="number" class="form-control test-form-control"  min="0" max="100" 
+                                id="child_age" name="child_age" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-labels label-arabic" for="email">البريد اللإلكروني</label>
+                                <input type="email" class="form-control test-form-control" id="email" 
+                                name="email" required>
+                            </div>
+                        </div>
+                </div>
+                <hr>';
+            } else {
+                $output = '<div class="container">
             <div class="row">
                 <div id="proceed-form" class="proceed-form">
                     <center>
@@ -392,10 +465,13 @@ if (!class_exists('Frontend')) {
                 </div>
                 <form action="" method="post" id="test-form">
                 <div class="row form-inscription">
+                        
                         <h3>Personnal Information</h3>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-labels" for="first_name">First Name</label>
+                                <label class="form-labels" for="first_name">
+                                First Name
+                                </label>
                                 <input type="text" class="form-control test-form-control" id="first_name" 
                                 name="first_name" required>
                             </div>
@@ -419,13 +495,106 @@ if (!class_exists('Frontend')) {
                         </div>
                 </div>
                 <hr>';
+            }
             $output .= '
                     <table id="survey_table" class="survey_table">
                     <thead class="datatable-header""><th></th></thead>
                     <tbody>';
             $results = Core::fetch_test_questions($id_test);
-            echo $test_evaluation_type;
-            if ($test_evaluation_type == "AQ" && !empty($results)) {
+            if ($test_evaluation_type == "AQ" && !empty($results) && $test_evaluation_language == "ar_") {
+                $index = 1;
+                foreach ($results as $result) {
+                    $output .= '<tr class="tab-line">
+                                <td class="question"><h5 class="question-style">'
+                        . $index++ . ". " . $result->question . '</h5> <br>
+                                <div class="form-check form-check-inline question-box">
+                                <input class="btn-check" type="radio" id="data-1' . $result->id . '" 
+                                name="' . $result->id . '" value="A"  autocomplete="off" ';
+                    $output .= ' required>  
+                            <label class="btn btn-outline-primary rep-label" for="data-1' . $result->id . '">
+                                أوافق بالتأكيد
+                            </label>
+                            </div>
+                            <div class="form-check form-check-inline question-box">
+                                <input class="btn-check" type="radio" id="data-2' . $result->id . '" 
+                                name="' . $result->id . '" value="B"  autocomplete="off" ';
+                    $output .= ' >
+                            <label class="btn btn-outline-primary rep-label" for="data-2' . $result->id . '">
+                                أوافق قليلاً
+                            </label>
+                           </div>
+                           <div class="form-check form-check-inline question-box">
+                             <input class="btn-check" type="radio" id="data-3'
+                        . $result->id . '" name="' . $result->id . '" value="C"  autocomplete="off" ';
+                    $output .= ' >
+                            <label class="btn btn-outline-primary rep-label" for="data-3' . $result->id . '">
+                                لا أوافق قليلا
+                            </label>
+                           </div>
+                           <div class="form-check form-check-inline question-box">
+                           <input class="btn-check" type="radio" id="data-4' . $result->id . '" 
+                           name="' . $result->id . '" value="D"  autocomplete="off" ';
+                    $output .= '>
+                        <label class="btn btn-outline-primary rep-label" for="data-4' . $result->id . '">
+                            بالتأكيد لا أوافق
+                        </label>
+                         </div>
+                         </td>
+                         </tr>';
+                }
+                $output .= '
+                        </tbody>
+                    </table>';
+                $output .= '
+                    <input type="hidden" name="test_evaluation" id="test_evaluation" 
+                    value="' . $test_evaluation_type . '" />
+                    <div class="row btn-submit">
+                        <input class="btn-primary" id="submit-btn" 
+                        name="submit" type="submit" value="تأكبد الإمتحان">
+                    </div>
+                </form>
+            </div>';
+                echo $output;
+            }
+            else if ($test_evaluation_type == "Mchat" && !empty($results) && $test_evaluation_language=="ar_") {
+                $index = 1;
+                foreach ($results as $result) {
+                    $output .= '<tr class="tab-line">
+                                <td class="question"><h5 class="question-style-arabic">'
+                            .$index++." .".$result->question.'</h5> <br>
+                                <div class="form-check form-check-inline question-box">
+                                <input class="btn-check" type="radio" id="data-1' . $result->id . '" 
+                                name="' . $result->id . '" value="A"  autocomplete="off" ';
+                    $output .= ' required>  
+                            <label class="btn btn-outline-primary rep-label" for="data-1' . $result->id . '">
+                                نعم
+                            </label>
+                            </div>
+                            <div class="form-check form-check-inline question-box">
+                                <input class="btn-check" type="radio" id="data-2' . $result->id . '" 
+                                name="' . $result->id . '" value="B"  autocomplete="off" ';
+                    $output .= ' >
+                            <label class="btn btn-outline-primary rep-label" for="data-2' . $result->id . '">
+                                لا
+                            </label>
+                           </div>';
+                    $output .= '</tr>';
+                }
+                $output .= '
+                        </tbody>
+                    </table>';
+                $output .= '
+                    <input type="hidden" name="test_evaluation" id="test_evaluation" 
+                    value="' . $test_evaluation_type . '" />
+                    <div class="row btn-submit">
+                        <input class="btn-primary" id="submit-btn" 
+                        name="submit" type="submit" value="تأكبد الإمتحان">
+                    </div>
+                </form>
+            </div>';
+                echo $output;
+            }
+            else if ($test_evaluation_type == "AQ" && !empty($results)) {
                 $index = 1;
                 foreach ($results as $result) {
                     $output .= '<tr class="tab-line">
@@ -517,7 +686,25 @@ if (!class_exists('Frontend')) {
             } else echo '<script>
                         confirm("Sorry your entered id test doesn t match with any test evaluation")
                         </script>';
-            echo '<div id="test_result" class="proceed-form">
+            if ($test_evaluation_language == 'ar_') {
+                echo '<div id="test_result" class="proceed-form">
+                    <center>
+                        <div class="proceed-form-titile">
+                            تم إجتياز الإمتحان <br>
+                            <img src="' . plugin_dir_url(__FILE__) . 'lib/img/check-logo.png" 
+                            class="logo-img" alt="No image">
+                        </div>
+                    </center>
+                    <div>
+                        <center>
+                            <div class="proceed-form-titile">
+                                النتيجة: <strong><span id="test-score"></span>/' . $global_score_test . '</strong>
+                            </div>
+                        </center>                 
+                    </div>
+                </div>';
+            } else {
+                echo '<div id="test_result" class="proceed-form">
                     <center>
                         <div class="proceed-form-titile">
                             Test Passed <br>
@@ -528,11 +715,13 @@ if (!class_exists('Frontend')) {
                     <div>
                         <center>
                             <div class="proceed-form-titile">
-                                Result: <strong><span id="test-score"></span>/'.$global_score_test.'</strong>
+                                Result: <strong><span id="test-score"></span>/' . $global_score_test . '</strong>
                             </div>
                         </center>                 
                     </div>
                 </div>';
+            }
+
         }
     }
 }

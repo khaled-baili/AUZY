@@ -67,9 +67,11 @@ if (!class_exists('Data_management')) {
         }
         function insert_category_data()
         {
-            if (isset($_POST['categ_name'], $_POST['test_eval'])) 
-            Core::insert_survey_category($_POST['categ_name'],$_POST['test_eval']);
-            else return false;
+            if (isset($_POST['categ_name'], $_POST['test_eval'])) {
+                if (Core::verify_survey_category_exist($_POST['categ_name']))
+                    echo "ok";
+                else Core::insert_survey_category($_POST['categ_name'],$_POST['test_eval']);
+            }
         }
         function update_category_data()
         {

@@ -135,12 +135,30 @@ if (!class_exists('Core')) {
             try {
                 global $wpdb;
                 $table_question = $wpdb->prefix . 'test_questions';
+                $question = str_replace('\\', "", $question);
                 $wpdb->insert($table_question, array(
                     'question' => $question,
                     '_id_domain' => $id_domain,
                     '_type' => $type,
                     'id_question_categ' => $categ_id
                 ));
+                return true;
+            } catch (Exception $e) {
+                echo "Message : " . $e->getMessage();
+            }
+        }
+        function verify_question_exist($question,$categ_id)
+        {
+            try {
+                global $wpdb;
+                $query = "SELECT * 
+                        FROM wp_test_questions 
+                        JOIN wp_question_category  
+                        ON wp_test_questions.id_question_categ=wp_question_category.idcateg
+                        WHERE wp_question_category.idcateg =" . $categ_id . "
+                        AND wp_test_questions.question = " . $question;
+                $questions = $wpdb->get_row($query);
+                if (empty($question)) return false;
                 return true;
             } catch (Exception $e) {
                 echo "Message : " . $e->getMessage();
@@ -246,6 +264,20 @@ if (!class_exists('Core')) {
             $catgories = $wpdb->get_results($query);
             return (array) $catgories;
         }
+        function verify_survey_category_exist($name)
+        {
+            global $wpdb;
+            $table_category = $wpdb->prefix . 'question_category';
+            $query = "SELECT * 
+                    FROM " . $table_category .
+                " WHERE _name = ".$name;
+            $catgories = $wpdb->get_row($query);
+            echo $catgories;
+            if (empty($catgories)) {
+                return false;
+            }
+            return true;
+        }
         function fetch_survey_category_by_id($id_categ)
         {
             global $wpdb;
@@ -253,8 +285,8 @@ if (!class_exists('Core')) {
             $query = "SELECT * 
                     FROM " . $table_category .
                 " WHERE idcateg = " . $id_categ;
-            $catgory = $wpdb->get_row($query);
-            return $catgory;
+            $category = $wpdb->get_row($query);
+            return $category;
         }
         function fetch_survey_result($test_id)
         {

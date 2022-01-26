@@ -105,11 +105,6 @@ h5 {
     border: 1px solid #ccc !important;
 }
 
-
-/* .question-style {
-    color: #AC72EE !important;
-} */
-
 #submit-btn {
     width: auto;
 }
@@ -160,6 +155,22 @@ h5 {
     font-size: 20px;
     margin-bottom: 15px;
 }
+.proceed-form-element-arabic {
+    font-size: 20px;
+    margin-bottom: 15px;
+    width: 100%;
+    text-align: end;
+}
+.label-arabic {
+    width: 100% !important;
+    text-align: end !important;
+}
+.form-inscription-arabic {
+    display: flex;
+    justify-content: center;
+    width: auto;
+    flex-direction: row-reverse;
+}
 
 .proceed-btn {
     border-radius: 6px !important;
@@ -207,6 +218,13 @@ h5 {
     margin-bottom: 25px !important;
 }
 
+.question-style-arabic {
+    display: flex;
+    width: 100% !important;
+    margin-bottom: 25px !important;
+    direction: rtl;
+}
+
 .question {
     width: auto !important;
 }
@@ -249,20 +267,12 @@ h5 {
         flex-wrap: wrap;
         justify-content: center;
     }
-    .question-style {
-        margin-bottom: 25px !important;
-    }
 }
 
 @media (min-width:600px) {
     #survey_table {
         margin: 0 auto;
         max-width: 590px;
-    }
-    .question {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
     }
     .rep-label {
         width: 200px !important;
@@ -274,11 +284,6 @@ h5 {
         margin: 0 auto;
         max-width: 790px;
     }
-    .question {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
     .rep-label {
         width: 260px !important;
     }
@@ -288,14 +293,6 @@ h5 {
     #survey_table {
         margin: 0 auto;
         max-width: 1010px;
-    }
-    .question {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-    .question-style {
-        margin-bottom: 25px !important;
     }
     #survey_table_paginate>.pagination {
         justify-content: flex-start !important;
@@ -313,11 +310,6 @@ h5 {
     #survey_table {
         margin: 0 auto;
         max-width: 800px !important;
-    }
-    .question {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
     }
     #survey_table_paginate>.pagination {
         max-width: 790px !important;

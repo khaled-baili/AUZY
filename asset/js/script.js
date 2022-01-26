@@ -15,6 +15,7 @@ jQuery(document).ready(function($) {
             searching: true,
             stateSave: true,
             "ordering": false,
+            "aaSorting": [[ 0, "desc" ]],
             "autoWidth": false,
             "columns": [
                 { "width": "60%" },
@@ -24,7 +25,12 @@ jQuery(document).ready(function($) {
                 { "width": "12%" },
             ],
             "bDestroy": true,
-            "order": [],
+            language: {
+                'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fas fa-fast-backward"></i></span>',
+                    'next': '<span class="next-icon"><i class="fas fa-fast-forward"></i></span>'
+                }
+            },
             "ajax": {
                 url: "/wp-content/plugins/auzy-tests/asset/datatable/question_table.php",
                 type: "POST",
@@ -117,6 +123,12 @@ jQuery(document).ready(function($) {
                 }
 
             ],
+            language: {
+                'paginate': {
+                    'previous': '<span class="prev-icon"><i class="fas fa-fast-backward"></i></span>',
+                    'next': '<span class="next-icon"><i class="fas fa-fast-forward"></i></span>'
+                }
+            },
             "bDestroy": true,
             "order": [],
             "ajax": {
@@ -187,7 +199,7 @@ jQuery(document).ready(function($) {
                     $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
                     $('#category_table').DataTable().destroy();
                     fetch_data_category();
-                },
+                }
             });
             setInterval(function() {
                 $('#alert_message').html('');
@@ -273,6 +285,12 @@ jQuery(document).ready(function($) {
         pageLength: 10,
         searching: false,
         paging: true,
+        language: {
+            'paginate': {
+                'previous': '<span class="prev-icon"><i class="fas fa-fast-backward"></i></span>',
+                'next': '<span class="next-icon"><i class="fas fa-fast-forward"></i></span>'
+            }
+        },
         "bAutoWidth": false,
         "lengthChange": false,
         "ordering": false,
