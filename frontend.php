@@ -29,6 +29,7 @@ if (!class_exists('Frontend')) {
                         <th>Last name</th>
                         <th>Child Age</th>
                         <th>Test date</th>
+                        <th>Test type</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -42,6 +43,7 @@ if (!class_exists('Frontend')) {
                             <td>' . $result->last_name . '</td>
                             <td>' . $result->child_age . '</td>
                             <td>' . $result->test_date . '</td>
+                            <td>' . $result->test_type . '</td>
                             <td><button type="button" class="btn btn-primary" data-bs-toggle="modal"
                              data-bs-target="#testDetails_' . $result->id_test . '">
                              Details</button>
@@ -170,7 +172,6 @@ if (!class_exists('Frontend')) {
                                     $id_test, $first_name, $last_name, $child_age, $test_date, $email
                                 );
                             }
-                            echo Core::verif_rows_survey_completed($id_test);
                             if (Core::verif_rows_survey_completed($id_test) <= 20) {
                                 Core::insert_survey($id_question, $resp, $id_test);
                                 $totalInserted++;
@@ -245,11 +246,13 @@ if (!class_exists('Frontend')) {
                         </div>';
             echo $output;
             if (isset($_POST['save'])) {
+                if (Core::verify_survey_category_update($_POST['idcateg'],$_POST['category_name']))
                 Core::update_survey_category(
                     $_POST['idcateg'],
                     $_POST['category_name'],
                     $_POST['test_evaluation']
                 );
+                else echo '<script>alert("this category name already exist")</script>';
             }
         }
 
@@ -332,13 +335,16 @@ if (!class_exists('Frontend')) {
                         </div>
                     </div>';
             if (isset($_POST['save']) && $_POST['action'] == 'updateRecord') {
-                Core::update_test_question(
-                    $_POST['id'],
-                    $_POST['question'],
-                    $_POST['domaine'],
-                    $_POST['type'],
-                    $_POST['category']
-                );
+                if (Core::verify_question_update($_POST['id'],$_POST['question'])) {
+                    Core::update_test_question(
+                        $_POST['id'],
+                        $_POST['question'],
+                        $_POST['domaine'],
+                        $_POST['type'],
+                        $_POST['category']
+                    );
+                } else
+                    echo '<script>alert("this question already exist")</script>';
             }
             if (isset($_POST['save']) && $_POST['action'] == 'addRecord') {
                 if (Core::verify_question_exist($_POST['question'],$_POST['category'])) {
@@ -361,7 +367,7 @@ if (!class_exists('Frontend')) {
             $global_score_test = "";
             if ($test_evaluation_type == "AQ") {
                 $global_score_test = '150';
-            } else $global_score_test = '20';
+            } else $global_score_test = '23';
             if ($test_evaluation_language == "ar_") {
 
                 $output = '<div class="container">
@@ -469,9 +475,7 @@ if (!class_exists('Frontend')) {
                         <h3>Personnal Information</h3>
                         <div class="col-lg-6">
                             <div class="form-group">
-                                <label class="form-labels" for="first_name">
-                                First Name
-                                </label>
+                                <label class="form-labels" for="first_name">First Name</label>
                                 <input type="text" class="form-control test-form-control" id="first_name" 
                                 name="first_name" required>
                             </div>

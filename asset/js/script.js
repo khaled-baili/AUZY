@@ -67,14 +67,10 @@ jQuery(document).ready(function($) {
                     category_id: category_id,
                 },
                 success: function(data) {
-                    $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
                     $('#question_table').DataTable().destroy();
                     fetch_data();
                 }
             });
-            setInterval(function() {
-                $('#alert_message').html('');
-            }, 5000);
         }
     });
 
@@ -89,9 +85,11 @@ jQuery(document).ready(function($) {
                     function: "delete_question"
                 },
                 success: function(data) {
-                    $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
-                    $('#question_data').DataTable().destroy();
-                    fetch_data();
+                    if (data ==="true") {
+                        alert("question deleted");
+                        $('#question_data').DataTable().destroy();
+                        fetch_data();
+                    } else alert("You are not able to delete this question");
                 }
             });
             setInterval(function() {
@@ -150,7 +148,7 @@ jQuery(document).ready(function($) {
                 $('#recordModal').modal('show');
                 $('#idcateg').val(data.idcateg);
                 $('#category_name').val(data._name);
-                $('#test_evaluations').val(data.test_eval);
+                $('#test_evaluation').val(data.test_eval);
                 $('.modal-title').html(" Edit Records");
                 $('#action').val('updateRecord');
                 $('#save').val('Save');
@@ -196,14 +194,10 @@ jQuery(document).ready(function($) {
                     function: 'insert_categ'
                 },
                 success: function(data) {
-                    $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
                     $('#category_table').DataTable().destroy();
                     fetch_data_category();
                 }
             });
-            setInterval(function() {
-                $('#alert_message').html('');
-            }, 5000);
         }
     });
 
@@ -218,19 +212,41 @@ jQuery(document).ready(function($) {
                     function: "delete_categ"
                 },
                 success: function(data) {
-                    $('#alert_message').html('<div class="alert alert-success">' + data + '</div>');
-                    $('#category_data').DataTable().destroy();
-                    fetch_data_category();
+                    if (data ==="true") {
+                        alert("Category deleted")
+                        $('#category_data').DataTable().destroy();
+                        fetch_data_category();
+                    } else alert("You are not able to delete this category it contains questions")
+
                 }
             });
-            setInterval(function() {
-                $('#alert_message').html('');
-            }, 5000);
         }
     });
 
     $('#test-table').DataTable({
         responsive: true
+    });
+
+    $("#").on('click', '.update', function() {
+        var id = $(this).attr("id");
+        var action = 'getRecord';
+        $.ajax({
+            url: "/wp-content/plugins/auzy-tests/asset/datatable/question_table.php",
+            method: "POST",
+            data: { id: id, action: action, function: "fetch_question_by_id" },
+            dataType: "json",
+            success: function(data) {
+                $('#recordModal').modal('show');
+                $('#id').val(data.id);
+                $('#question').val(data.question);
+                $('#type').val(data._type);
+                $('#category').val(data.idcateg);
+                $('#domaine').val(data._id_domaine);
+                $('.modal-title').html("Edit Records");
+                $('#action').val('updateRecord');
+                $('#save').val('Save');
+            }
+        });
     });
 
     $("#question_table").on('click', '.update', function() {

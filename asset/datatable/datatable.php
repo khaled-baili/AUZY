@@ -69,27 +69,24 @@ if (!class_exists('Data_management')) {
         {
             if (isset($_POST['categ_name'], $_POST['test_eval'])) {
                 if (Core::verify_survey_category_exist($_POST['categ_name']))
-                    echo "ok";
+                    echo false;
                 else Core::insert_survey_category($_POST['categ_name'],$_POST['test_eval']);
             }
-        }
-        function update_category_data()
-        {
-            // if(isset($_POST["id"]))
-            // {
-            //     Core::update_survey_category($idcateg, $category_name, $test_evaluation);
-            // }
+            echo true;
         }
         function delete_category()
         {
+            $response ="";
             global $wpdb;
             if (isset($_POST["id"])) {
                 $table = $wpdb->prefix . 'question_category';
-                $wpdb->delete( $table, array( 'idcateg' => $_POST["id"] ) );
+                if ($wpdb->delete( $table, array( 'idcateg' => $_POST["id"] ) ))
+                    echo "true";
+                else
+                    echo "false";
             }
+//            echo json_encode($response);
         }
-
-
 
         function fetch_question_data()
         {
@@ -119,7 +116,7 @@ if (!class_exists('Data_management')) {
             }
             else
             {
-             $query .= 'ORDER BY id DESC ';
+             $query .= 'ORDER BY id ASC ';
             }
             
             $query1 = '';
@@ -190,7 +187,10 @@ if (!class_exists('Data_management')) {
             global $wpdb;
             if (isset($_POST["id"])) {
                 $table=$wpdb->prefix . 'test_questions';
-                $wpdb->delete( $table, array( 'id' => $_POST["id"] ) );
+                if ($wpdb->delete( $table, array( 'id' => $_POST["id"] ) ))
+                   echo "true";
+                else
+                    echo "false";
             }
         }
     }

@@ -156,10 +156,29 @@ if (!class_exists('Core')) {
                         JOIN wp_question_category  
                         ON wp_test_questions.id_question_categ=wp_question_category.idcateg
                         WHERE wp_question_category.idcateg =" . $categ_id . "
-                        AND wp_test_questions.question = " . $question;
-                $questions = $wpdb->get_row($query);
-                if (empty($question)) return false;
+                        AND wp_test_questions.question ='$question'";
+                $result = $wpdb->get_row($query);
+                if (empty($result)) return false;
                 return true;
+            } catch (Exception $e) {
+                echo "Message : " . $e->getMessage();
+            }
+        }
+
+        function verify_question_update($id,$question)
+        {
+            try {
+                global $wpdb;
+                $query = "SELECT * 
+                        FROM wp_test_questions
+                        WHERE wp_test_questions.id ='$id'";
+                $result = $wpdb->get_row($query);
+                if (($result->question)==$question) return true;
+                elseif (($result->question)!=$question) {
+                    if ($this->verify_question_exist($question,$result->id_question_categ)) return false;
+                    else return true;
+                };
+                return false;
             } catch (Exception $e) {
                 echo "Message : " . $e->getMessage();
             }
@@ -203,20 +222,23 @@ if (!class_exists('Core')) {
                 echo "Message : " . $e->getMessage();
             }
         }
-        function insert_survey($id_question, $response, $test_id)
+        function insert_survey($question, $response,$question_type, $test_id)
         {
             try {
                 global $wpdb;
                 $table_test_response = $wpdb->prefix . 'test_response';
                 $wpdb->insert($table_test_response, array(
-                    'id_question' => $id_question, 'response' => $response, 'id_test' => $test_id
+                    'question' => $question,
+                    'response' => $response,
+                    'question_type' => $question_type,
+                    'id_test' => $test_id
                 ));
                 return true;
             } catch (Exception $e) {
                 echo "Message : " . $e->getMessage();
             }
         }
-        function insert_survey_meta($id_test, $first_name, $last_name, $child_age, $test_date, $email)
+        function insert_survey_meta($id_test, $first_name, $last_name, $child_age, $test_date, $email,$test_type)
         {
             try {
                 global $wpdb;
@@ -228,6 +250,7 @@ if (!class_exists('Core')) {
                     'child_age' => $child_age,
                     'test_date' => $test_date,
                     'email' => $email,
+                    'test_type' =>$test_type
 
                 ));
                 return true;
@@ -270,13 +293,25 @@ if (!class_exists('Core')) {
             $table_category = $wpdb->prefix . 'question_category';
             $query = "SELECT * 
                     FROM " . $table_category .
-                " WHERE _name = ".$name;
-            $catgories = $wpdb->get_row($query);
-            echo $catgories;
-            if (empty($catgories)) {
-                return false;
-            }
+                    " WHERE _name = '$name'";
+            $categories = $wpdb->get_results($query);
+            if (empty($categories)) return false;
             return true;
+        }
+        function verify_survey_category_update($id,$nameCateg)
+        {
+            global $wpdb;
+            $table_category = $wpdb->prefix . 'question_category';
+            $query = "SELECT * 
+                    FROM " . $table_category .
+                " WHERE idcateg = '$id'";
+            $categorie = $wpdb->get_row($query);
+            if (($categorie->_name)==$nameCateg) return true;
+            elseif (($categorie->_name)!=$nameCateg) {
+                if ($this->verify_survey_category_exist($nameCateg)) return false;
+                else return true;
+            }
+            return false;
         }
         function fetch_survey_category_by_id($id_categ)
         {
@@ -291,10 +326,8 @@ if (!class_exists('Core')) {
         function fetch_survey_result($test_id)
         {
             global $wpdb;
-            $query = "SELECT question,response,_type 
+            $query = "SELECT question, response, question_type 
                     FROM `wp_test_response` 
-                    JOIN wp_test_questions 
-                    on wp_test_response.id_question=wp_test_questions.id 
                     where id_test = " . $test_id . " ";
             $test_response = $wpdb->get_results($query);
             return (array) $test_response;
@@ -302,16 +335,9 @@ if (!class_exists('Core')) {
         function fetch_survey_type($id_test)
         {
             global $wpdb;
-            $query = "SELECT test_eval AS test_eval
+            $query = "SELECT test_type AS test_eval
             FROM wp_test_info
-            JOIN wp_test_response
-            ON wp_test_response.id_test=wp_test_info.id_test
-            JOIN wp_test_questions
-            ON wp_test_questions.id = wp_test_response.id_question
-            JOIN wp_question_category
-            ON wp_question_category.idcateg=wp_test_questions.id_question_categ
-            WHERE wp_test_info.id_test = $id_test
-            LIMIT 1";
+            WHERE wp_test_info.id_test = $id_test";
             $type = $wpdb->get_row($query);
             return $type;
         }
@@ -327,7 +353,7 @@ if (!class_exists('Core')) {
         function fetch_all_questions()
         {
             global $wpdb;
-            $table_question = $table_question = $wpdb->prefix . 'test_questions';
+            $table_question = $wpdb->prefix . 'test_questions';
             $query = "SELECT * 
                     FROM " . $table_question . " ";
             $questions = $wpdb->get_results($query);
@@ -343,9 +369,20 @@ if (!class_exists('Core')) {
                 JOIN wp_question_domaine 
                 ON wp_question_domaine._id_domaine = wp_test_questions._id_domain 
                 WHERE id = " . $id;
-            $questions = $wpdb->get_row($query);
-            return  $questions;
+            $question = $wpdb->get_row($query);
+            return  $question;
         }
+
+        function fetch_question_txt_by_id($id)
+        {
+            global $wpdb;
+            $query = "SELECT question, _type
+                FROM wp_test_questions 
+                WHERE id = " . $id;
+            $question = $wpdb->get_row($query);
+            return  $question;
+        }
+
         function fetch_all_domain()
         {
             global $wpdb;
@@ -400,16 +437,10 @@ if (!class_exists('Core')) {
         }
         function calculate_AQ_survey_score($test_id)
         {
-            global $wpdb;
+            $test_response = $this->fetch_survey_result($test_id);
             $score = 0;
-            $query = " SELECT response,_type 
-                    FROM wp_test_response 
-                    JOIN wp_test_questions 
-                    ON wp_test_response.id_question=wp_test_questions.id 
-                    WHERE id_test =" . $test_id . " ";
-            $test_response = $wpdb->get_results($query);
             foreach ($test_response as $key) {
-                if ($key->_type == "A") {
+                if ($key->question_type == "A") {
                     switch ($key->response) {
                         case "A":
                             $score = $score + 0;
@@ -449,17 +480,10 @@ if (!class_exists('Core')) {
         }
         function calculate_Mchat_survey_score($test_id)
         {
-            global $wpdb;
-            $score = 0;
-            $query = "SELECT response,_type 
-                    FROM wp_test_response 
-                    JOIN wp_test_questions 
-                    ON wp_test_response.id_question=wp_test_questions.id 
-                    WHERE id_test =" . $test_id . " ";
-            $test_response = $wpdb->get_results($query);
+            $test_response = $this->fetch_survey_result($test_id);
             $score = 0;
             foreach ($test_response as $key) {
-                if ($key->_type == "A") {
+                if ($key->question_type == "A") {
                     switch ($key->response) {
                         case "A":
                             $score = $score + 0;
@@ -535,7 +559,8 @@ if (!class_exists('Core')) {
                     foreach ($data as $row) {
                         $lineData = array(
                             $row->id_test, $row->email, $row->first_name,
-                            $row->last_name, $row->child_age, $row->test_date, $row->id_question, $row->question, $row->_type, $row->response
+                            $row->last_name, $row->child_age, $row->test_date, $row->id_question,
+                            $row->question, $row->_type, $row->response
                         );
                         fputcsv($f, $lineData);
                     }
