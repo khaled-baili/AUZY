@@ -149,33 +149,35 @@ if (!class_exists('Frontend')) {
                     $totalInserted = 0;
                     $csvFile = fopen($_FILES['import_file']['tmp_name'], 'r');
                     fgetcsv($csvFile);
+                    $id_test_prec_value = 0;
                     while (($csvData = fgetcsv($csvFile)) !== FALSE) {
-                        $csvData = array_map("utf8_encode", $csvData);
+                        $csvData = array_map(null, $csvData);
                         $dataLen = count($csvData);
-                        if ($dataLen != 10) continue;
+                        if ($dataLen != 10) die();
                         $id_test = trim($csvData[0]);
                         $email = trim($csvData[1]);
                         $first_name = trim($csvData[2]);
                         $last_name = trim($csvData[3]);
                         $child_age = trim($csvData[4]);
                         $test_date = trim($csvData[5]);
-                        $id_question = trim($csvData[6]);
+                        $test_type = trim($csvData[6]);
                         $question = trim($csvData[7]);
-                        $_type = trim($csvData[8]);
+                        $question_type = trim($csvData[8]);
                         $resp = trim($csvData[9]);
                         if (!empty($id_test) && !empty($email) && !empty($first_name) && !empty($last_name) &&
-                            !empty($child_age) && !empty($test_date) && !empty($id_question)
-                            && !empty($_type) && !empty($resp)
+                            !empty($child_age) && !empty($test_date) && !empty($test_type)
+                            && !empty($question)  && !empty($question_type) && !empty($resp)
                         ) {
-                            if (Core::verif_suervey_id($id_test) == 0) {
+                            if (intval($id_test) != $id_test_prec_value) {
+                                $id_test_insert = Core::get_suervey_max_id()->test_id + 1;
                                 Core::insert_survey_meta(
-                                    $id_test, $first_name, $last_name, $child_age, $test_date, $email
+                                    $id_test_insert
+                                    , $first_name, $last_name, $child_age, $test_date, $email, $test_type
                                 );
+                                $id_test_prec_value = intval($id_test);
                             }
-                            if (Core::verif_rows_survey_completed($id_test) <= 20) {
-                                Core::insert_survey($id_question, $resp, $id_test);
-                                $totalInserted++;
-                            }
+                            Core::insert_survey($question, $resp, $question_type, $id_test_insert);
+                            $totalInserted++;
                         }
                     }
                     if ($totalInserted != 0) {

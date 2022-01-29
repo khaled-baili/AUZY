@@ -534,17 +534,15 @@ if (!class_exists('Core')) {
                 global $wpdb;
                 $query = "SELECT 
                 wp_test_info.id_test AS id_test,email,first_name,
-                last_name,child_age,test_date,id_question,question,_type,response
+                last_name,child_age,test_date,test_type,question,response,question_type
                 FROM wp_test_info 
                 JOIN wp_test_response 
-                ON wp_test_info.id_test = wp_test_response.id_test 
-                JOIN wp_test_questions 
-                ON wp_test_questions.id = wp_test_response.id_question ";
+                ON wp_test_info.id_test = wp_test_response.id_test";
                 $data = $wpdb->get_results($query);
                 if (count($data) > 0) {
                     $fields = array(
                         'ID TEST', 'E-MAIL', 'FIRST_NAME', 'LAST_NAME', 'CHILD_AGE',
-                        'TEST_DATE', 'ID_QUESTION', 'QUESTION', 'TYPE', 'RESPONSE'
+                        'TEST_DATE','TEST_TYPE', 'QUESTION', 'QUESTION_TYPE', 'RESPONSE'
                     );
                     $filename = "test_data_" . date('Y-m-d') . ".csv";
                     $f = fopen('php://output', 'w');
@@ -559,8 +557,8 @@ if (!class_exists('Core')) {
                     foreach ($data as $row) {
                         $lineData = array(
                             $row->id_test, $row->email, $row->first_name,
-                            $row->last_name, $row->child_age, $row->test_date, $row->id_question,
-                            $row->question, $row->_type, $row->response
+                            $row->last_name, $row->child_age, $row->test_date, $row->test_type,
+                            $row->question, $row->question_type, $row->response
                         );
                         fputcsv($f, $lineData);
                     }
