@@ -366,12 +366,11 @@ if (!class_exists('Frontend')) {
             $test_evaluation = Core::fetch_survey_category_by_id($id_test);
             $test_evaluation_type = $test_evaluation->test_eval;
             $test_evaluation_language = substr($test_evaluation->_name, 0, 3);
-            $global_score_test = "";
-            if ($test_evaluation_type == "AQ") {
-                $global_score_test = '150';
-            } else $global_score_test = '23';
+            $global_score_test = Core::get_number_count_by_id($id_test);
+            $submit_btn_value ="";
+            if ($test_evaluation_language == "fr_" ) $submit_btn_value = "Valider";
+            else $submit_btn_value ="Submit";
             if ($test_evaluation_language == "ar_") {
-
                 $output = '<div class="container">
             <div class="row">
                 <div id="proceed-form" class="proceed-form">
@@ -382,7 +381,7 @@ if (!class_exists('Frontend')) {
                     </center>
                     <div style="display: flex; justify-content: flex-end; flex-wrap: wrap">
                         <div class="proceed-form-element-arabic">
-                            <strong>50</strong> :الأسئلة  
+                            <strong>'.$global_score_test.'</strong> :الأسئلة  
                         </div>
                         <div class="proceed-form-element-arabic">
                            النوع: <strong> أداة فحص</strong>
@@ -444,12 +443,12 @@ if (!class_exists('Frontend')) {
                 <div id="proceed-form" class="proceed-form">
                     <center>
                         <div class="proceed-form-titile">
-                            Basic Information
+                            Informations personnelles
                         </div>
                     </center>
                     <div>
                         <div class="proceed-form-element">
-                            Questions: <strong>50</strong>
+                            Questions: <strong>'.$global_score_test.'</strong>
                         </div>
                         <div class="proceed-form-element">
                             Type: <strong>Outil de dépistage</strong>
@@ -513,7 +512,7 @@ if (!class_exists('Frontend')) {
                     </center>
                     <div>
                         <div class="proceed-form-element">
-                            Statements: <strong>50</strong>
+                            Statements: <strong>'.$global_score_test.'</strong>
                         </div>
                         <div class="proceed-form-element">
                             Type: <strong>Screening tool</strong>
@@ -538,7 +537,6 @@ if (!class_exists('Frontend')) {
                 </div>
                 <form action="" method="post" id="test-form">
                 <div class="row form-inscription">
-                        
                         <h3>Personnal Information</h3>
                         <div class="col-lg-6">
                             <div class="form-group">
@@ -576,7 +574,7 @@ if (!class_exists('Frontend')) {
                 $index = 1;
                 foreach ($results as $result) {
                     $output .= '<tr class="tab-line">
-                                <td class="question"><h5 class="question-style">'
+                                <td class="question"><h5 class="question-style-arabic">'
                         . $index++ . ". " . $result->question . '</h5> <br>
                                 <div class="form-check form-check-inline question-box">
                                 <input class="btn-check" type="radio" id="data-1' . $result->id . '" 
@@ -713,7 +711,8 @@ if (!class_exists('Frontend')) {
                     <input type="hidden" name="test_evaluation" id="test_evaluation" 
                     value="' . $test_evaluation_type . '" />
                     <div class="row btn-submit">
-                        <input class="btn-primary" id="submit-btn" name="submit" type="submit" value="Submit">
+                        <input class="btn-primary" id="submit-btn" name="submit" type="submit" 
+                        value="'.$submit_btn_value.'">
                     </div>
                 </form>
             </div>';
@@ -749,7 +748,8 @@ if (!class_exists('Frontend')) {
                     <input type="hidden" name="test_evaluation" id="test_evaluation" 
                     value="' . $test_evaluation_type . '" />
                     <div class="row btn-submit">
-                        <input class="btn-primary" id="submit-btn" name="submit" type="submit" value="Submit">
+                        <input class="btn-primary" id="submit-btn" name="submit" type="submit" 
+                        value="'.$submit_btn_value.'">
                     </div>
                 </form>
             </div>';

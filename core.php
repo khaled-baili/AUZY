@@ -328,6 +328,16 @@ if (!class_exists('Core')) {
             $category = $wpdb->get_row($query);
             return $category;
         }
+        function get_number_count_by_id($id_categ)
+        {
+            global $wpdb;
+            $table_question = $wpdb->prefix . 'test_questions';
+            $query = "SELECT COUNT(*) AS countValue
+                    FROM " . $table_question .
+                " WHERE id_question_categ = " . $id_categ;
+            $countValue = $wpdb->get_row($query);
+            return $countValue->countValue;
+        }
         function fetch_survey_result($test_id)
         {
             global $wpdb;
