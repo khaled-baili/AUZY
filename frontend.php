@@ -414,23 +414,88 @@ if (!class_exists('Frontend')) {
                                 <label class="form-labels label-arabic" for="first_name">
                                 الإسم
                                 </label>
-                                <input type="text" class="form-control test-form-control" id="first_name" 
+                                <input type="text" class="form-control test-form-control arabic-input" id="first_name" 
                                 name="first_name" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-labels label-arabic" for="last_name">اللقب</label>
-                                <input type="text" class="form-control test-form-control" id="last_name" 
+                                <input type="text" class="form-control test-form-control arabic-input" id="last_name" 
                                 name="last_name" required>
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <div class="form-group">
                                 <label class="form-labels label-arabic" for="child_age">عمر الطفل</label>
-                                <input type="number" class="form-control test-form-control"  min="0" max="100" 
+                                <input type="number" class="form-control test-form-control arabic-input"  
+                                min="0" max="100" 
                                 id="child_age" name="child_age" required>
                             </div>
                             <div class="form-group">
                                 <label class="form-labels label-arabic" for="email">البريد اللإلكروني</label>
+                                <input type="email" class="form-control test-form-control arabic-input" id="email" 
+                                name="email" required>
+                            </div>
+                        </div>
+                </div>
+                <hr>';
+            } elseif ($test_evaluation_language =="fr_") {
+                $output = '<div class="container">
+            <div class="row">
+                <div id="proceed-form" class="proceed-form">
+                    <center>
+                        <div class="proceed-form-titile">
+                            Basic Information
+                        </div>
+                    </center>
+                    <div>
+                        <div class="proceed-form-element">
+                            Questions: <strong>50</strong>
+                        </div>
+                        <div class="proceed-form-element">
+                            Type: <strong>Outil de dépistage</strong>
+                        </div>  
+                        <div class="proceed-form-element">
+                            Description: <strong>Le test du quotient du spectre autistique est un outil de diagnostic
+                            questionnaire conçu pour mesurer l\'expression des traits du spectre autistique
+                            chez un individu, par sa propre auto-évaluation subjective.</strong>
+                        </div>                  
+                    </div>
+                    <div class="form-check" id="agreement-section">
+                        <br>
+                        <input class="form-check-input" type="checkbox" value="agreement" id="agreement">
+                        <label class="form-check-label" for="agreement">
+                            J\'accepte que mes données soumises soient collectées et stockées
+                        </label>
+                    </div>
+                    <center>
+                        <button type="button" id="proceed-btn" 
+                        class="proceed-btn"><span>Débuter le test</span></button>
+                    </center>
+                </div>
+                <form action="" method="post" id="test-form">
+                <div class="row form-inscription">
+                        
+                        <h3>Information Personnelles</h3>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-labels" for="first_name">Prènom</label>
+                                <input type="text" class="form-control test-form-control" id="first_name" 
+                                name="first_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-labels" for="last_name">Nom</label>
+                                <input type="text" class="form-control test-form-control" id="last_name" 
+                                name="last_name" required>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label class="form-labels" for="child_age">Age - enfant</label>
+                                <input type="number" class="form-control test-form-control"  min="0" max="100" 
+                                id="child_age" name="child_age" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-labels" for="email">Adresse E-mail</label>
                                 <input type="email" class="form-control test-form-control" id="email" 
                                 name="email" required>
                             </div>
@@ -705,6 +770,23 @@ if (!class_exists('Frontend')) {
                         <center>
                             <div class="proceed-form-titile">
                                 النتيجة: <strong><span id="test-score"></span>/' . $global_score_test . '</strong>
+                            </div>
+                        </center>                 
+                    </div>
+                </div>';
+            } elseif ($test_evaluation_language =="fr_") {
+                echo '<div id="test_result" class="proceed-form">
+                    <center>
+                        <div class="proceed-form-titile">
+                            Test Passé <br>
+                            <img src="' . plugin_dir_url(__FILE__) . 'lib/img/check-logo.png" 
+                            class="logo-img" alt="No image">
+                        </div>
+                    </center>
+                    <div>
+                        <center>
+                            <div class="proceed-form-titile">
+                                Resultat: <strong><span id="test-score"></span>/' . $global_score_test . '</strong>
                             </div>
                         </center>                 
                     </div>

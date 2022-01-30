@@ -239,6 +239,10 @@ h5 {
     padding-bottom: 15px;
 }
 
+.arabic-input {
+    text-align: end !important;
+}
+
 @media (min-width:320px) {
     #survey_table {
         margin: 0 auto;

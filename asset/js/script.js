@@ -385,7 +385,7 @@ jQuery(document).ready(function($) {
     var submit_btn = document.getElementById('submit-btn')
     form.addEventListener('submit', function() {
         submit_btn.disabled = true;
-        submit_btn.value = 'Test Passed';
+        submit_btn.value = '<i class="far fa-check-circle"></i>';
     }, false);
 
 });

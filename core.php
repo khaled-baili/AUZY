@@ -63,14 +63,15 @@ if (!class_exists('Core')) {
                 if ($wpdb->get_var("SHOW TABLES LIKE '" . $test_info . "'") != $test_info) {
 
                     $sql  = 'CREATE TABLE `wp_test_info` (
-                        `id_test` int(11) NOT NULL,
-                        `first_name` varchar(50) NOT NULL,
-                        `last_name` varchar(50) NOT NULL,
-                        `child_age` int(11) NOT NULL,
-                        `test_date` date NOT NULL,
-                        `email` varchar(100) NOT NULL,
-                        PRIMARY KEY (`id_test`)
-                      ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
+                            `id_test` int(11) NOT NULL,
+                            `first_name` varchar(50) NOT NULL,
+                            `last_name` varchar(50) NOT NULL,
+                            `child_age` int(11) NOT NULL,
+                            `test_date` date NOT NULL,
+                            `email` varchar(100) NOT NULL,
+                            `test_type` varchar(15) NOT NULL,
+                            PRIMARY KEY (`id_test`)
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8';
                     if (!function_exists('dbDelta')) {
                         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                     }
@@ -116,12 +117,16 @@ if (!class_exists('Core')) {
                 if ($wpdb->get_var("SHOW TABLES LIKE '" . $test_response . "'") != $test_response) {
 
                     $sql  = 'CREATE TABLE `wp_test_response` (
-                        `id` int(11) NOT NULL AUTO_INCREMENT,
-                        `id_question` int(11) NOT NULL,
-                        `response` varchar(1) NOT NULL,
-                        `id_test` int(11) NOT NULL,
-                        PRIMARY KEY (`id`)
-                      ) ENGINE=InnoDB AUTO_INCREMENT=215 DEFAULT CHARSET=latin1';
+                            `id` int(11) NOT NULL AUTO_INCREMENT,
+                            `question` varchar(250) CHARACTER SET utf8 NOT NULL,
+                            `response` varchar(1) NOT NULL,
+                            `question_type` varchar(5) NOT NULL,
+                            `id_test` int(11) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `id_test` (`id_test`),
+                            CONSTRAINT `wp_test_response_ibfk_1` 
+                                FOREIGN KEY (`id_test`) REFERENCES `wp_test_info` (`id_test`)
+                            ) ENGINE=InnoDB AUTO_INCREMENT=1512 DEFAULT CHARSET=latin1';
                     if (!function_exists('dbDelta')) {
                         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                     }
