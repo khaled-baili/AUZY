@@ -89,17 +89,18 @@ if (!class_exists('Core')) {
                 if ($wpdb->get_var("SHOW TABLES LIKE '" . $test_questions . "'") != $test_questions) {
 
                     $sql  = 'CREATE TABLE `wp_test_questions` (
-                        `id` int(8) NOT NULL AUTO_INCREMENT,
-                        `question` varchar(250) CHARACTER SET utf8 NOT NULL,
-                        `_id_domain` int(11) NOT NULL,
-                        `_type` char(1) NOT NULL,
-                        `id_question_categ` int(11) NOT NULL,
-                        PRIMARY KEY (`id`),
-                        KEY `id_question_categ` (`id_question_categ`),
-                        CONSTRAINT `id_question_categ` 
-                        FOREIGN KEY (`id_question_categ`) 
-                        REFERENCES `wp_question_category` (`idcateg`)
-                      ) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=latin1';
+                            `id` int(8) NOT NULL AUTO_INCREMENT,
+                            `question` varchar(250) CHARACTER SET utf8 NOT NULL,
+                            `_id_domain` int(11) NOT NULL,
+                            `_type` char(1) NOT NULL,
+                            `id_question_categ` int(11) NOT NULL,
+                            PRIMARY KEY (`id`),
+                            KEY `id_question_categ` (`id_question_categ`),
+                            CONSTRAINT `id_question_categ` 
+                            FOREIGN KEY (`id_question_categ`) 
+                            REFERENCES `wp_question_category` (`idcateg`) 
+                            ON DELETE CASCADE
+                            ) ENGINE=InnoDB AUTO_INCREMENT=209 DEFAULT CHARSET=latin1';
                     if (!function_exists('dbDelta')) {
                         require_once(ABSPATH . 'wp-admin/includes/upgrade.php');
                     }

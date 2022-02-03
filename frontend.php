@@ -368,6 +368,48 @@ if (!class_exists('Frontend')) {
             $test_evaluation_language = substr($test_evaluation->_name, 0, 3);
             $global_score_test = Core::get_number_count_by_id($id_test);
             $submit_btn_value ="";
+            $test_description = "";
+            if ($test_evaluation_type=="AQ" && $test_evaluation_language=="ar_") {
+                $test_description = " الوصف: 
+                            <strong> اختبار حاصل طيف التوحد هو استبيان تشخيصي مصمم لقياس
+                             التعبير عن سمات طيف التوحد في الفرد
+                             ، من خلال التقييم الذاتي الشخصي.</strong>";
+            } elseif ($test_evaluation_type=="AQ" && $test_evaluation_language=="fr_") {
+                $test_description ="Description: 
+                            <strong>Le test du quotient du spectre autistique est un outil de diagnostic
+                            questionnaire conçu pour mesurer l\'expression des traits du spectre autistique
+                            chez un individu, par sa propre auto-évaluation subjective.</strong>";
+            } elseif ($test_evaluation_type=="AQ") {
+                $test_description ="Description: <strong>The Autism-Spectrum Quotient Test is a diagnostic 
+                            questionnaire designed to measure the expression of Autism-Spectrum traits 
+                            in an individual, by his or her own subjective self-assessment.</strong>";
+            } elseif ($test_evaluation_type=="Mchat" && $test_evaluation_language=="fr_") {
+                $test_description = "Description: 
+                            <strong>La liste de contrôle modifiée pour l'autisme chez les tout-petits, 
+                            révisée (M-CHAT) est un outil de dépistage qui posera une série de 23 questions sur 
+                            le comportement de votre enfant. Il est destiné aux tout-petits entre 16 et 30 mois. 
+                            Les résultats vous permettront de savoir si une évaluation plus 
+                            approfondie peut être nécessaire. Vous pouvez utiliser les résultats 
+                            du dépistage pour discuter de toute préoccupation que vous pourriez avoir avec 
+                            le fournisseur de soins de santé de votre enfant.</strong>";
+            } elseif ($test_evaluation_type=="Mchat" && $test_evaluation_language=="ar_") {
+                $test_description = "الوصف: 
+                            <strong> قائمة المراجعة المعدلة للتوحد عند الأطفال ،
+                             عبارة عن فاحص يطرح سلسلة من 23 سؤالاً
+                             حول سلوك طفلك. إنه مخصص للأطفال الصغار
+                             الذين تتراوح أعمارهم بين 16 و 30 شهرًا.
+                             ستتيح لك النتائج معرفة ما إذا كانت هناك حاجة
+                             إلى مزيد من التقييم. يمكنك استخدام نتائج الفاحص
+                             لمناقشة أي مخاوف قد تكون لديك مع مقدم الرعاية الصحية لطفلك</strong>";
+            } elseif ($test_evaluation_type=="Mchat") {
+                $test_description = "Description: 
+                            <strong>The Modified Checklist for Autism in Toddlers, 
+                            Revised (M-CHAT) is a screener that will ask a series of 20 questions about 
+                            your child’s behavior. It's intended for toddlers between 16 and 30 months of age. 
+                            The results will let you know if a further evaluation may be needed. 
+                            You can use the results of the screener to discuss any concerns that you may 
+                            have with your child’s healthcare provider.</strong>";
+            }
             if ($test_evaluation_language == "fr_" ) $submit_btn_value = "Valider";
             else $submit_btn_value ="Submit";
             if ($test_evaluation_language == "ar_") {
@@ -387,10 +429,7 @@ if (!class_exists('Frontend')) {
                            النوع: <strong> أداة فحص</strong>
                         </div> 
                         <div class="proceed-form-element-arabic">
-                            الوصف: 
-                            <strong> اختبار حاصل طيف التوحد هو استبيان تشخيصي مصمم لقياس
-                             التعبير عن سمات طيف التوحد في الفرد
-                             ، من خلال التقييم الذاتي الشخصي.</strong>
+                            '.$test_description.'
                         </div>
                         <div class="form-check" id="agreement-section">
                             <br>
@@ -454,9 +493,7 @@ if (!class_exists('Frontend')) {
                             Type: <strong>Outil de dépistage</strong>
                         </div>  
                         <div class="proceed-form-element">
-                            Description: <strong>Le test du quotient du spectre autistique est un outil de diagnostic
-                            questionnaire conçu pour mesurer l\'expression des traits du spectre autistique
-                            chez un individu, par sa propre auto-évaluation subjective.</strong>
+                            '.$test_description.'
                         </div>                  
                     </div>
                     <div class="form-check" id="agreement-section">
@@ -518,9 +555,7 @@ if (!class_exists('Frontend')) {
                             Type: <strong>Screening tool</strong>
                         </div>  
                         <div class="proceed-form-element">
-                            Description: <strong>The Autism-Spectrum Quotient Test is a diagnostic 
-                            questionnaire designed to measure the expression of Autism-Spectrum traits 
-                            in an individual, by his or her own subjective self-assessment.</strong>
+                            '.$test_description.'
                         </div>                  
                     </div>
                     <div class="form-check" id="agreement-section">
@@ -809,7 +844,6 @@ if (!class_exists('Frontend')) {
                     </div>
                 </div>';
             }
-
         }
     }
 }
